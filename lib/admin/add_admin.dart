@@ -1,0 +1,517 @@
+import 'package:another_flushbar/flushbar.dart';
+import 'package:attendance_app/Theme.dart';
+import 'package:attendance_app/models/add_admin_model.dart';
+import 'package:attendance_app/models/static_data.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
+
+class AddAdmin extends StatefulWidget {
+  const AddAdmin({super.key});
+
+  @override
+  State<AddAdmin> createState() => _AddAdminState();
+}
+
+class _AddAdminState extends State<AddAdmin> {
+  TextEditingController cniccontroller = TextEditingController();
+  TextEditingController passwordcontroller = TextEditingController();
+  TextEditingController usercontroller = TextEditingController();
+  // FirebaseAuth auth = FirebaseAuth.instance;
+  var width, height;
+  FirebaseFirestore instance = FirebaseFirestore.instance;
+
+  final _formKey = GlobalKey<FormState>();
+
+  Addadmin() async {
+    String id = Uuid().v4();
+    print(id);
+    AddAdminModel requestModel = AddAdminModel(
+      cnic: cniccontroller.text,
+      name: usercontroller.text,
+      password: passwordcontroller.text,
+
+      // senderid: Staticdata.loginuser!.uid,
+      // sendername: Staticdata.loginuser!.name,
+      // status: 'pending',
+      // time: DateFormat.jm().format(DateTime.now()));
+      rollId: id,
+    );
+    // Sender
+    await FirebaseFirestore.instance
+        .collection("Admins")
+        .doc(id)
+        .set(requestModel.toMap());
+    print('Hello world dummy flushbar');
+    Flushbar(
+      maxWidth: width * 0.9,
+      backgroundColor: Colors.black,
+      flushbarPosition: FlushbarPosition.TOP,
+      margin: EdgeInsets.all(3),
+      message: 'Add Admin Successfully',
+      icon: const Icon(
+        Icons.check_circle_outline,
+        size: 28.0,
+        color: Colors.black54,
+      ),
+      duration: Duration(seconds: 2),
+      leftBarIndicatorColor: Colors.grey,
+    ).show(context);
+    // checkUserStatus(receiverId);
+    // Is Clicked
+    // await FirebaseFirestore.instance
+    //     .collection("friendlist")
+    //     .doc(clickid)
+    //     .collection("friends")
+    //     .doc(id)
+    //     .set(model.toMap());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
+    return Scaffold(
+      body: Container(
+        width: width,
+        height: height,
+        color: MyTheme.background,
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                height: height * 0.05,
+              ),
+              Form(
+                key: _formKey,
+                child: SizedBox(
+                  height: height * 0.45,
+                  width: width,
+                  child: Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        height: height * 0.07,
+                        width: width,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: width * 0.05),
+                          child: Row(
+                            children: [
+                              // InkWell(
+                              //   onTap: () {
+                              //     Navigator.pop(context);
+                              //   },
+                              //   child: Icon(
+                              //     Icons.arrow_back_ios,
+                              //     color: MyTheme.lightblue,
+                              //     size: width * 0.06,
+                              //   ),
+                              // ),
+                              Padding(
+                                padding: EdgeInsets.only(left: width * 0.25),
+                                child: Text(
+                                  'Add Admin',
+                                  style: TextStyle(
+                                      fontSize: width * 0.05,
+                                      fontWeight: FontWeight.w800,
+                                      color: MyTheme.lightblue),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: height * 0.02,
+                      ),
+                      Card(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Container(
+                          height: height * 0.07,
+                          width: width * 0.85,
+                          color: Colors.transparent,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: width * 0.02),
+                            child: TextFormField(
+                              controller: usercontroller,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Invalid Credential';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Admin Name',
+                                  suffixIcon: Icon(
+                                    Icons.person,
+                                    color: MyTheme.primaryColor,
+                                    size: width * 0.05,
+                                  )),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Card(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Container(
+                          height: height * 0.07,
+                          width: width * 0.85,
+                          color: Colors.transparent,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: width * 0.02),
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              controller: cniccontroller,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Invalid Credential';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'CNIC',
+                                suffixIcon: Icon(
+                                  Icons.card_membership,
+                                  color: MyTheme.primaryColor,
+                                  size: width * 0.05,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Card(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Container(
+                          height: height * 0.07,
+                          width: width * 0.85,
+                          color: Colors.transparent,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: width * 0.02),
+                            child: TextFormField(
+                              controller: passwordcontroller,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Invalid Credential';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Password',
+                                  suffixIcon: Icon(
+                                    Icons.lock,
+                                    color: MyTheme.primaryColor,
+                                    size: width * 0.05,
+                                  )),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: height * 0.01,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: width * 0.05),
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Card(
+                            color: MyTheme.primaryColor,
+                            elevation: 4,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            child: InkWell(
+                              onTap: () {
+                                Addadmin();
+                                // if (_formKey.currentState!.validate()) {
+                                //   adminObj.changeLoadingStatus(true);
+                                //   AddAdminReq model = AddAdminReq(
+                                //       cnic: cniccontroller.text,
+                                //       fullName: usercontroller.text,
+                                //       password: passwordcontroller.text,
+                                //       rollId: 1);
+                                //   adminObj.addAdminmethod(model).then((value) {
+                                //     adminObj.changeLoadingStatus(true);
+                                //     if (value.responseMessge ==
+                                //         "Sign UP Successfully") {
+                                //       adminObj.changeLoadingStatus(false);
+                                //       MyFlushBar.showSimpleFlushBar(
+                                //           'Admin Added',
+                                //           context,
+                                //           MyTheme.primaryColor,
+                                //           MyTheme.whiteColor);
+                                //       adminObj.getAdminListMethod();
+                                //     } else if (value.responseMessge ==
+                                //         "Cnic Already Exsis") {
+                                //       adminObj.changeLoadingStatus(false);
+                                //       MyFlushBar.showSimpleFlushBar(
+                                //           'Cnic Already Exsis',
+                                //           context,
+                                //           MyTheme.redColor,
+                                //           MyTheme.whiteColor);
+                                //     } else {
+                                //       adminObj.changeLoadingStatus(false);
+                                //       MyFlushBar.showSimpleFlushBar(
+                                //           'Admin Added Failed',
+                                //           context,
+                                //           MyTheme.redColor,
+                                //           MyTheme.whiteColor);
+                                //     }
+                                //   });
+                                // }
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: height * 0.06,
+                                width: width * 0.3,
+                                child: Text(
+                                  'Add Admin',
+                                  style: TextStyle(
+                                      fontSize: width * 0.045,
+                                      color: MyTheme.whiteColor,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Text(
+                'All Admins',
+                style: TextStyle(
+                    fontSize: width * 0.05,
+                    fontWeight: FontWeight.w800,
+                    color: MyTheme.primaryColor),
+              ),
+              Expanded(
+                child: StreamBuilder(
+                  stream: instance.collection('Admins').doc().snapshots(),
+                  builder: (context, snapshot) {
+                    return snapshot.data != null
+                        ? ListView.builder(
+                            itemCount: 5,
+                            itemBuilder: ((context, index) {
+                              return const ListTile(
+                                title: Text(
+                                  'Hello We are Learning',
+                                  style: TextStyle(color: Colors.amber),
+                                ),
+                              );
+                            }))
+                        : Container(
+                            alignment: Alignment.center,
+                            width: width * 0.5,
+                            height: height * 0.1,
+                            child: const CircularProgressIndicator(),
+                          );
+                  },
+                ),
+                // child: Container(
+                //   alignment:
+                //       Alignment.centerLeft,
+                //   height: height,
+                //   width: width,
+                //   child: Text(
+                //     // '${adminObj.allAdminist[index].fullName}',
+
+                //     'We Are Learning at NFTP',
+                //     style: TextStyle(
+                //       fontSize: width * 0.035,
+                //       fontWeight:
+                //           FontWeight.w500,
+                //     ),
+                //   ),
+                // ),
+
+                // child: SizedBox(
+                //   height: height,
+                //   width: width * 0.9,
+                //   // child: adminObj.allAdminist.isEmpty
+                //   //     ? const Center(child: Text('Empty List'))
+                //   //     : ListView.builder(
+                //   //         itemCount: adminObj.allAdminist.length,
+                //   //         itemBuilder: (context, index) {
+                //   // return
+                //   child: Card(
+                //     elevation: 5,
+                //     shadowColor: MyTheme.primaryColor,
+                //     shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(10)),
+                //     color: MyTheme.primaryColor,
+                //     child: SizedBox(
+                //       height: height * 0.12,
+                //       width: width,
+                //       child: Stack(
+                //         children: [
+                //           Container(
+                //             height: height * 0.12,
+                //             width: width,
+                //             decoration: BoxDecoration(
+                //                 borderRadius: const BorderRadius.only(
+                //                   bottomRight: Radius.circular(70),
+                //                   topLeft: Radius.circular(70),
+                //                 ),
+                //                 color: MyTheme.whiteColor),
+                //             child: Column(
+                //               mainAxisAlignment: MainAxisAlignment.center,
+                //               children: [
+                //                 Padding(
+                //                   padding: EdgeInsets.only(top: height * 0.01),
+                //                   child: SizedBox(
+                //                     height: height * 0.06,
+                //                     width: width,
+                //                     child: Row(
+                //                       mainAxisAlignment:
+                //                           MainAxisAlignment.center,
+                //                       children: [
+                //                         Card(
+                //                           elevation: 4,
+                //                           shadowColor: MyTheme.primaryColor,
+                //                           child: SizedBox(
+                //                             height: height,
+                //                             width: width * 0.7,
+                //                             child: Row(
+                //                               mainAxisAlignment:
+                //                                   MainAxisAlignment.start,
+                //                               children: [
+                //                                 Container(
+                //                                   alignment: Alignment.center,
+                //                                   height: height,
+                //                                   width: width * 0.1,
+                //                                   child: Icon(
+                //                                     Icons.person,
+                //                                     size: width * 0.05,
+                //                                     color: MyTheme.primaryColor,
+                //                                   ),
+                //                                 ),
+                //                                 Expanded(
+                //                                   child: Container(
+                //                                     alignment:
+                //                                         Alignment.centerLeft,
+                //                                     height: height,
+                //                                     width: width,
+                //                                     child: Text(
+                //                                       // '${adminObj.allAdminist[index].fullName}',
+
+                //                                       'We Are Learning at NFTP',
+                //                                       style: TextStyle(
+                //                                         fontSize: width * 0.035,
+                //                                         fontWeight:
+                //                                             FontWeight.w500,
+                //                                       ),
+                //                                     ),
+                //                                   ),
+                //                                 ),
+                //                               ],
+                //                             ),
+                //                           ),
+                //                         ),
+                //                       ],
+                //                     ),
+                //                   ),
+                //                 ),
+                //                 // SizedBox(
+                //                 //   height: height * 0.05,
+                //                 //   width: width,
+                //                 //   child: Padding(
+                //                 //     padding:
+                //                 //         EdgeInsets.only(left: width * 0.07),
+                //                 //     child: Row(
+                //                 //       children: [
+                //                 //         Container(
+                //                 //           alignment: Alignment.center,
+                //                 //           height: height,
+                //                 //           width: width * 0.1,
+                //                 //           child: Icon(
+                //                 //             Icons.credit_card,
+                //                 //             size: width * 0.05,
+                //                 //             color: MyTheme.primaryColor,
+                //                 //           ),
+                //                 //         ),
+                //                 //         Container(
+                //                 //           alignment: Alignment.centerLeft,
+                //                 //           height: height,
+                //                 //           width: width * 0.3,
+                //                 //           child: Text(
+                //                 //             // '${adminObj.allAdminist[index].cnic}',
+                //                 //             'Hello Devlopers',
+                //                 //             style: TextStyle(
+                //                 //                 fontSize: width * 0.035,
+                //                 //                 fontWeight: FontWeight.w400,
+                //                 //                 color: MyTheme.greycolor),
+                //                 //           ),
+                //                 //         ),
+                //                 //       ],
+                //                 //     ),
+                //                 //   ),
+                //                 // ),
+                //               ],
+                //             ),
+                //           ),
+                //           Align(
+                //             alignment: Alignment.topRight,
+                //             child: Padding(
+                //               padding: const EdgeInsets.all(8.0),
+                //               child: InkWell(
+                //                 onTap: () {
+                //                   // DeleteController.to
+                //                   //     .deleteAdminMethod(adminObj
+                //                   //         .allAdminist[index].userId!)
+                //                   //     .then((value) {
+                //                   //   if (value.responseMessge ==
+                //                   //       "User Delete Successfuly") {
+                //                   //     MyFlushBar.showSimpleFlushBar(
+                //                   //         'Admin Delete Successfuly',
+                //                   //         context,
+                //                   //         MyTheme.primaryColor,
+                //                   //         MyTheme.whiteColor);
+
+                //                   //     AdminDrawerController.to
+                //                   //         .getAdminListMethod();
+                //                   //   }
+                //                   // });
+                //                 },
+                //                 child: Container(
+                //                   height: height * 0.03,
+                //                   width: width * 0.06,
+                //                   decoration: BoxDecoration(
+                //                       border:
+                //                           Border.all(color: MyTheme.blackColor),
+                //                       shape: BoxShape.circle),
+                //                   child: Center(
+                //                     child: Icon(
+                //                       Icons.clear_rounded,
+                //                       color: MyTheme.blackColor,
+                //                       size: width * 0.045,
+                //                     ),
+                //                   ),
+                //                 ),
+                //               ),
+                //             ),
+                //           )
+                //         ],
+                //       ),
+                //     ),
+                //     // );
+                //     // },
+                //   ),
+                // ),
+              )
+            ]),
+      ),
+    );
+  }
+}
