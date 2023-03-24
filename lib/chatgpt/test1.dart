@@ -50,18 +50,6 @@ class _CoursesShowState extends State<CoursesShow7> {
       print("teacherName is = ${teacherName}");
       // // print("teacher doc is = ${teacherDoc}");
       print('Course Stream = ${_coursesStream.toString()}');
-
-      // final querySnapshot = await FirebaseFirestore.instance
-      //     .collection('courses')
-      //     .where('teacherName', isEqualTo: 'Nazim Khan')
-      //     .get();
-      // if (querySnapshot.docs.isNotEmpty) {
-      //   // There is at least one course with the specified teacherName
-      //   print('Teacher name matches.');
-      // } else {
-      //   // There are no courses with the specified teacherName
-      //   print('Teacher name does not match.');
-      // }
     }
   }
 
@@ -75,15 +63,15 @@ class _CoursesShowState extends State<CoursesShow7> {
       body: Column(
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          StreamBuilder<QuerySnapshot>(
-            stream: _coursesStream,
+          FutureBuilder<QuerySnapshot>(
+            future: Future.delayed(Duration(seconds: 2))
+                .then((_) => _coursesStream.first),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
-              print('course stream is = to the following ${_coursesStream}');
               if (snapshot.hasData) {
                 final courseDocs = snapshot.data!.docs;
                 return ListView.builder(
@@ -106,36 +94,11 @@ class _CoursesShowState extends State<CoursesShow7> {
                   },
                 );
               }
-              return const Center(
+              return Center(
                 child: Text('No courses found.'),
               );
             },
           ),
-          // StreamBuilder<QuerySnapshot>(
-          //   stream: FirebaseFirestore.instance
-          //       .collection('courses')
-          //       .where('teacherName', isEqualTo: teacherName)
-          //       .snapshots(),
-          //   builder: (context, snapshot) {
-          //     if (snapshot.connectionState == ConnectionState.waiting) {
-          //       // Show a loading indicator while waiting for data
-          //       return CircularProgressIndicator();
-          //     }
-          //     if (snapshot.hasData) {
-          //       final courseDocs = snapshot.data!.docs;
-          //       if (courseDocs.isEmpty) {
-          //         // There are no courses for the teacher with the given name
-          //         return Text('No courses found for $teacherName');
-          //       } else {
-          //         // There are courses for the teacher with the given name
-          //         return Text(
-          //             'Found ${courseDocs.length} courses for $teacherName');
-          //       }
-          //     }
-          //     // If the snapshot doesn't have data, show an error message
-          //     return Text('Error: ${snapshot.error}');
-          //   },
-          // )
         ],
       ),
     );
