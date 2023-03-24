@@ -1,5 +1,6 @@
 import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/add_user.dart';
+import 'package:attendance_app/chatgpt/test1.dart';
 import 'package:attendance_app/chatgpt/test6.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -38,8 +39,8 @@ class _TeacherViewState extends State<TeacherView> {
           children: [
             InkWell(
               onTap: () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => CoursesShow6()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CoursesShow7()));
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.05),

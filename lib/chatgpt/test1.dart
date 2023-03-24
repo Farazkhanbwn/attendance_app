@@ -64,7 +64,7 @@ class _CoursesShowState extends State<CoursesShow7> {
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           FutureBuilder<QuerySnapshot>(
-            future: Future.delayed(Duration(seconds: 2))
+            future: Future.delayed(const Duration(seconds: 2))
                 .then((_) => _coursesStream.first),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -87,14 +87,14 @@ class _CoursesShowState extends State<CoursesShow7> {
                         elevation: 5,
                         child: ListTile(
                           title: Text(course['courseName'] ?? ''),
-                          subtitle: StudentList(course['students'] ?? []),
+                          subtitle: Text(course['teacherName'] ?? ''),
                         ),
                       ),
                     );
                   },
                 );
               }
-              return Center(
+              return const Center(
                 child: Text('No courses found.'),
               );
             },
@@ -104,7 +104,7 @@ class _CoursesShowState extends State<CoursesShow7> {
     );
   }
 
-  Widget StudentList(List<dynamic> students) {
+  Widget studentList(List<dynamic> students) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
