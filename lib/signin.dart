@@ -9,6 +9,7 @@ import 'package:attendance_app/chatgpt/test1.dart';
 import 'package:attendance_app/forget_pass.dart';
 import 'package:attendance_app/recover_pass.dart';
 import 'package:attendance_app/splash.dart';
+import 'package:attendance_app/student/course_view.dart';
 import 'package:attendance_app/student/student_view.dart';
 import 'package:attendance_app/student_display.dart';
 import 'package:attendance_app/teacher/course_display.dart';
@@ -41,8 +42,8 @@ class _SignInState extends State<SignIn> {
       if (credential.user != null) {
         Staticdata.id = credential.user!.uid;
         print('${credential.user!.uid}');
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => StudentView()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => SubjectAllocationList()));
         // context,
         // MaterialPageRoute(builder: (context) => AddAdmin()));
         Flushbar(
