@@ -28,7 +28,7 @@ class _SubjectAllocationListState extends State<SubjectAllocationList> {
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('subject_allocations')
-            .where('docId', isEqualTo: 'Hk7WWmmTGU2gkBv4s442')
+            .where('email', isEqualTo: 'Hk7WWmmTGU2gkBv4s442')
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

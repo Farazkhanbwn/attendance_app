@@ -42,8 +42,8 @@ class _SignInState extends State<SignIn> {
       if (credential.user != null) {
         Staticdata.id = credential.user!.uid;
         print('${credential.user!.uid}');
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => SubjectAllocationList()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => TeacherView()));
         // context,
         // MaterialPageRoute(builder: (context) => AddAdmin()));
         Flushbar(

@@ -1,3 +1,4 @@
+import 'package:attendance_app/chatgpt/test2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,7 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
   String? _selectedSubject;
   String? _selectedSubjectName;
   List<String> _selectedStudents = [];
+  List<String> subjectNamesList = [];
   CollectionReference<Map<String, dynamic>> usersRef =
       FirebaseFirestore.instance.collection('users');
 
@@ -29,8 +31,9 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                   future:
                       FirebaseFirestore.instance.collection('courses').get(),
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData)
-                      return Center(child: CircularProgressIndicator());
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
                     return DropdownButtonFormField<String>(
                       value: _selectedSubject,
                       items: snapshot.data!.docs.map((doc) {
@@ -102,49 +105,19 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                 //   ),
                 // ),
                 const SizedBox(height: 16),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: ElevatedButton(
-                    child: const Text('Allocate Subject'),
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        // Allocate subject to selected students
-                        CollectionReference allocationsRef = FirebaseFirestore
-                            .instance
-                            .collection('subject_allocations');
-                        _selectedStudents.forEach((studentId) {
-                          allocationsRef.add({
-                            'student_id': studentId,
-                            'subject_id': _selectedSubject!,
-                            'subject_name': _selectedSubjectName,
-                          });
-                        });
-                        // Show success message
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                                'Subject allocated to ${_selectedStudents.length} students'),
-                          ),
-                        );
-                        // Reset form
-                        _formKey.currentState!.reset();
-                        _selectedSubject = null;
-                        _selectedSubjectName = null;
-                        _selectedStudents = [];
-                      }
-                    },
-                  ),
-                ),
-                // Checkbox list for selecting students
                 FutureBuilder<QuerySnapshot>(
                   future: FirebaseFirestore.instance
-                      .collection('users')
-                      .doc('2')
-                      .collection('Student')
+                      // .collection('users')
+                      // .doc('2')
+                      // .collection('Student')
+                      // .get(),
+                      .collection('user')
+                      .where('role', isEqualTo: 'Student')
                       .get(),
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData)
+                    if (!snapshot.hasData) {
                       return const CircularProgressIndicator();
+                    }
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: snapshot.data!.docs.map((doc) {
@@ -154,8 +127,8 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                         String studentName = data['name'];
                         // String studentName = data['name'];
                         return Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 3),
                           child: Card(
                             elevation: 5,
                             // shape: ,
@@ -181,6 +154,87 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                     );
                   },
                 ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: ElevatedButton(
+                    child: const Text('Allocate Subject'),
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        // Allocate subject to selected students
+                        // CollectionReference allocationsRef = FirebaseFirestore
+                        //     .instance
+                        //     .collection('subject_allocations');
+                        // _selectedStudents.forEach((gmail) {
+                        //   DocumentReference docRef = allocationsRef.doc(gmail);
+                        //   docRef.set({
+                        //     'user_email': gmail,
+                        //     'subject_id': _selectedSubject!,
+                        //     'subject_name': _selectedSubjectName,
+                        //   }, SetOptions(merge: true)).then((value) {
+                        //     print(
+                        //         "Subject allocation added/updated with ID: $gmail");
+                        //   }).catchError((error) {
+                        //     print(
+                        //         "Failed to add/update subject allocation: $error");
+                        //   });
+                        // });
+                        // // Show success message
+                        // ScaffoldMessenger.of(context).showSnackBar(
+                        //   SnackBar(
+                        //     content: Text(
+                        //         'Subject allocated to ${_selectedStudents.length} students'),
+                        //   ),
+                        // );
+                        // Reset form
+                        DocumentReference docRef;
+                        CollectionReference allocationsRef = FirebaseFirestore
+                            .instance
+                            .collection('subject_allocations');
+
+                        _selectedStudents.forEach((gmail) async {
+                          docRef = allocationsRef.doc(gmail);
+
+                          await docRef.get().then((doc) {
+                            if (doc.exists) {
+                              // subjectNamesList.add(doc.data()['subject_name']);
+
+                              docRef.update({
+                                'subject_id': _selectedSubject!,
+                                // 'subject_name': _selectedSubjectName,
+                              }).then((value) {
+                                print(
+                                    "Subject allocation updated with ID: $gmail");
+                              }).catchError((error) {
+                                print(
+                                    "Failed to update subject allocation: $error");
+                              });
+                            } else {
+                              // subjectNamesList.add(doc.data()['subject_name']);
+                              docRef.set({
+                                'user_email': gmail,
+                                'subject_id': _selectedSubject!,
+                                // 'subject_name': _selectedSubjectName,
+                              }).then((value) {
+                                print(
+                                    "Subject allocation added with ID: $gmail");
+                              }).catchError((error) {
+                                print(
+                                    "Failed to add subject allocation: $error");
+                              });
+                            }
+                          });
+                        });
+
+                        _formKey.currentState!.reset();
+                        _selectedSubject = null;
+                        _selectedSubjectName = null;
+                        _selectedStudents = [];
+                      }
+                    },
+                  ),
+                ),
+                // Checkbox list for selecting students
+
                 const SizedBox(height: 16),
                 // Button for submitting the form
               ],
