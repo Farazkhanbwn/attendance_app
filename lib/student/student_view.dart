@@ -1,3 +1,4 @@
+import 'package:attendance_app/student/course_view.dart';
 import 'package:flutter/material.dart';
 
 class StudentView extends StatefulWidget {
@@ -31,8 +32,10 @@ class _StudentViewState extends State<StudentView> {
           children: [
             InkWell(
               onTap: () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => CoursesShow7()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SubjectAllocationList()));
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.05),
