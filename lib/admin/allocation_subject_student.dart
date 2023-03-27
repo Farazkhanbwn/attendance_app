@@ -31,6 +31,7 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
           userEmail: gmail,
           subjectId: _selectedSubject,
           subjectName: _selectedSubjectName,
+          subjectNamesList: subjectNamesList,
         );
         print(
           'selected subject is =${_selectedSubject}',
@@ -39,10 +40,11 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
           'selected subjectName is =${_selectedSubjectName}',
         );
         if (doc.exists) {
-          // String? subjectName = doc.data()?['subjectName'] as String?;
-          // if (subjectName != null) {
-          //   subjectNamesList.add(subjectName);
-          // }
+          String? subjectName = doc.get('subjectName') as String?;
+          if (subjectName != null) {
+            subjectNamesList.add(subjectName);
+          }
+          print('subject name list = ${subjectNamesList}');
           docRef.update(subjectAllocation.toMap()).then((value) {
             print("Subject allocation updated with ID: $gmail");
           }).catchError((error) {
