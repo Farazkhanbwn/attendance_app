@@ -30,31 +30,34 @@ class _CourseScreenState extends State<CourseScreen> {
   //   getTeacherNames();
   // }
 
-  Future<void> getTeacherNames() async {
-    final teachers = await FirebaseFirestore.instance
-        .collection('users')
-        .doc('1')
-        .collection('Teacher')
-        .get();
-    List<String> names = [];
-    teachers.docs.forEach((doc) {
-      names.add(doc.data()['name']);
-    });
-    // List<String> names = snapshot.docs
-    //   .map((doc) => doc.data()['name'].toString())
-    //   .toList();
-    if (names.toSet().toList().length != names.length) {
-      // Handle duplicates
-    }
-  }
+  // Future<void> getTeacherNames() async {
+  //   final teachers = await FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc('1')
+  //       .collection('Teacher')
+  //       .get();
+  //   List<String> names = [];
+  //   teachers.docs.forEach((doc) {
+  //     names.add(doc.data()['name']);
+  //   });
+  //   // List<String> names = snapshot.docs
+  //   //   .map((doc) => doc.data()['name'].toString())
+  //   //   .toList();
+  //   if (names.toSet().toList().length != names.length) {
+  //     // Handle duplicates
+  //   }
+  // }
 
   Future<void> _fetchTeachers() async {
-    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
-        .instance
-        .collection('users')
-        .doc('1')
-        .collection('Teacher')
-        .get();
+    QuerySnapshot<Map<String, dynamic>> snapshot =
+        await FirebaseFirestore.instance
+            // .collection('users')
+            // .doc('1')
+            // .collection('Teacher')
+            // .get();
+            .collection('users')
+            .where('role', isEqualTo: 'Teacher')
+            .get();
     print('the list are give ${snapshot.docs}');
 
     setState(() {
@@ -128,7 +131,7 @@ class _CourseScreenState extends State<CourseScreen> {
                           border: InputBorder.none,
                           // labelText: 'Course Name',
                           // labelStyle: TextStyle(color: MyTheme.greycolor),
-                          hintText: 'Name',
+                          hintText: 'Course Name',
                           hintStyle: TextStyle(color: MyTheme.greycolor)),
                     ),
                   ),
@@ -203,9 +206,12 @@ class _CourseScreenState extends State<CourseScreen> {
                   height: height * 0.07,
                   child: FutureBuilder<QuerySnapshot>(
                     future: FirebaseFirestore.instance
+                        // .collection('users')
+                        // .doc('1')
+                        // .collection('Teacher')
+                        // .get(),
                         .collection('users')
-                        .doc('1')
-                        .collection('Teacher')
+                        .where('role', isEqualTo: 'Teacher')
                         .get(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData)

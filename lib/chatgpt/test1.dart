@@ -30,12 +30,16 @@ class _CoursesShowState extends State<CoursesShow7> {
       setState(() {
         _currentUserId = _user!.uid;
       });
+      String email = _user!.email!;
       final teacherDoc = await FirebaseFirestore.instance
+          // .collection('users')
+          // .doc('1')
+          // .collection('Teacher')
+          // .doc('1yKAK0aEM8szPNfA9YfN')
+          // // doc()
+          // .get();
           .collection('users')
-          .doc('1')
-          .collection('Teacher')
-          .doc('1yKAK0aEM8szPNfA9YfN')
-          // doc()
+          .doc(email)
           .get();
       final teacherName = teacherDoc.data()?['name'];
       _coursesStream = await FirebaseFirestore.instance
@@ -48,7 +52,7 @@ class _CoursesShowState extends State<CoursesShow7> {
       //     .snapshots();
       // print('Course Stream = $courseStream');
       print("teacherName is = ${teacherName}");
-      // // print("teacher doc is = ${teacherDoc}");
+      // print("teacher doc is = ${teacherDoc}");
       print('Course Stream = ${_coursesStream.toString()}');
     }
   }
@@ -64,7 +68,7 @@ class _CoursesShowState extends State<CoursesShow7> {
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           FutureBuilder<QuerySnapshot>(
-            future: Future.delayed(const Duration(seconds: 2))
+            future: Future.delayed(const Duration(seconds: 3))
                 .then((_) => _coursesStream.first),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

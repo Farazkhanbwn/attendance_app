@@ -42,8 +42,8 @@ class _SignInState extends State<SignIn> {
       if (credential.user != null) {
         Staticdata.id = credential.user!.uid;
         print('${credential.user!.uid}');
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => StudentView()));
+        // Navigator.push(
+        //     context, MaterialPageRoute(builder: (context) => TeacherView()));
         // context,
         // MaterialPageRoute(builder: (context) => AddAdmin()));
         Flushbar(
@@ -114,7 +114,7 @@ class _SignInState extends State<SignIn> {
     User? user = FirebaseAuth.instance.currentUser;
     var kk = FirebaseFirestore.instance
         .collection('users')
-        .doc(emailController.text.trim())
+        .doc(emailController.text)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
@@ -123,7 +123,7 @@ class _SignInState extends State<SignIn> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => CourseDisplay(),
+              builder: (context) => TeacherView(),
               // builder: (context) => const TeacherDisplay(),
             ),
           );
@@ -131,7 +131,7 @@ class _SignInState extends State<SignIn> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => CourseDisplay(),
+              builder: (context) => StudentView(),
               // builder: (context) => StudentDisplay(),
             ),
           );
@@ -139,7 +139,7 @@ class _SignInState extends State<SignIn> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const AddAdmin(),
+              builder: (context) => const AdminView(),
             ),
           );
         }

@@ -1,3 +1,5 @@
+import 'package:attendance_app/admin/add_course.dart';
+import 'package:attendance_app/chatgpt/test1.dart';
 import 'package:attendance_app/student/course_view.dart';
 import 'package:flutter/material.dart';
 
@@ -32,10 +34,8 @@ class _StudentViewState extends State<StudentView> {
           children: [
             InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const MyCoursesPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MyCoursesPage()));
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.05),

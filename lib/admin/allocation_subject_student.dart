@@ -150,7 +150,7 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                       // .doc('2')
                       // .collection('Student')
                       // .get(),
-                      .collection('user')
+                      .collection('users')
                       .where('role', isEqualTo: 'Student')
                       .get(),
                   builder: (context, snapshot) {

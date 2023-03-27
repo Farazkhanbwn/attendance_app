@@ -89,7 +89,7 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Courses:',
+              'Student Courses:',
               style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10.0),
@@ -126,7 +126,7 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('subject_allocations')
-                    .where('user_email', isEqualTo: user!.email)
+                    .where('userEmail', isEqualTo: user!.email)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -152,14 +152,14 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Subject Name: ${course['subject_name'] ?? 'N/A'}',
+                                  'Subject Name: ${course['subjectName'] ?? 'N/A'}',
                                   style: const TextStyle(
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 const SizedBox(height: 5.0),
                                 Text(
-                                  'Subject Id: ${course['subject_id']}',
+                                  'Subject Id: ${course['subjectId']}',
                                   style: TextStyle(fontSize: 14.0),
                                 ),
                               ],

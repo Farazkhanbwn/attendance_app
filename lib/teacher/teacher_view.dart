@@ -2,6 +2,7 @@ import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/add_user.dart';
 import 'package:attendance_app/chatgpt/test1.dart';
 import 'package:attendance_app/chatgpt/test6.dart';
+import 'package:attendance_app/teacher/course_display.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
