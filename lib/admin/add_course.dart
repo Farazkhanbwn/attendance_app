@@ -1,4 +1,5 @@
 import 'package:attendance_app/Theme.dart';
+import 'package:attendance_app/models/course_class.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -351,7 +352,6 @@ class _CourseScreenState extends State<CourseScreen> {
               const SizedBox(
                 height: 20,
               ),
-
               Padding(
                 padding: EdgeInsets.only(right: width * 0.05),
                 child: Align(
@@ -365,24 +365,25 @@ class _CourseScreenState extends State<CourseScreen> {
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
                           // Add new course to Firestore
+                          Course newCourse = Course(
+                            courseName: _courseNameController.text.trim(),
+                            courseID: _courseIdController.text.trim(),
+                            adminID: _adminIdController.text.trim(),
+                            teacherName: _selectedTeacher,
+                          );
                           FirebaseFirestore.instance
                               .collection('courses')
-                              .
-                              // .doc(_courseIdController.text.trim())
-                              doc()
-                              .set({
-                            'courseName': _courseNameController.text.trim(),
-                            'courseID': _courseIdController.text.trim(),
-                            'adminID': _adminIdController.text.trim(),
-                            'teacherName': _selectedTeacher,
-                          }).then((value) {
+                              .doc()
+                              .set(newCourse.toMap())
+                              .then((value) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content:
-                                        Text('Course Added Successfully')));
+                              const SnackBar(
+                                  content: Text('Course Added Successfully')),
+                            );
                           }).catchError((error) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(error.toString())));
+                              SnackBar(content: Text(error.toString())),
+                            );
                           });
                         }
                       },
