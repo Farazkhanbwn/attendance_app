@@ -35,7 +35,7 @@ class _StudentViewState extends State<StudentView> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SubjectAllocationList()));
+                        builder: (context) => const MyCoursesPage()));
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.05),

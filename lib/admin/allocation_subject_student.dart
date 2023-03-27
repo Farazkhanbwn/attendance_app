@@ -1,4 +1,4 @@
-import 'package:attendance_app/chatgpt/test2.dart';
+import 'package:attendance_app/models/allocation_subject.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +15,45 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
   List<String> subjectNamesList = [];
   CollectionReference<Map<String, dynamic>> usersRef =
       FirebaseFirestore.instance.collection('users');
+  Future<void> allocateSubject(
+    // List<String> selectedStudents,
+    String selectedSubject,
+    String selectedSubjectName,
+  ) async {
+    final CollectionReference allocationsRef =
+        FirebaseFirestore.instance.collection('subject_allocations');
+
+    for (final gmail in _selectedStudents) {
+      final docRef = allocationsRef.doc(gmail);
+
+      await docRef.get().then((doc) {
+        final subjectAllocation = SubjectAllocation(
+          userEmail: gmail,
+          subjectId: _selectedSubject,
+          subjectName: _selectedSubjectName,
+        );
+        print(
+          'selected subject is =${_selectedSubject}',
+        );
+        print(
+          'selected subjectName is =${_selectedSubjectName}',
+        );
+        if (doc.exists) {
+          docRef.update(subjectAllocation.toMap()).then((value) {
+            print("Subject allocation updated with ID: $gmail");
+          }).catchError((error) {
+            print("Failed to update subject allocation: $error");
+          });
+        } else {
+          docRef.set(subjectAllocation.toMap()).then((value) {
+            print("Subject allocation added with ID: $gmail");
+          }).catchError((error) {
+            print("Failed to add subject allocation: $error");
+          });
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,6 +199,18 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                     child: const Text('Allocate Subject'),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        allocateSubject(
+                          _selectedSubject.toString(),
+                          _selectedSubjectName.toString(),
+                        );
+                        // Show success message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                'Subject allocated to ${_selectedStudents.length} students'),
+                          ),
+                        );
+
                         // Allocate subject to selected students
                         // CollectionReference allocationsRef = FirebaseFirestore
                         //     .instance
@@ -186,48 +237,48 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                         //   ),
                         // );
                         // Reset form
-                        DocumentReference docRef;
-                        CollectionReference allocationsRef = FirebaseFirestore
-                            .instance
-                            .collection('subject_allocations');
+                        // DocumentReference docRef;
+                        // CollectionReference allocationsRef = FirebaseFirestore
+                        //     .instance
+                        //     .collection('subject_allocations');
 
-                        _selectedStudents.forEach((gmail) async {
-                          docRef = allocationsRef.doc(gmail);
+                        // _selectedStudents.forEach((gmail) async {
+                        //   docRef = allocationsRef.doc(gmail);
 
-                          await docRef.get().then((doc) {
-                            if (doc.exists) {
-                              // subjectNamesList.add(doc.data()['subject_name']);
+                        //   await docRef.get().then((doc) {
+                        //     if (doc.exists) {
+                        //       // subjectNamesList.add(doc.data()['subject_name']);
 
-                              docRef.update({
-                                'subject_id': _selectedSubject!,
-                                // 'subject_name': _selectedSubjectName,
-                              }).then((value) {
-                                print(
-                                    "Subject allocation updated with ID: $gmail");
-                              }).catchError((error) {
-                                print(
-                                    "Failed to update subject allocation: $error");
-                              });
-                            } else {
-                              // subjectNamesList.add(doc.data()['subject_name']);
-                              docRef.set({
-                                'user_email': gmail,
-                                'subject_id': _selectedSubject!,
-                                // 'subject_name': _selectedSubjectName,
-                              }).then((value) {
-                                print(
-                                    "Subject allocation added with ID: $gmail");
-                              }).catchError((error) {
-                                print(
-                                    "Failed to add subject allocation: $error");
-                              });
-                            }
-                          });
-                        });
+                        //       docRef.update({
+                        //         'subject_id': _selectedSubject!,
+                        //         // 'subject_name': _selectedSubjectName,
+                        //       }).then((value) {
+                        //         print(
+                        //             "Subject allocation updated with ID: $gmail");
+                        //       }).catchError((error) {
+                        //         print(
+                        //             "Failed to update subject allocation: $error");
+                        //       });
+                        //     } else {
+                        //       // subjectNamesList.add(doc.data()['subject_name']);
+                        //       docRef.set({
+                        //         'user_email': gmail,
+                        //         'subject_id': _selectedSubject!,
+                        //         'subject_name': _selectedSubjectName,
+                        //       }).then((value) {
+                        //         print(
+                        //             "Subject allocation added with ID: $gmail");
+                        //       }).catchError((error) {
+                        //         print(
+                        //             "Failed to add subject allocation: $error");
+                        //       });
+                        //     }
+                        //   });
+                        // });
 
                         _formKey.currentState!.reset();
-                        _selectedSubject = null;
-                        _selectedSubjectName = null;
+                        // _selectedSubject = null;
+                        // _selectedSubjectName = null;
                         _selectedStudents = [];
                       }
                     },
