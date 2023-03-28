@@ -1,5 +1,5 @@
 import 'package:attendance_app/Theme.dart';
-import 'package:attendance_app/models/course_class.dart';
+import 'package:attendance_app/models/courses/course_class.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

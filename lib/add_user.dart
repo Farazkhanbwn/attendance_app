@@ -1,7 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/models/add_admin_model.dart';
-import 'package:attendance_app/models/user_model.dart';
+import 'package:attendance_app/models/student/user_model.dart';
 import 'package:attendance_app/signin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
