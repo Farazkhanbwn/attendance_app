@@ -84,6 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // const Dummy1(),
           // Not Used this page // TeacherDropdown2(),
           CourseScreen(),
+          // const keyboardVisibility(),
           // CoursesShow6(),
 
           AllocateSubjectForm()

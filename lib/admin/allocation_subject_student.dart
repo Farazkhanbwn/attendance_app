@@ -13,6 +13,8 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
   String? _selectedSubjectName;
   List<String> _selectedStudents = [];
   List<String> subjectNamesList = [];
+  bool _selectAll = false;
+  List<String> _checkedItems = [];
   CollectionReference<Map<String, dynamic>> usersRef =
       FirebaseFirestore.instance.collection('users');
   Future<void> allocateSubject(
@@ -26,38 +28,46 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
     for (final gmail in _selectedStudents) {
       final docRef = allocationsRef.doc(gmail);
 
-      await docRef.get().then((doc) {
-        final subjectAllocation = SubjectAllocation(
-          userEmail: gmail,
-          subjectId: _selectedSubject,
-          subjectName: _selectedSubjectName,
-          subjectNamesList: subjectNamesList,
-        );
-        print(
-          'selected subject is =${_selectedSubject}',
-        );
-        print(
-          'selected subjectName is =${_selectedSubjectName}',
-        );
-        if (doc.exists) {
-          String? subjectName = doc.get('subjectName') as String?;
-          if (subjectName != null) {
-            subjectNamesList.add(subjectName);
+      await docRef.get().then(
+        (doc) {
+          final subjectAllocation = SubjectAllocation(
+            userEmail: gmail,
+            subjectId: _selectedSubject,
+            subjectName: _selectedSubjectName,
+            subjectNamesList: subjectNamesList,
+          );
+          print(
+            'selected subject is =${_selectedSubject}',
+          );
+          print(
+            'selected subjectName is =${_selectedSubjectName}',
+          );
+          if (doc.exists) {
+            String? subjectName = doc.get('subjectName') as String?;
+            if (subjectName != null) {
+              subjectNamesList.add(subjectName);
+            }
+            print('subject name list = ${subjectNamesList}');
+            docRef.update(subjectAllocation.toMap()).then(
+              (value) {
+                print("Subject allocation updated with ID: $gmail");
+              },
+            ).catchError(
+              (error) {
+                print("Failed to update subject allocation: $error");
+              },
+            );
+          } else {
+            docRef.set(subjectAllocation.toMap()).then((value) {
+              print("Subject allocation added with ID: $gmail");
+            }).catchError(
+              (error) {
+                print("Failed to add subject allocation: $error");
+              },
+            );
           }
-          print('subject name list = ${subjectNamesList}');
-          docRef.update(subjectAllocation.toMap()).then((value) {
-            print("Subject allocation updated with ID: $gmail");
-          }).catchError((error) {
-            print("Failed to update subject allocation: $error");
-          });
-        } else {
-          docRef.set(subjectAllocation.toMap()).then((value) {
-            print("Subject allocation added with ID: $gmail");
-          }).catchError((error) {
-            print("Failed to add subject allocation: $error");
-          });
-        }
-      });
+        },
+      );
     }
   }
 
@@ -107,6 +117,20 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                         return null;
                       },
                     );
+                  },
+                ),
+                CheckboxListTile(
+                  title: const Text('Select All'),
+                  value: _selectAll,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      _selectAll = value!;
+                      if (_selectAll) {
+                        _checkedItems = List.from(subjectNamesList);
+                      } else {
+                        _checkedItems.clear();
+                      }
+                    });
                   },
                 ),
                 // Container(
@@ -175,9 +199,15 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 3),
                           child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8)),
                             elevation: 5,
+
                             // shape: ,
                             child: CheckboxListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 15,
+                              ),
                               title: Text(studentName),
                               subtitle: Text(data['email']),
                               value: _selectedStudents.contains(studentId),

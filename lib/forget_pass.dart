@@ -210,12 +210,12 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => RecoverPassword()));
+                                builder: (context) => const RecoverPassword()));
                         Flushbar(
                           maxWidth: width * 0.9,
                           backgroundColor: Colors.black,
                           flushbarPosition: FlushbarPosition.BOTTOM,
-                          margin: EdgeInsets.all(3),
+                          margin: const EdgeInsets.all(3),
                           message: 'Reset Passwrod Request Send',
                           icon: const Icon(
                             Icons.check_circle_outline,
