@@ -15,6 +15,17 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
   List<String> subjectNamesList = [];
   bool _selectAll = false;
   List<String> _checkedItems = [];
+//   void saveSubjectNameList(List<String> subjectNameList) async {
+//     final prefs = await SharedPreferences.getInstance();
+//     prefs.setStringList('subjectNameList', subjectNameList);
+//   }
+
+// // Retrieve the subjectNameList from SharedPreferences
+//   Future<List<String>> getSubjectNameList() async {
+//     final prefs = await SharedPreferences.getInstance();
+//     return prefs.getStringList('subjectNameList') ?? [];
+//   }
+
   CollectionReference<Map<String, dynamic>> usersRef =
       FirebaseFirestore.instance.collection('users');
   Future<void> allocateSubject(
@@ -27,7 +38,6 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
 
     for (final gmail in _selectedStudents) {
       final docRef = allocationsRef.doc(gmail);
-
       await docRef.get().then(
         (doc) {
           final subjectAllocation = SubjectAllocation(
@@ -43,28 +53,22 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
             'selected subjectName is =${_selectedSubjectName}',
           );
           if (doc.exists) {
-            String? subjectName = doc.get('subjectName') as String?;
-            if (subjectName != null) {
-              subjectNamesList.add(subjectName);
-            }
+            // String? subjectName = doc.get('subjectName') as String?;
+            // if (selectedSubject != null) {
+            //   // subjectNamesList.add(selectedSubject);
+            // }
             print('subject name list = ${subjectNamesList}');
-            docRef.update(subjectAllocation.toMap()).then(
-              (value) {
-                print("Subject allocation updated with ID: $gmail");
-              },
-            ).catchError(
-              (error) {
-                print("Failed to update subject allocation: $error");
-              },
-            );
+            docRef.update(subjectAllocation.toMap()).then((value) {
+              print("Subject allocation updated with ID: $gmail");
+            }).catchError((error) {
+              print("Failed to update subject allocation: $error");
+            });
           } else {
             docRef.set(subjectAllocation.toMap()).then((value) {
               print("Subject allocation added with ID: $gmail");
-            }).catchError(
-              (error) {
-                print("Failed to add subject allocation: $error");
-              },
-            );
+            }).catchError((error) {
+              print("Failed to add subject allocation: $error");
+            });
           }
         },
       );
@@ -106,6 +110,8 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                           _selectedSubjectName = (snapshot.data!.docs
                               .firstWhere((doc) => doc.id == _selectedSubject)
                               .data() as Map<String, dynamic>)['courseName'];
+                          // subjectNamesList = [];
+                          subjectNamesList.add(_selectedSubjectName!);
                           print(
                               'The selected subject is = ${_selectedSubjectName.toString()}');
                         });
@@ -202,8 +208,6 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8)),
                             elevation: 5,
-
-                            // shape: ,
                             child: CheckboxListTile(
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 15,
@@ -314,7 +318,7 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
 
                         _formKey.currentState!.reset();
                         // _selectedSubject = null;
-                        // _selectedSubjectName = null;
+                        // subjectNamesList = [];
                         _selectedStudents = [];
                       }
                     },

@@ -32,6 +32,8 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
     return Scaffold(
       //   appBar: AppBar(
       //     title: Text('My Courses'),
@@ -144,30 +146,80 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
                       itemCount: courses.length,
                       itemBuilder: (context, index) {
                         var course = courses[index] as Map<String, dynamic>;
-                        return Card(
-                          elevation: 5,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Subject Name: ${course['subjectName'] ?? 'N/A'}',
-                                  style: const TextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.w500),
+                        var subjectNames =
+                            List.from(course['subjectNamesList']);
+                        return Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: subjectNames.map((subjectName) {
+                              return SizedBox(
+                                width: width * 0.9,
+                                height: height * 0.11,
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8)),
+                                  elevation: 5,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      // mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'Subject Name: ${subjectName ?? 'N/A'}',
+                                          style: const TextStyle(
+                                              fontSize: 18.0,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        const SizedBox(height: 5.0),
+                                        Text(
+                                          'Subject Id: ${course['subjectId']}',
+                                          style:
+                                              const TextStyle(fontSize: 14.0),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                const SizedBox(height: 5.0),
-                                Text(
-                                  'Subject Id: ${course['subjectId']}',
-                                  style: TextStyle(fontSize: 14.0),
-                                ),
-                              ],
-                            ),
+                              );
+                            }).toList(),
                           ),
                         );
                       },
                     );
+
+                    // final courses =
+                    //     snapshot.data!.docs.map((doc) => doc.data()).toList();
+                    // return ListView.builder(
+                    //   itemCount: courses.length,
+                    //   itemBuilder: (context, index) {
+                    //     var course = courses[index] as Map<String, dynamic>;
+                    //     return Card(
+                    //       elevation: 5,
+                    //       child: Padding(
+                    //         padding: const EdgeInsets.all(8.0),
+                    //         child: Column(
+                    //           crossAxisAlignment: CrossAxisAlignment.start,
+                    //           children: [
+                    //             Text(
+                    //               // 'Subject Name: ${course['subjectNamesList'] ?? 'N/A'}',
+                    //               'Subject Name: ${course['subjectNamesList'][index] ?? 'N/A'}',
+                    //               style: const TextStyle(
+                    //                   fontSize: 18.0,
+                    //                   fontWeight: FontWeight.w500),
+                    //             ),
+                    //             const SizedBox(height: 5.0),
+                    //             Text(
+                    //               'Subject Id: ${course['subjectId']}',
+                    //               style: const TextStyle(fontSize: 14.0),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     );
+                    //   },
+                    // );
                   }
                 },
               ),
