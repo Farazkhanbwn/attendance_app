@@ -105,16 +105,18 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                       }).toList(),
                       hint: const Text('Select a subject'),
                       onChanged: (value) {
-                        setState(() {
-                          _selectedSubject = value;
-                          _selectedSubjectName = (snapshot.data!.docs
-                              .firstWhere((doc) => doc.id == _selectedSubject)
-                              .data() as Map<String, dynamic>)['courseName'];
-                          // subjectNamesList = [];
-                          subjectNamesList.add(_selectedSubjectName!);
-                          print(
-                              'The selected subject is = ${_selectedSubjectName.toString()}');
-                        });
+                        setState(
+                          () {
+                            _selectedSubject = value;
+                            _selectedSubjectName = (snapshot.data!.docs
+                                .firstWhere((doc) => doc.id == _selectedSubject)
+                                .data() as Map<String, dynamic>)['courseName'];
+                            // subjectNamesList = [];
+                            subjectNamesList.add(_selectedSubjectName!);
+                            print(
+                                'The selected subject is = ${_selectedSubjectName.toString()}');
+                          },
+                        );
                       },
                       validator: (value) {
                         if (value == null) {
