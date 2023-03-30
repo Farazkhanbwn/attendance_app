@@ -304,7 +304,7 @@ class _SignInState extends State<SignIn> {
                         width: width * 0.85,
                         height: height * 0.065,
                         decoration: BoxDecoration(
-                          color: Color(0xffFFFFFF),
+                          color: const Color(0xffFFFFFF),
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: const [
                             BoxShadow(

@@ -1,3 +1,4 @@
+import 'package:attendance_app/chatgpt/shimmer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +60,8 @@ class _CoursesShowState extends State<CoursesShow7> {
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Courses'),
@@ -75,6 +78,20 @@ class _CoursesShowState extends State<CoursesShow7> {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
+                // return ShimmerEffect(
+                //   child: Center(
+                //     child: Container(
+                //       width: width * 0.8,
+                //       height: height * 0.1,
+                //       color: Color.fromARGB(255, 134, 145, 151),
+                //     ),
+                //   ),
+                //   duration: const Duration(seconds: 2),
+                //   baseColor: Color.fromARGB(255, 136, 136, 136)!,
+                //   highlightColor: Colors.grey[100]!,
+                //   width: width * 0.8,
+                //   height: height * 0.1,
+                // );
               }
               if (snapshot.hasData) {
                 final courseDocs = snapshot.data!.docs;

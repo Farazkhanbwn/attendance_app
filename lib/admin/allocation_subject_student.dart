@@ -208,7 +208,8 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                               horizontal: 10, vertical: 3),
                           child: Card(
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                             elevation: 5,
                             child: CheckboxListTile(
                               contentPadding: const EdgeInsets.symmetric(
