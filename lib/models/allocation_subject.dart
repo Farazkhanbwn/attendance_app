@@ -9,11 +9,13 @@ class SubjectAllocation {
   final String? subjectId;
   final String? subjectName;
   final List<String>? subjectNamesList;
+  final String? studentName;
   SubjectAllocation({
     this.userEmail,
     this.subjectId,
     this.subjectName,
     this.subjectNamesList,
+    this.studentName,
   });
 
   SubjectAllocation copyWith({
@@ -21,12 +23,14 @@ class SubjectAllocation {
     String? subjectId,
     String? subjectName,
     List<String>? subjectNamesList,
+    String? studentName,
   }) {
     return SubjectAllocation(
       userEmail: userEmail ?? this.userEmail,
       subjectId: subjectId ?? this.subjectId,
       subjectName: subjectName ?? this.subjectName,
       subjectNamesList: subjectNamesList ?? this.subjectNamesList,
+      studentName: studentName ?? this.studentName,
     );
   }
 
@@ -36,6 +40,7 @@ class SubjectAllocation {
       'subjectId': subjectId,
       'subjectName': subjectName,
       'subjectNamesList': subjectNamesList,
+      'studentName': studentName,
     };
   }
 
@@ -48,6 +53,8 @@ class SubjectAllocation {
       subjectNamesList: map['subjectNamesList'] != null
           ? List<String>.from((map['subjectNamesList'] as List<String>))
           : null,
+      studentName:
+          map['studentName'] != null ? map['studentName'] as String : null,
     );
   }
 
@@ -58,7 +65,7 @@ class SubjectAllocation {
 
   @override
   String toString() {
-    return 'SubjectAllocation(userEmail: $userEmail, subjectId: $subjectId, subjectName: $subjectName, subjectNamesList: $subjectNamesList)';
+    return 'SubjectAllocation(userEmail: $userEmail, subjectId: $subjectId, subjectName: $subjectName, subjectNamesList: $subjectNamesList, studentName: $studentName)';
   }
 
   @override
@@ -68,7 +75,8 @@ class SubjectAllocation {
     return other.userEmail == userEmail &&
         other.subjectId == subjectId &&
         other.subjectName == subjectName &&
-        listEquals(other.subjectNamesList, subjectNamesList);
+        listEquals(other.subjectNamesList, subjectNamesList) &&
+        other.studentName == studentName;
   }
 
   @override
@@ -76,6 +84,7 @@ class SubjectAllocation {
     return userEmail.hashCode ^
         subjectId.hashCode ^
         subjectName.hashCode ^
-        subjectNamesList.hashCode;
+        subjectNamesList.hashCode ^
+        studentName.hashCode;
   }
 }

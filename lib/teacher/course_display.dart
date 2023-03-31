@@ -1,3 +1,4 @@
+import 'package:attendance_app/teacher/EnrolledUsersScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ class _CoursesShowState extends State<CourseDisplay> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Courses'),
+        title: const Text('All Courses'),
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -70,6 +71,7 @@ class _CoursesShowState extends State<CourseDisplay> {
             );
           }
           print('current user name is = ${_currentUserName}');
+
           if (snapshot.hasData) {
             final courseDocs = snapshot.data!.docs;
             // print('Course document is = ${courseDocs}');
@@ -77,16 +79,28 @@ class _CoursesShowState extends State<CourseDisplay> {
               itemCount: courseDocs.length,
               itemBuilder: (context, index) {
                 final course = courseDocs[index].data() as Map<String, dynamic>;
-                return Card(
-                  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 05),
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      title: Text(course['courseName'] ?? ''),
-                      subtitle: Text(course['courseID']),
+                final String subjectname = course['courseName'];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              EnrolledStudentsScreen(subjectName: subjectname),
+                        ));
+                  },
+                  child: Card(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 05),
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        title: Text(course['courseName'] ?? ''),
+                        subtitle: Text(course['courseID']),
+                      ),
                     ),
                   ),
                 );

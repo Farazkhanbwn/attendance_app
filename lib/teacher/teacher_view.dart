@@ -41,7 +41,7 @@ class _TeacherViewState extends State<TeacherView> {
             InkWell(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CoursesShow7()));
+                    MaterialPageRoute(builder: (context) => CourseDisplay()));
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.05),

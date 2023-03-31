@@ -15,6 +15,7 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
   List<String> subjectNamesList = [];
   bool _selectAll = false;
   List<String> _checkedItems = [];
+  String? studentName;
 //   void saveSubjectNameList(List<String> subjectNameList) async {
 //     final prefs = await SharedPreferences.getInstance();
 //     prefs.setStringList('subjectNameList', subjectNameList);
@@ -32,12 +33,15 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
     // List<String> selectedStudents,
     String selectedSubject,
     String selectedSubjectName,
+    // String studentName,
   ) async {
     final CollectionReference allocationsRef =
         FirebaseFirestore.instance.collection('subject_allocations');
-
+    // String gmail = data['email'];
     for (final gmail in _selectedStudents) {
       final docRef = allocationsRef.doc(gmail);
+      // final docRef = allocationsRef.doc(Student['email'].toString());
+      print('student name of selected student is =${studentName}');
       await docRef.get().then(
         (doc) {
           final subjectAllocation = SubjectAllocation(
@@ -45,6 +49,8 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
             subjectId: _selectedSubject,
             subjectName: _selectedSubjectName,
             subjectNamesList: subjectNamesList,
+            studentName: studentName,
+            // studentName: Student['name'],
           );
           print(
             'selected subject is =${_selectedSubject}',
@@ -59,13 +65,13 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
             // }
             print('subject name list = ${subjectNamesList}');
             docRef.update(subjectAllocation.toMap()).then((value) {
-              print("Subject allocation updated with ID: $gmail");
+              // print("Subject allocation updated with ID: $gmail");
             }).catchError((error) {
               print("Failed to update subject allocation: $error");
             });
           } else {
             docRef.set(subjectAllocation.toMap()).then((value) {
-              print("Subject allocation added with ID: $gmail");
+              // print("Subject allocation added with ID: $gmail");
             }).catchError((error) {
               print("Failed to add subject allocation: $error");
             });
@@ -202,6 +208,7 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                         Map<String, dynamic> data =
                             doc.data() as Map<String, dynamic>;
                         String studentName = data['name'];
+                        // print('Student Name is = ${studentName}');
                         // String studentName = data['name'];
                         return Padding(
                           padding: const EdgeInsets.symmetric(
@@ -222,12 +229,33 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                               onChanged: (value) {
                                 setState(() {
                                   if (value!) {
-                                    _selectedStudents.add(studentId);
                                     // _selectedStudents.add(studentName);
+                                    _selectedStudents.add(studentId);
+                                    studentName = data['name'];
+                                    if (!subjectNamesList
+                                        .contains(_selectedSubjectName)) {
+                                      subjectNamesList
+                                          .add(_selectedSubjectName!);
+                                    }
+                                    print(
+                                        'Name of the student is = ${studentName}');
                                   } else {
                                     _selectedStudents.remove(studentId);
+                                    if (subjectNamesList
+                                        .contains(_selectedSubjectName)) {
+                                      subjectNamesList
+                                          .remove(_selectedSubjectName);
+                                    }
                                   }
-                                });
+                                  print(
+                                      'Name of the student is = ${studentName}');
+                                }
+                                    // else {
+                                    //   _selectedStudents.remove(studentId);
+                                    //   studentName = null!;
+                                    // }
+                                    // }
+                                    );
                               },
                             ),
                           ),
@@ -245,6 +273,7 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                         allocateSubject(
                           _selectedSubject.toString(),
                           _selectedSubjectName.toString(),
+                          // studentName.toString(),
                         );
                         // Show success message
                         ScaffoldMessenger.of(context).showSnackBar(
