@@ -15,7 +15,7 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
   List<String> subjectNamesList = [];
   bool _selectAll = false;
   List<String> _checkedItems = [];
-  String? studentName;
+  // String? studentName;
 //   void saveSubjectNameList(List<String> subjectNameList) async {
 //     final prefs = await SharedPreferences.getInstance();
 //     prefs.setStringList('subjectNameList', subjectNameList);
@@ -41,7 +41,7 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
     for (final gmail in _selectedStudents) {
       final docRef = allocationsRef.doc(gmail);
       // final docRef = allocationsRef.doc(Student['email'].toString());
-      print('student name of selected student is =${studentName}');
+      // print('student name of selected student is =${studentName}');
       await docRef.get().then(
         (doc) {
           final subjectAllocation = SubjectAllocation(
@@ -49,7 +49,7 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
             subjectId: _selectedSubject,
             subjectName: _selectedSubjectName,
             subjectNamesList: subjectNamesList,
-            studentName: studentName,
+            // studentName: studentName,
             // studentName: Student['name'],
           );
           print(
@@ -232,6 +232,7 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                                     // _selectedStudents.add(studentName);
                                     _selectedStudents.add(studentId);
                                     studentName = data['name'];
+
                                     if (!subjectNamesList
                                         .contains(_selectedSubjectName)) {
                                       subjectNamesList

@@ -29,7 +29,7 @@ class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.subjectName),
+        title: Text(widget.subjectName + ' Students'),
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
