@@ -19,7 +19,7 @@ class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
     super.initState();
     _enrolledStudentsStream = FirebaseFirestore.instance
         .collection('subject_allocations')
-        .where('subjectName', isEqualTo: widget.subjectName)
+        .where('subjectNamesList', arrayContains: widget.subjectName)
         .snapshots();
   }
 
