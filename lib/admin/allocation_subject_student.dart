@@ -232,22 +232,20 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                                     // _selectedStudents.add(studentName);
                                     _selectedStudents.add(studentId);
                                     studentName = data['name'];
-
-                                    if (!subjectNamesList
-                                        .contains(_selectedSubjectName)) {
-                                      subjectNamesList
-                                          .add(_selectedSubjectName!);
-                                    }
+                                    // if (!subjectNamesList
+                                    //     .contains(_selectedSubjectName)) {
+                                    subjectNamesList.add(_selectedSubjectName!);
+                                    // }
                                     print(
                                         'Name of the student is = ${studentName}');
                                   } else {
                                     _selectedStudents.remove(studentId);
-                                    if (subjectNamesList
-                                        .contains(_selectedSubjectName)) {
-                                      subjectNamesList
-                                          .remove(_selectedSubjectName);
-                                    }
+                                    // if (subjectNamesList
+                                    //     .contains(_selectedSubjectName)) {
+                                    subjectNamesList
+                                        .remove(_selectedSubjectName);
                                   }
+                                  // }
                                   print(
                                       'Name of the student is = ${studentName}');
                                 }
