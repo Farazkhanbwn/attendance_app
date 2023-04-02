@@ -1,5 +1,5 @@
 import 'package:attendance_app/Theme.dart';
-import 'package:attendance_app/add_user.dart';
+import 'package:attendance_app/admin/add_user.dart';
 import 'package:attendance_app/chatgpt/test1.dart';
 import 'package:attendance_app/chatgpt/test6.dart';
 import 'package:attendance_app/teacher/course_display.dart';

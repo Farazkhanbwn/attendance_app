@@ -1,7 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:attendance_app/Teacher_display.dart';
 import 'package:attendance_app/Theme.dart';
-import 'package:attendance_app/add_user.dart';
+import 'package:attendance_app/admin/add_user.dart';
 import 'package:attendance_app/admin/add_admin.dart';
 import 'package:attendance_app/button.dart';
 import 'package:attendance_app/forget_pass.dart';

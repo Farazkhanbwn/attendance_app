@@ -1,5 +1,5 @@
 import 'package:attendance_app/Theme.dart';
-import 'package:attendance_app/add_user.dart';
+import 'package:attendance_app/admin/add_user.dart';
 import 'package:attendance_app/admin/add_course.dart';
 import 'package:attendance_app/admin/allocation_subject_student.dart';
 import 'package:flutter/material.dart';
