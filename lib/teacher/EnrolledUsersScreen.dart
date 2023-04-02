@@ -67,7 +67,7 @@ class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
-              String userEmail = snapshot.data!.docs[index]['userEmail'];
+              String userEmail = snapshot.data!.docs[index]['studentName'];
 
               return Padding(
                 padding: EdgeInsets.symmetric(

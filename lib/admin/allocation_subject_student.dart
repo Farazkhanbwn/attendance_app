@@ -15,6 +15,7 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
   List<String> subjectNamesList = [];
   bool _selectAll = false;
   List<String> _checkedItems = [];
+  Map<String, String> _selectedStudentNames = {};
   // String? studentName;
 //   void saveSubjectNameList(List<String> subjectNameList) async {
 //     final prefs = await SharedPreferences.getInstance();
@@ -41,17 +42,16 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
     for (final gmail in _selectedStudents) {
       final docRef = allocationsRef.doc(gmail);
       // final docRef = allocationsRef.doc(Student['email'].toString());
-      // print('student name of selected student is =${studentName}');
+      final studentName = _selectedStudentNames[gmail];
+      print('student name of selected student is =${_selectedStudentNames}');
       await docRef.get().then(
         (doc) {
           final subjectAllocation = SubjectAllocation(
-            userEmail: gmail,
-            subjectId: _selectedSubject,
-            subjectName: _selectedSubjectName,
-            subjectNamesList: subjectNamesList,
-            // studentName: studentName,
-            // studentName: Student['name'],
-          );
+              userEmail: gmail,
+              subjectId: _selectedSubject,
+              subjectName: _selectedSubjectName,
+              subjectNamesList: subjectNamesList,
+              studentName: studentName);
           print(
             'selected subject is =${_selectedSubject}',
           );
@@ -117,8 +117,19 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                             _selectedSubjectName = (snapshot.data!.docs
                                 .firstWhere((doc) => doc.id == _selectedSubject)
                                 .data() as Map<String, dynamic>)['courseName'];
-                            // subjectNamesList = [];
-                            subjectNamesList.add(_selectedSubjectName!);
+                            if (!subjectNamesList
+                                .contains(_selectedSubjectName)) {
+                              subjectNamesList.add(_selectedSubjectName!);
+                            }
+                            // print(
+                            //     'Name of the student is = ${studentName}');
+                            // }
+                            // else {
+                            // _selectedStudents.remove(studentId);
+                            // if (subjectNamesList
+                            //     .contains(_selectedSubjectName)) {
+                            // subjectNamesList.remove(_selectedSubjectName);
+                            // }
                             print(
                                 'The selected subject is = ${_selectedSubjectName.toString()}');
                           },
@@ -231,30 +242,20 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                                   if (value!) {
                                     // _selectedStudents.add(studentName);
                                     _selectedStudents.add(studentId);
-                                    studentName = data['name'];
-                                    // if (!subjectNamesList
-                                    //     .contains(_selectedSubjectName)) {
-                                    subjectNamesList.add(_selectedSubjectName!);
-                                    // }
+                                    // studentName = data['name'];
+                                    // studentNamesList.add(studentName);
+                                    _selectedStudentNames[studentId] =
+                                        studentName;
                                     print(
                                         'Name of the student is = ${studentName}');
                                   } else {
                                     _selectedStudents.remove(studentId);
-                                    // if (subjectNamesList
-                                    //     .contains(_selectedSubjectName)) {
-                                    subjectNamesList
-                                        .remove(_selectedSubjectName);
+                                    // studentNamesList.remove(studentName);
+                                    _selectedStudentNames.remove(studentId);
                                   }
-                                  // }
                                   print(
                                       'Name of the student is = ${studentName}');
-                                }
-                                    // else {
-                                    //   _selectedStudents.remove(studentId);
-                                    //   studentName = null!;
-                                    // }
-                                    // }
-                                    );
+                                });
                               },
                             ),
                           ),
