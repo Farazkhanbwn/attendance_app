@@ -3,6 +3,7 @@ import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/models/add_admin_model.dart';
 import 'package:attendance_app/models/student/user_model.dart';
 import 'package:attendance_app/signin.dart';
+import 'package:attendance_app/string_extension.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -196,7 +197,10 @@ class _DummyState extends State<Dummy> {
     User? user = auth.currentUser;
     var id = user!.uid;
     UserModel model = UserModel(
-        name: namecontroller.text,
+        name: namecontroller.text
+            .split(' ')
+            .map((word) => word.capitalize())
+            .join(' '),
         email: emailcontroller.text,
         password: passwordcontroller.text,
         role: rool,
