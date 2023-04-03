@@ -47,6 +47,7 @@ dependencies:
   uuid:
   fluttertoast:
   shimmer:
+  flutter_blue:
 
 dev_dependencies:
   flutter_test:

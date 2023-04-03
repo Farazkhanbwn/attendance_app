@@ -1,4 +1,5 @@
 import 'package:attendance_app/teacher/EnrolledUsersScreen.dart';
+import 'package:attendance_app/teacher/bluetooth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -86,7 +87,7 @@ class _CoursesShowState extends State<CourseDisplay> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              EnrolledStudentsScreen(subjectName: subjectname),
+                              EnrollStudents(subjectName: subjectname),
                         ));
                   },
                   child: Card(
