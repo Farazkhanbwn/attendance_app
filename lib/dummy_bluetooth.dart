@@ -47,6 +47,7 @@ class _BluetoothPageState extends State<BluetoothPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Bluetooth Page'),
+        centerTitle: true,
       ),
       body: Column(
         children: [
