@@ -75,9 +75,9 @@ class _MyHomePageState extends State<MyHomePage> {
           // AdminView(),
           // CourseScreen(),
           AllocateSubjectForm(),
-          CheckboxListScreen(),
+          // CheckboxListScreen(),
           // BluetoothPage(),
-          BluetoothScreen(),
+          // BluetoothScreen(),
           // MyScreen(),
           // SubjectPage(),
           // CoursesShow1(),
@@ -89,11 +89,11 @@ class _MyHomePageState extends State<MyHomePage> {
           // const TeacherView(),
           // const Dummy1(),
           // Not Used this page // TeacherDropdown2(),
-          CourseScreen(),
+          // CourseScreen(),
           // const keyboardVisibility(),
           // CoursesShow6(),
 
-          AllocateSubjectForm()
+          // AllocateSubjectForm()
           // SubjectPage(),
           //  Erro //AddSubjectScreen(),
           // Not Used This Page //Register(),
