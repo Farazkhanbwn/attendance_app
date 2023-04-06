@@ -40,14 +40,18 @@ class _CoursesShowState extends State<CourseDisplay> {
           .collection('users')
           .doc(email)
           .get()
-          .then((doc) {
-        if (doc.exists) {
-          setState(() {
-            _currentUserName = doc['name'];
-            print('Your current email is = ${email}');
-          });
-        }
-      });
+          .then(
+        (doc) {
+          if (doc.exists) {
+            setState(
+              () {
+                _currentUserName = doc['name'];
+                print('Your current email is = ${email}');
+              },
+            );
+          }
+        },
+      );
     }
   }
 

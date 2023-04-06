@@ -47,6 +47,7 @@ class _SignInState extends State<SignIn> {
         //     context, MaterialPageRoute(builder: (context) => TeacherView()));
         // context,
         // MaterialPageRoute(builder: (context) => AddAdmin()));
+        route();
         Flushbar(
           maxWidth: width * 0.8,
           backgroundColor: Colors.black,
@@ -62,7 +63,7 @@ class _SignInState extends State<SignIn> {
           leftBarIndicatorColor: Colors.grey,
         ).show(context);
         // postdatatoSP();
-        route();
+
       }
     } on FirebaseAuthException catch (error) {
       switch (error.code) {
