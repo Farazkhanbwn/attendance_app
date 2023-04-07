@@ -241,7 +241,6 @@ class _CourseScreenState extends State<CourseScreen> {
                             'Select a Teacher',
                             style: TextStyle(color: Colors.grey),
                           ),
-
                           onChanged: (value) {
                             setState(() {
                               _selectedSubject = value;

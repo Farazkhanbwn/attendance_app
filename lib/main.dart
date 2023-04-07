@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // StudentPage(),
           // TeacherPage(),
           // AdminView(),
-          // CourseScreen(),
+          CourseScreen(),
           AllocateSubjectForm(),
           // CheckboxListScreen(),
           // BluetoothPage(),
