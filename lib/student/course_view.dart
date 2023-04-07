@@ -154,7 +154,7 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
                             children: subjectNames.map((subjectName) {
                               return SizedBox(
                                 width: width * 0.9,
-                                height: height * 0.11,
+                                height: height * 0.08,
                                 child: Card(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8)),
@@ -164,20 +164,19 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      // mainAxisAlignment: MainAxisAlignment.end,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        Text(
-                                          'Subject Name: ${subjectName ?? 'N/A'}',
-                                          style: const TextStyle(
-                                              fontSize: 18.0,
-                                              fontWeight: FontWeight.w500),
-                                        ),
+                                        Text('${subjectName ?? 'N/A'}',
+                                            style: const TextStyle(
+                                                fontSize: 18.0,
+                                                fontWeight: FontWeight.w500)),
                                         const SizedBox(height: 5.0),
-                                        Text(
-                                          'Subject Id: ${course['subjectId']}',
-                                          style:
-                                              const TextStyle(fontSize: 14.0),
-                                        ),
+                                        // Text(
+                                        //   'Subject Id: ${course['subjectId']}',
+                                        //   style:
+                                        //       const TextStyle(fontSize: 14.0),
+                                        // ),
                                       ],
                                     ),
                                   ),
