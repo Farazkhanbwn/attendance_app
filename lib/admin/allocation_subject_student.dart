@@ -145,7 +145,7 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                   },
                 ),
                 CheckboxListTile(
-                  title: const Text('Select All'),
+                  title: const Text('select All'),
                   value: _selectAll,
                   onChanged: (bool? value) {
                     setState(() {
