@@ -49,11 +49,7 @@ dependencies:
   shimmer:
   flutter_bluetooth_serial:
   flutter_blue:
-  beacon_broadcast:
-  flutter_beacon:
-  path_provider:
-  mailer:
-  csv:
+  
 
 dev_dependencies:
   flutter_test:

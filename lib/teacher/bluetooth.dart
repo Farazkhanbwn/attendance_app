@@ -103,10 +103,10 @@ class _EnrolledStudentsScreenState extends State<EnrollStudents> {
               },
             ),
           ),
-          ElevatedButton(
-            onPressed: startScanningForDevices,
-            child: const Text('Scan for nearby devices'),
-          ),
+          // ElevatedButton(
+          //   onPressed: startScanningForDevices,
+          //   child: const Text('Scan for nearby devices'),
+          // ),
         ],
       ),
     );

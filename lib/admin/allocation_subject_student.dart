@@ -145,19 +145,18 @@ class _AllocateSubjectFormState extends State<AllocateSubjectForm> {
                   },
                 ),
                 CheckboxListTile(
-                  title: const Text('Select All'),
-                  value: _selectAll,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      _selectAll = value!;
-                      if (_selectAll) {
-                        _checkedItems = List.from(subjectNamesList);
-                      } else {
-                        _checkedItems.clear();
-                      }
-                    });
-                  },
-                ),
+                    title: const Text('Select All'),
+                    value: _selectAll,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _selectAll = value!;
+                        if (_selectAll) {
+                          _checkedItems = List.from(subjectNamesList);
+                        } else {
+                          _checkedItems.clear();
+                        }
+                      });
+                    }),
                 // Container(
                 //   child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                 //     stream:

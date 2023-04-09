@@ -93,35 +93,35 @@ class _AdminViewState extends State<AdminView> {
                 ),
               ),
             ),
-            InkWell(
-              onTap: () {
-                // Navigator.push(context,
-                //       MaterialPageRoute(builder: (context) => const Dummy()));
-              },
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                child: Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  // margin: EdgeInsets.all(20),
-                  child: Padding(
-                    padding: EdgeInsets.all(width * 0.018),
-                    child: const ListTile(
-                      // leading: Icon(Icons.person),
-                      title: Text(
-                        'Allocate Course to Teacher',
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w500),
-                        textAlign: TextAlign.center,
-                      ),
-                      // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // InkWell(
+            //   onTap: () {
+            //     // Navigator.push(context,
+            //     //       MaterialPageRoute(builder: (context) => const Dummy()));
+            //   },
+            //   child: Padding(
+            //     padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+            //     child: Card(
+            //       elevation: 5,
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(10),
+            //       ),
+            //       // margin: EdgeInsets.all(20),
+            //       child: Padding(
+            //         padding: EdgeInsets.all(width * 0.018),
+            //         child: const ListTile(
+            //           // leading: Icon(Icons.person),
+            //           title: Text(
+            //             'Allocate Course to Teacher',
+            //             style: TextStyle(
+            //                 fontSize: 22, fontWeight: FontWeight.w500),
+            //             textAlign: TextAlign.center,
+            //           ),
+            //           // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             InkWell(
               onTap: () {
                 Navigator.push(
