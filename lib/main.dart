@@ -7,6 +7,7 @@ import 'package:attendance_app/admin/allocation_subject_student.dart';
 import 'package:attendance_app/admin/subject_page.dart';
 import 'package:attendance_app/admin/teacher_page.dart';
 import 'package:attendance_app/another_bluetooth.dart';
+import 'package:attendance_app/chatgpt/allocate_subject_student.dart';
 import 'package:attendance_app/chatgpt/test2.dart';
 import 'package:attendance_app/chatgpt/test5.dart';
 import 'package:attendance_app/chatgpt/test6.dart';
@@ -73,8 +74,9 @@ class _MyHomePageState extends State<MyHomePage> {
           // StudentPage(),
           // TeacherPage(),
           // AdminView(),
-          CourseScreen(),
-          AllocateSubjectForm(),
+          // CourseScreen(),
+          // AllocateSubjectForm(),
+          SubjectToStudents(),
           // CheckboxListScreen(),
           // BluetoothPage(),
           // BluetoothScreen(),
