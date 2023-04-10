@@ -129,11 +129,17 @@ class _CourseScreenState extends State<CourseScreen> {
                           return null;
                       },
                       decoration: InputDecoration(
-                          border: InputBorder.none,
-                          // labelText: 'Course Name',
-                          // labelStyle: TextStyle(color: MyTheme.greycolor),
-                          hintText: 'Course Name',
-                          hintStyle: TextStyle(color: MyTheme.greycolor)),
+                        border: InputBorder.none,
+                        // labelText: 'Course Name',
+                        // labelStyle: TextStyle(color: MyTheme.greycolor),
+                        hintText: 'Course Name',
+                        hintStyle: TextStyle(color: MyTheme.greycolor),
+                        suffixIcon: Icon(
+                          Icons.person,
+                          color: MyTheme.primaryColor,
+                          size: width * 0.05,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -158,11 +164,17 @@ class _CourseScreenState extends State<CourseScreen> {
                           return null;
                       },
                       decoration: InputDecoration(
-                          border: InputBorder.none,
-                          // labelText: 'Course Name',
-                          // labelStyle: TextStyle(color: MyTheme.greycolor),
-                          hintText: 'Course ID',
-                          hintStyle: TextStyle(color: MyTheme.greycolor)),
+                        border: InputBorder.none,
+                        // labelText: 'Course Name',
+                        // labelStyle: TextStyle(color: MyTheme.greycolor),
+                        hintText: 'Course ID',
+                        hintStyle: TextStyle(color: MyTheme.greycolor),
+                        suffixIcon: Icon(
+                          Icons.accessibility,
+                          color: MyTheme.primaryColor,
+                          size: width * 0.05,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -187,11 +199,17 @@ class _CourseScreenState extends State<CourseScreen> {
                           return null;
                       },
                       decoration: InputDecoration(
-                          border: InputBorder.none,
-                          // labelText: 'Course Name',
-                          // labelStyle: TextStyle(color: MyTheme.greycolor),
-                          hintText: 'Admin ID',
-                          hintStyle: TextStyle(color: MyTheme.greycolor)),
+                        border: InputBorder.none,
+                        // labelText: 'Course Name',
+                        // labelStyle: TextStyle(color: MyTheme.greycolor),
+                        hintText: 'Admin ID',
+                        hintStyle: TextStyle(color: MyTheme.greycolor),
+                        suffixIcon: Icon(
+                          Icons.add_road,
+                          color: MyTheme.primaryColor,
+                          size: width * 0.05,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -215,8 +233,9 @@ class _CourseScreenState extends State<CourseScreen> {
                         .where('role', isEqualTo: 'Teacher')
                         .get(),
                     builder: (context, snapshot) {
-                      if (!snapshot.hasData)
+                      if (!snapshot.hasData) {
                         return Center(child: const CircularProgressIndicator());
+                      }
                       return Padding(
                         padding: EdgeInsets.only(
                             left: width * 0.02, top: height * 0.018),
