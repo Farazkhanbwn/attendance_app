@@ -67,19 +67,6 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
     }
   }
 
-  Future<void> _updateEnrolledStudents() async {
-    // retrieve the list of enrolled students for the selected subject
-    DocumentSnapshot studentSnapshot = await FirebaseFirestore.instance
-        .collection('subject_allocation')
-        .doc(_selectedSubjectName)
-        .get();
-    if (studentSnapshot.exists) {
-      enrolledStudents = List<String>.from(
-          (studentSnapshot.data() as Map<String, dynamic>)['students']);
-    }
-    print('enrolled students are following ${enrolledStudents}');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,72 +107,67 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                             //     'The selected subject is = ${_selectedSubjectName.toString()}');
                           },
                         );
-
                         if (_selectedSubject == null ||
                             _selectedSubject is! String) {
                           // handle the error, such as displaying an error message or returning null
                           return null;
                         }
 
+                        DocumentSnapshot studentSnapshot =
+                            await FirebaseFirestore.instance
+                                .collection('subject_allocation')
+                                .doc(_selectedSubjectName)
+                                .get();
+                        if (studentSnapshot.exists) {
+                          enrolledStudents = List<String>.from((studentSnapshot
+                              .data() as Map<String, dynamic>)['students']);
+                        }
                         // build the list of checkboxes for all students, marking those already enrolled as checked
-                        //   List<CheckboxListTile> studentCheckboxes =
-                        //       snapshot.data!.docs.map((doc) {
+                        List<CheckboxListTile> studentCheckboxes =
+                            snapshot.data!.docs.map((doc) {
+                          Map<String, dynamic> data =
+                              doc.data() as Map<String, dynamic>;
+                          String studentName = data['name'] ?? '';
+                          bool checked = enrolledStudents.contains(studentName);
+
+                          return CheckboxListTile(
+                            title: Text(studentName),
+                            value: checked,
+                            onChanged: (value) {
+                              setState(() {
+                                if (value != null) {
+                                  if (value) {
+                                    enrolledStudents.add(studentName);
+                                  } else {
+                                    enrolledStudents.remove(studentName);
+                                  }
+                                }
+                              });
+                            },
+                          );
+                        }).toList();
+
+                        // Fetch the students for the selected subject from the database
+                        // QuerySnapshot studentSnapshot = await FirebaseFirestore
+                        //     .instance
+                        //     .collection('subject_allocations')
+                        //     .where('_selectedStudents',
+                        //         arrayContains: subjectNamesList)
+                        //     .get();
+
+                        // Update the selected students lists
+                        // setState(() {
+                        //   _selectedStudents.clear();
+                        //   _selectedStudentNames.clear();
+                        //   studentSnapshot.docs.forEach((doc) {
                         //     Map<String, dynamic> data =
                         //         doc.data() as Map<String, dynamic>;
                         //     String studentId = doc.id;
-                        //     print('student id =${studentId}');
-
-                        //     bool checked = enrolledStudents.contains(studentId);
-
-                        //     return CheckboxListTile(
-                        //       title: Text(data['name'] ?? ''),
-                        //       value: checked,
-                        //       onChanged: (value) {
-                        //         setState(
-                        //           () {
-                        //             if (value != null) {
-                        //               if (value) {
-                        //                 enrolledStudents.add(studentId);
-                        //                 print(
-                        //                     'enrolled students is = ${enrolledStudents}');
-                        //               } else {
-                        //                 enrolledStudents.remove(studentId);
-                        //               }
-                        //             }
-                        //           },
-                        //         );
-                        //       },
-                        //     );
-                        //   }).toList();
-                        // },
-                        List<CheckboxListTile> buildStudentCheckboxes() {
-                          // build the list of checkboxes for all students, marking those already enrolled as checked
-                          return snapshot.data!.docs.map((doc) {
-                            Map<String, dynamic> data =
-                                doc.data() as Map<String, dynamic>;
-                            String studentId = doc.id;
-
-                            bool checked = enrolledStudents.contains(studentId);
-
-                            return CheckboxListTile(
-                              title: Text(data['name'] ?? ''),
-                              value: checked,
-                              onChanged: (value) {
-                                setState(() {
-                                  if (value != null) {
-                                    if (value) {
-                                      enrolledStudents.add(studentId);
-                                      print(
-                                          'enrolled students is = ${enrolledStudents}');
-                                    } else {
-                                      enrolledStudents.remove(studentId);
-                                    }
-                                  }
-                                });
-                              },
-                            );
-                          }).toList();
-                        }
+                        //     String studentName = data['studentName'];
+                        //     _selectedStudents.add(studentId);
+                        //     _selectedStudentNames[studentId] = studentName;
+                        //   });
+                        // });
                       },
                       validator: (value) {
                         if (value == null) {
@@ -321,7 +303,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                           SnackBar(content: Text('Subject allocations saved')),
                         );
                       },
-                      child: Text('Allocate Subject'),
+                      child: Text('Save subject allocations'),
                     )
                     // ElevatedButton(
                     //   child: const Text('Allocate Subject'),
