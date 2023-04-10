@@ -109,8 +109,8 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                         QuerySnapshot studentSnapshot = await FirebaseFirestore
                             .instance
                             .collection('subject_allocations')
-                            .where('subjectName',
-                                arrayContains: _selectedSubject)
+                            .where('_selectedStudents',
+                                arrayContains: subjectNamesList)
                             .get();
 
                         // Update the selected students lists
