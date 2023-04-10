@@ -33,37 +33,6 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
       final docRef = allocationsRef.doc(_selectedSubjectName);
       // final docRef = allocationsRef.doc(Student['email'].toString());
       final studentName = _selectedStudentNames[gmail];
-      print('student name of selected student is =${_selectedStudentNames}');
-      await docRef.get().then(
-        (doc) {
-          final subjectAllocation = SubjectAllocation(
-              userEmail: gmail,
-              subjectId: _selectedSubject,
-              subjectName: _selectedSubjectName,
-              subjectNamesList: subjectNamesList,
-              studentName: studentName);
-          print(
-            'selected subject is =${_selectedSubject}',
-          );
-          print(
-            'selected subjectName is =${_selectedSubjectName}',
-          );
-          if (doc.exists) {
-            print('subject name list = ${subjectNamesList}');
-            docRef.update(subjectAllocation.toMap()).then((value) {
-              // print("Subject allocation updated with ID: $gmail");
-            }).catchError((error) {
-              print("Failed to update subject allocation: $error");
-            });
-          } else {
-            docRef.set(subjectAllocation.toMap()).then((value) {
-              // print("Subject allocation added with ID: $gmail");
-            }).catchError((error) {
-              print("Failed to add subject allocation: $error");
-            });
-          }
-        },
-      );
     }
   }
 
@@ -242,6 +211,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: snapshot.data!.docs.map((doc) {
                         String studentId = doc.id;
+                        // print('studentid is = ${studentId}');
                         Map<String, dynamic> data =
                             doc.data() as Map<String, dynamic>;
                         String studentName = data['name'];
@@ -262,23 +232,16 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                               title: Text(studentName),
                               subtitle: Text(data['email']),
                               value: _selectedStudents.contains(studentName),
-                              //  && _selectedStudents.contains(studentName),
                               onChanged: (value) {
                                 setState(() {
                                   if (value!) {
-                                    // _selectedStudents.add(studentName);
                                     _selectedStudents.add(studentName);
                                     _selectedStudentNames[studentId] =
                                         studentName;
-                                    print(
-                                        'Name of the student is = ${studentName}');
                                   } else {
-                                    _selectedStudents.remove(studentId);
-                                    // studentNamesList.remove(studentName);
+                                    _selectedStudents.remove(studentName);
                                     _selectedStudentNames.remove(studentId);
                                   }
-                                  print(
-                                      'Name of the student is = ${studentName}');
                                 });
                               },
                             ),
