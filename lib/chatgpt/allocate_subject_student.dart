@@ -72,8 +72,8 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                             _selectedSubjectName = (snapshot.data!.docs
                                 .firstWhere((doc) => doc.id == _selectedSubject)
                                 .data() as Map<String, dynamic>)['courseName'];
-                            // print(
-                            //     'The selected subject is = ${_selectedSubjectName.toString()}');
+                            print(
+                                'The selected subject is = ${_selectedSubjectName.toString()}');
                           },
                         );
                         if (_selectedSubject == null ||
