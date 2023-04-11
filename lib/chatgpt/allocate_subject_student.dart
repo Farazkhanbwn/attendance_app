@@ -107,6 +107,8 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                 if (value != null) {
                                   if (value) {
                                     enrolledStudents.add(studentName);
+                                    print(
+                                        'enrolled Students is = ${enrolledStudents}');
                                   } else {
                                     enrolledStudents.remove(studentName);
                                   }
