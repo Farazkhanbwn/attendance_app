@@ -97,8 +97,10 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                           Map<String, dynamic> data =
                               doc.data() as Map<String, dynamic>;
                           String studentName = data['name'] ?? '';
+                          print('student name is =${studentName}');
+                          print(
+                              'Enrolled Students is = ${enrolledStudents.toString()}');
                           bool checked = enrolledStudents.contains(studentName);
-
                           return CheckboxListTile(
                             title: Text(studentName),
                             value: checked,
@@ -237,7 +239,11 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                               onChanged: (value) {
                                 setState(() {
                                   if (value!) {
+                                    // _selectedStudents
+                                    //     .add(enrolledStudents.toString());
                                     _selectedStudents.add(studentName);
+                                    print(
+                                        'selected student name is ={$_selectedStudents}');
                                     _selectedStudentNames[studentId] =
                                         studentName;
                                   } else {
@@ -256,18 +262,70 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                 Align(
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton(
-                      onPressed: () async {
-                        await FirebaseFirestore.instance
+                      onPressed: () {
+                        // Get the current enroll students list for the selected subject from Firebase
+                        FirebaseFirestore.instance
                             .collection('subject_allocation')
                             .doc(_selectedSubjectName)
-                            .set({
-                          'subjectName': _selectedSubjectName,
-                          'students': _selectedStudents,
+                            .get()
+                            .then((docSnapshot) {
+                          List<String> currentEnrollStudents = [];
+                          if (docSnapshot.exists) {
+                            currentEnrollStudents = List<String>.from(
+                                docSnapshot.data()!['students']);
+                            print(
+                                'current enrolled students is pakistna = ${currentEnrollStudents}');
+                          }
+                          // Add the selected students to the enroll students list if they are not already present
+                          for (String student in _selectedStudents) {
+                            if (!currentEnrollStudents.contains(student)) {
+                              currentEnrollStudents.add(student);
+                            }
+                          }
+                          // Save the updated enroll students list to Firebase
+                          FirebaseFirestore.instance
+                              .collection('subject_allocation')
+                              .doc(_selectedSubjectName)
+                              .set({
+                            'students': currentEnrollStudents,
+                          });
+                          // Clear the selected students list and show a confirmation dialog
+                          setState(() {
+                            enrolledStudents.clear();
+                          });
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Subject Allocated'),
+                                content: const Text(
+                                    'The subject has been allocated to the selected students.'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: const Text('OK'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                         });
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Subject allocations saved')),
-                        );
                       },
+
+                      // onPressed: () async {
+                      //   await FirebaseFirestore.instance
+                      //       .collection('subject_allocation')
+                      //       .doc(_selectedSubjectName)
+                      //       .set({
+                      //     'subjectName': _selectedSubjectName,
+                      //     'students': _selectedStudents,
+                      //   });
+                      //   ScaffoldMessenger.of(context).showSnackBar(
+                      //     SnackBar(content: Text('Subject allocations saved')),
+                      //   );
+                      // },
                       child: Text('Save subject allocations'),
                     )
                     // ElevatedButton(
