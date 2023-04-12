@@ -68,6 +68,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                       onChanged: (value) async {
                         setState(
                           () {
+                            // _selectedStudents = enrolledStudents;
                             _selectedSubject = value;
                             _selectedSubjectName = (snapshot.data!.docs
                                 .firstWhere((doc) => doc.id == _selectedSubject)
@@ -292,6 +293,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                               .doc(_selectedSubjectName)
                               .set({
                             'students': currentEnrollStudents,
+                            'updated_students ': _selectedStudents
                           });
                           // Clear the selected students list and show a confirmation dialog
                           setState(() {
