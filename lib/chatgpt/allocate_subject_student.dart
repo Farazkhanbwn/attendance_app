@@ -239,6 +239,10 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                               onChanged: (value) {
                                 setState(() {
                                   if (value!) {
+                                    _selectedStudents = enrolledStudents;
+                                    print(
+                                        '_selected students = ${_selectedStudents}');
+
                                     // _selectedStudents
                                     //     .add(enrolledStudents.toString());
                                     _selectedStudents.add(studentName);
