@@ -31,10 +31,14 @@ class _EnrolledStudentsScreenState extends State<EnrollStudents> {
   @override
   void initState() {
     super.initState();
-    _enrolledStudentsStream = FirebaseFirestore.instance
-        .collection('subject_allocations')
-        .where('subjectNamesList', arrayContains: widget.subjectName)
-        .snapshots();
+    Stream<List<dynamic>> _enrolledStudentsStream = FirebaseFirestore.instance
+        .collection('subject_allocation')
+        .doc(widget.subjectName)
+        .snapshots()
+        .map((docSnapshot) => docSnapshot.data()?['students'] ?? []);
+    // .collection('subject_allocations')
+    // .where('subjectNamesList', arrayContains: widget.subjectName)
+    // .snapshots();
   }
 
   @override
