@@ -70,6 +70,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                           () {
                             _selectedStudents = enrolledStudents;
                             print('pakistan zindabad ${_selectedStudents}');
+                            print('enrolled students is = {$enrolledStudents}');
                             _selectedSubject = value;
                             _selectedSubjectName = (snapshot.data!.docs
                                 .firstWhere((doc) => doc.id == _selectedSubject)
@@ -78,6 +79,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                 'The selected subject is = ${_selectedSubjectName.toString()}');
                           },
                         );
+                        // _selectedStudents = enrolledStudents;
                         if (_selectedSubject == null ||
                             _selectedSubject is! String) {
                           // handle the error, such as displaying an error message or returning null
@@ -92,6 +94,8 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                         if (studentSnapshot.exists) {
                           enrolledStudents = List<String>.from((studentSnapshot
                               .data() as Map<String, dynamic>)['students']);
+                        } else {
+                          enrolledStudents = [];
                         }
                         // build the list of checkboxes for all students, marking those already enrolled as checked
                         List<CheckboxListTile> studentCheckboxes =
@@ -99,7 +103,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                           Map<String, dynamic> data =
                               doc.data() as Map<String, dynamic>;
                           String studentName = data['name'] ?? '';
-                          print('student name is =${studentName}');
+                          _selectedStudents = enrolledStudents;
                           print(
                               'Enrolled Students is = ${enrolledStudents.toString()}');
                           bool checked = enrolledStudents.contains(studentName);
@@ -293,8 +297,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                               .collection('subject_allocation')
                               .doc(_selectedSubjectName)
                               .set({
-                            'students': currentEnrollStudents,
-                            'updated_students ': _selectedStudents
+                            'students': _selectedStudents,
                           });
                           // Clear the selected students list and show a confirmation dialog
                           setState(() {
@@ -333,7 +336,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                       //     SnackBar(content: Text('Subject allocations saved')),
                       //   );
                       // },
-                      child: Text('Save subject allocations'),
+                      child: const Text('Save subject allocations'),
                     )
                     // ElevatedButton(
                     //   child: const Text('Allocate Subject'),

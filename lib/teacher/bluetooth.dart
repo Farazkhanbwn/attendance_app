@@ -39,6 +39,7 @@ class _EnrolledStudentsScreenState extends State<EnrollStudents> {
     // .collection('subject_allocations')
     // .where('subjectNamesList', arrayContains: widget.subjectName)
     // .snapshots();
+    print('_enrolledstudentStream is =${_enrolledStudentsStream}');
   }
 
   @override
