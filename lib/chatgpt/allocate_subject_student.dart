@@ -68,7 +68,8 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                       onChanged: (value) async {
                         setState(
                           () {
-                            // _selectedStudents = enrolledStudents;
+                            _selectedStudents = enrolledStudents;
+                            print('pakistan zindabad ${_selectedStudents}');
                             _selectedSubject = value;
                             _selectedSubjectName = (snapshot.data!.docs
                                 .firstWhere((doc) => doc.id == _selectedSubject)
@@ -240,7 +241,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                               onChanged: (value) {
                                 setState(() {
                                   if (value!) {
-                                    _selectedStudents = enrolledStudents;
+                                    // _selectedStudents = enrolledStudents;
                                     print(
                                         '_selected students = ${_selectedStudents}');
 
