@@ -12,7 +12,7 @@ class EnrollStudents extends StatefulWidget {
 }
 
 class _EnrolledStudentsScreenState extends State<EnrollStudents> {
-  late Stream<QuerySnapshot> _enrolledStudentsStream;
+  Stream<QuerySnapshot> _enrolledStudentsStream = Stream.empty();
   FlutterBlue flutterBlue = FlutterBlue.instance;
   // Create a list to hold nearby devices
   List<ScanResult> nearbyDevices = [];
@@ -39,7 +39,7 @@ class _EnrolledStudentsScreenState extends State<EnrollStudents> {
     // .collection('subject_allocations')
     // .where('subjectNamesList', arrayContains: widget.subjectName)
     // .snapshots();
-    print('_enrolledstudentStream is =${_enrolledStudentsStream}');
+    print('_enrolledstudentStream is =${_enrolledStudentsStream.toString()}');
   }
 
   @override
@@ -81,7 +81,7 @@ class _EnrolledStudentsScreenState extends State<EnrollStudents> {
                   // );
                 }
 
-                if (snapshot.data!.docs.isEmpty) {
+                if (snapshot?.data?.docs.isEmpty ?? true) {
                   return const Center(
                     child: Text('None of the students are enrolled'),
                   );
@@ -90,8 +90,7 @@ class _EnrolledStudentsScreenState extends State<EnrollStudents> {
                 return ListView.builder(
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
-                    String userEmail =
-                        snapshot.data!.docs[index]['studentName'];
+                    String userEmail = snapshot.data!.docs[index]['students'];
 
                     return Padding(
                       padding: EdgeInsets.symmetric(

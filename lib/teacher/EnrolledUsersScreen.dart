@@ -16,10 +16,20 @@ class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
   @override
   void initState() {
     super.initState();
-    _enrolledStudentsStream = FirebaseFirestore.instance
-        .collection('subject_allocations')
-        .where('subjectNamesList', arrayContains: widget.subjectName)
-        .snapshots();
+    // Replace with the subject name you want to retrieve
+
+    FirebaseFirestore.instance
+        .collection('subject_allocation')
+        .doc(widget.subjectName)
+        .get()
+        .then((docSnapshot) {
+      if (docSnapshot.exists) {
+        List<dynamic> enrolledStudents = docSnapshot.data()!['students'];
+        print(enrolledStudents);
+      } else {
+        print('No allocation found for subject ${widget.subjectName}');
+      }
+    }).catchError((error) => print('Failed to get allocation: $error'));
   }
 
   @override
@@ -67,7 +77,7 @@ class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
-              String userEmail = snapshot.data!.docs[index]['studentName'];
+              String StudentName = snapshot.data!.docs[index]['studentName'];
 
               return Padding(
                 padding: EdgeInsets.symmetric(
@@ -75,7 +85,7 @@ class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
                 child: Card(
                   elevation: 5,
                   child: ListTile(
-                    title: Text(userEmail),
+                    title: Text(StudentName),
                   ),
                 ),
               );

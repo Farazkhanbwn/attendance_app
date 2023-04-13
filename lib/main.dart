@@ -93,12 +93,10 @@ class _MyHomePageState extends State<MyHomePage> {
           CourseScreen(),
           // const keyboardVisibility(),
           // CoursesShow6(),
-
           // AllocateSubjectForm()
           // SubjectPage(),
           //  Erro //AddSubjectScreen(),
           // Not Used This Page //Register(),
-
           // const StudentDisplay(),
         ],
       ),
