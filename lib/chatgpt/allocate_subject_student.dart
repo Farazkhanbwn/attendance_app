@@ -277,26 +277,28 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                             .collection('subject_allocation')
                             .doc(_selectedSubjectName)
                             .get()
-                            .then((docSnapshot) {
-                          // Add the selected students to the enroll students list if they are not already present
+                            .then(
+                          (docSnapshot) {
+                            // Add the selected students to the enroll students list if they are not already present
 
-                          // Save the updated enroll students list to Firebase
-                          FirebaseFirestore.instance
-                              .collection('subject_allocation')
-                              .doc(_selectedSubjectName)
-                              .set({
-                            'students': _selectedStudents,
-                            'subjectName': _selectedSubjectName
-                          });
-                          // Clear the selected students list and show a confirmation dialog
-                          setState(() {
-                            enrolledStudents.clear();
-                          });
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text('Subject allocations saved')),
-                          );
-                        });
+                            // Save the updated enroll students list to Firebase
+                            FirebaseFirestore.instance
+                                .collection('subject_allocation')
+                                .doc(_selectedSubjectName)
+                                .set({
+                              'students': _selectedStudents,
+                              'subjectName': _selectedSubjectName
+                            });
+                            // Clear the selected students list and show a confirmation dialog
+                            setState(() {
+                              enrolledStudents.clear();
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text('Subject allocations saved')),
+                            );
+                          },
+                        );
                       },
 
                       // onPressed: () async {
@@ -329,16 +331,13 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                     //               'Subject allocated to ${_selectedStudents.length} students'),
                     //         ),
                     //       );
-
                     //       _formKey.currentState!.reset();
-
                     //       _selectedStudents = [];
                     //     }
                     //   },
                     // ),
                     ),
                 // Checkbox list for selecting students
-
                 const SizedBox(height: 16),
                 // Button for submitting the form
               ],
