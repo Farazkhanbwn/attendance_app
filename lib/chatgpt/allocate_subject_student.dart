@@ -68,7 +68,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                       onChanged: (value) async {
                         setState(
                           () {
-                            _selectedStudents = enrolledStudents;
+                            // _selectedStudents = enrolledStudents;
                             print('pakistan zindabad ${_selectedStudents}');
                             print('enrolled students is = {$enrolledStudents}');
                             _selectedSubject = value;
@@ -85,7 +85,6 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                           // handle the error, such as displaying an error message or returning null
                           return null;
                         }
-
                         DocumentSnapshot studentSnapshot =
                             await FirebaseFirestore.instance
                                 .collection('subject_allocation')
