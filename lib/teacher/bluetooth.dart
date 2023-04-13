@@ -62,7 +62,6 @@ class _EnrolledStudentsScreenState extends State<EnrollStudents> {
                     child: Text('Error: ${snapshot.error.toString()}'),
                   );
                 }
-
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                   // return Center(

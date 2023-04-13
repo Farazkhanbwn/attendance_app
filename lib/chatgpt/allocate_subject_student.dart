@@ -298,6 +298,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                               .doc(_selectedSubjectName)
                               .set({
                             'students': _selectedStudents,
+                            'subjectName': _selectedSubjectName
                           });
                           // Clear the selected students list and show a confirmation dialog
                           setState(() {

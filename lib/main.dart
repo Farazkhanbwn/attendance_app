@@ -76,9 +76,6 @@ class _MyHomePageState extends State<MyHomePage> {
           // CourseScreen(),
           // AllocateSubjectForm(),
           SubjectToStudents(),
-          EnrolledStudentsScreen(
-            subjectName: 'Software Engineering',
-          ),
           MyScreens(),
           // CheckboxListScreen(),
           // BluetoothPage(),

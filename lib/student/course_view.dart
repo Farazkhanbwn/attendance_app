@@ -127,8 +127,8 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
-                    .collection('subject_allocations')
-                    .where('userEmail', isEqualTo: user!.email)
+                    .collection('subject_allocation')
+                    .where('students', arrayContains: user!.displayName)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -142,48 +142,52 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
                   } else {
                     final courses =
                         snapshot.data!.docs.map((doc) => doc.data()).toList();
+                    print('courses is = ${courses}');
                     return ListView.builder(
                       itemCount: courses.length,
                       itemBuilder: (context, index) {
                         var course = courses[index] as Map<String, dynamic>;
-                        var subjectNames =
-                            List.from(course['subjectNamesList']);
+                        var subjectNames = course['subjectName'];
                         return Center(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: subjectNames.map((subjectName) {
-                              return SizedBox(
-                                width: width * 0.9,
-                                height: height * 0.08,
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8)),
-                                  elevation: 5,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text('${subjectName ?? 'N/A'}',
-                                            style: const TextStyle(
-                                                fontSize: 18.0,
-                                                fontWeight: FontWeight.w500)),
-                                        const SizedBox(height: 5.0),
-                                        // Text(
-                                        //   'Subject Id: ${course['subjectId']}',
-                                        //   style:
-                                        //       const TextStyle(fontSize: 14.0),
-                                        // ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                          ),
+                          child: Card(
+                              child: ListTile(
+                            title: Text('${subjectNames}'),
+                          )),
+                          // child: Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   children: subjectNames.map((subjectName) {
+                          //     return SizedBox(
+                          //       width: width * 0.9,
+                          //       height: height * 0.08,
+                          //       child: Card(
+                          //         shape: RoundedRectangleBorder(
+                          //             borderRadius: BorderRadius.circular(8)),
+                          //         elevation: 5,
+                          //         child: Padding(
+                          //           padding: const EdgeInsets.all(8.0),
+                          //           child: Column(
+                          //             crossAxisAlignment:
+                          //                 CrossAxisAlignment.start,
+                          //             mainAxisAlignment:
+                          //                 MainAxisAlignment.center,
+                          //             children: [
+                          //               Text('${subjectName ?? 'N/A'}',
+                          //                   style: const TextStyle(
+                          //                       fontSize: 18.0,
+                          //                       fontWeight: FontWeight.w500)),
+                          //               const SizedBox(height: 5.0),
+                          //               // Text(
+                          //               //   'Subject Id: ${course['subjectId']}',
+                          //               //   style:
+                          //               //       const TextStyle(fontSize: 14.0),
+                          //               // ),
+                          //             ],
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     );
+                          //   }).toList(),
+                          // ),
                         );
                       },
                     );

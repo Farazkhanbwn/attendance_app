@@ -2,6 +2,7 @@ import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/admin/add_user.dart';
 import 'package:attendance_app/admin/add_course.dart';
 import 'package:attendance_app/admin/allocation_subject_student.dart';
+import 'package:attendance_app/chatgpt/allocate_subject_student.dart';
 import 'package:flutter/material.dart';
 
 class AdminView extends StatefulWidget {
@@ -127,7 +128,7 @@ class _AdminViewState extends State<AdminView> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => AllocateSubjectForm()));
+                        builder: (context) => SubjectToStudents()));
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.05),
