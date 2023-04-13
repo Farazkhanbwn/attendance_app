@@ -279,19 +279,8 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                             .doc(_selectedSubjectName)
                             .get()
                             .then((docSnapshot) {
-                          List<String> currentEnrollStudents = [];
-                          if (docSnapshot.exists) {
-                            currentEnrollStudents = List<String>.from(
-                                docSnapshot.data()!['students']);
-                            print(
-                                'current enrolled students is pakistna = ${currentEnrollStudents}');
-                          }
                           // Add the selected students to the enroll students list if they are not already present
-                          for (String student in _selectedStudents) {
-                            if (!currentEnrollStudents.contains(student)) {
-                              currentEnrollStudents.add(student);
-                            }
-                          }
+
                           // Save the updated enroll students list to Firebase
                           FirebaseFirestore.instance
                               .collection('subject_allocation')
@@ -304,23 +293,9 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                           setState(() {
                             enrolledStudents.clear();
                           });
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('Subject Allocated'),
-                                content: const Text(
-                                    'The subject has been allocated to the selected students.'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text('OK'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text('Subject allocations saved')),
                           );
                         });
                       },
