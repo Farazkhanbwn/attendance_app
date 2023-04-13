@@ -192,7 +192,6 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                     // );
                   },
                 ),
-
                 CheckboxListTile(
                     title: const Text('Select All'),
                     value: _selectAll,
@@ -200,7 +199,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                       setState(() {
                         _selectAll = value!;
                         if (_selectAll) {
-                          _checkedItems = List.from(subjectNamesList);
+                          _checkedItems = List.from(_selectedStudents);
                         } else {
                           _checkedItems.clear();
                         }
@@ -300,7 +299,6 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                           },
                         );
                       },
-
                       // onPressed: () async {
                       //   await FirebaseFirestore.instance
                       //       .collection('subject_allocation')
