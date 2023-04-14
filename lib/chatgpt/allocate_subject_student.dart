@@ -38,6 +38,8 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -47,150 +49,176 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 // Drop-down for selecting subject
-                FutureBuilder<QuerySnapshot>(
-                  future:
-                      FirebaseFirestore.instance.collection('courses').get(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    return DropdownButtonFormField<String>(
-                      value: _selectedSubject,
-                      items: snapshot.data!.docs.map((doc) {
-                        Map<String, dynamic> data =
-                            doc.data() as Map<String, dynamic>;
-                        return DropdownMenuItem<String>(
-                          value: doc.id,
-                          child: Text(data['courseName']),
-                        );
-                      }).toList(),
-                      hint: const Text('Select a subject'),
-                      onChanged: (value) async {
-                        setState(
-                          () {
-                            // _selectedStudents = enrolledStudents;
-                            print('pakistan zindabad ${_selectedStudents}');
-                            print('enrolled students is = {$enrolledStudents}');
-                            _selectedSubject = value;
-                            _selectedSubjectName = (snapshot.data!.docs
-                                .firstWhere((doc) => doc.id == _selectedSubject)
-                                .data() as Map<String, dynamic>)['courseName'];
-                            print(
-                                'The selected subject is = ${_selectedSubjectName.toString()}');
-                          },
-                        );
-                        // _selectedStudents = enrolledStudents;
-                        if (_selectedSubject == null ||
-                            _selectedSubject is! String) {
-                          // handle the error, such as displaying an error message or returning null
-                          return null;
+                Card(
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Container(
+                    width: width * 0.85,
+                    height: height * 0.07,
+                    child: FutureBuilder<QuerySnapshot>(
+                      future: FirebaseFirestore.instance
+                          .collection('courses')
+                          .get(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Center(
+                              child: CircularProgressIndicator());
                         }
-                        DocumentSnapshot studentSnapshot =
-                            await FirebaseFirestore.instance
-                                .collection('subject_allocation')
-                                .doc(_selectedSubjectName)
-                                .get();
-                        if (studentSnapshot.exists) {
-                          enrolledStudents = List<String>.from((studentSnapshot
-                              .data() as Map<String, dynamic>)['students']);
-                        } else {
-                          enrolledStudents = [];
-                        }
-                        // build the list of checkboxes for all students, marking those already enrolled as checked
-                        List<CheckboxListTile> studentCheckboxes =
-                            snapshot.data!.docs.map((doc) {
-                          Map<String, dynamic> data =
-                              doc.data() as Map<String, dynamic>;
-                          String studentName = data['name'] ?? '';
-                          _selectedStudents = enrolledStudents;
-                          print(
-                              'Enrolled Students is = ${enrolledStudents.toString()}');
-                          bool checked = enrolledStudents.contains(studentName);
-                          return CheckboxListTile(
-                            title: Text(studentName),
-                            value: checked,
-                            onChanged: (value) {
-                              setState(() {
-                                if (value != null) {
-                                  if (value) {
-                                    enrolledStudents.add(studentName);
-                                    print(
-                                        'enrolled Students is = ${enrolledStudents}');
-                                  } else {
-                                    enrolledStudents.remove(studentName);
-                                  }
-                                }
-                              });
+                        return Padding(
+                          padding: EdgeInsets.only(
+                              left: width * 0.02, top: height * 0.018),
+                          child: DropdownButtonFormField<String>(
+                            decoration: InputDecoration.collapsed(hintText: ''),
+                            value: _selectedSubject,
+                            items: snapshot.data!.docs.map((doc) {
+                              Map<String, dynamic> data =
+                                  doc.data() as Map<String, dynamic>;
+                              return DropdownMenuItem<String>(
+                                value: doc.id,
+                                child: Text(
+                                  data['courseName'],
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              );
+                            }).toList(),
+                            hint: const Text('Select a subject'),
+                            onChanged: (value) async {
+                              setState(
+                                () {
+                                  // _selectedStudents = enrolledStudents;
+                                  print(
+                                      'pakistan zindabad ${_selectedStudents}');
+                                  print(
+                                      'enrolled students is = {$enrolledStudents}');
+                                  _selectedSubject = value;
+                                  _selectedSubjectName = (snapshot.data!.docs
+                                          .firstWhere((doc) =>
+                                              doc.id == _selectedSubject)
+                                          .data()
+                                      as Map<String, dynamic>)['courseName'];
+                                  print(
+                                      'The selected subject is = ${_selectedSubjectName.toString()}');
+                                },
+                              );
+                              // _selectedStudents = enrolledStudents;
+                              if (_selectedSubject == null ||
+                                  _selectedSubject is! String) {
+                                // handle the error, such as displaying an error message or returning null
+                                return null;
+                              }
+                              DocumentSnapshot studentSnapshot =
+                                  await FirebaseFirestore.instance
+                                      .collection('subject_allocation')
+                                      .doc(_selectedSubjectName)
+                                      .get();
+                              if (studentSnapshot.exists) {
+                                enrolledStudents = List<String>.from(
+                                    (studentSnapshot.data()
+                                        as Map<String, dynamic>)['students']);
+                              } else {
+                                enrolledStudents = [];
+                              }
+                              // build the list of checkboxes for all students, marking those already enrolled as checked
+                              List<CheckboxListTile> studentCheckboxes =
+                                  snapshot.data!.docs.map((doc) {
+                                Map<String, dynamic> data =
+                                    doc.data() as Map<String, dynamic>;
+                                String studentName = data['name'] ?? '';
+                                _selectedStudents = enrolledStudents;
+                                print(
+                                    'Enrolled Students is = ${enrolledStudents.toString()}');
+                                bool checked =
+                                    enrolledStudents.contains(studentName);
+                                return CheckboxListTile(
+                                  title: Text(studentName),
+                                  value: checked,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (value != null) {
+                                        if (value) {
+                                          enrolledStudents.add(studentName);
+                                          print(
+                                              'enrolled Students is = ${enrolledStudents}');
+                                        } else {
+                                          enrolledStudents.remove(studentName);
+                                        }
+                                      }
+                                    });
+                                  },
+                                );
+                              }).toList();
+
+                              // Fetch the students for the selected subject from the database
+                              // QuerySnapshot studentSnapshot = await FirebaseFirestore
+                              //     .instance
+                              //     .collection('subject_allocations')
+                              //     .where('_selectedStudents',
+                              //         arrayContains: subjectNamesList)
+                              //     .get();
+
+                              // Update the selected students lists
+                              // setState(() {
+                              //   _selectedStudents.clear();
+                              //   _selectedStudentNames.clear();
+                              //   studentSnapshot.docs.forEach((doc) {
+                              //     Map<String, dynamic> data =
+                              //         doc.data() as Map<String, dynamic>;
+                              //     String studentId = doc.id;
+                              //     String studentName = data['studentName'];
+                              //     _selectedStudents.add(studentId);
+                              //     _selectedStudentNames[studentId] = studentName;
+                              //   });
+                              // });
                             },
-                          );
-                        }).toList();
+                            validator: (value) {
+                              if (value == null) {
+                                return 'Please select a subject';
+                              }
+                              return null;
+                            },
+                          ),
+                        );
 
-                        // Fetch the students for the selected subject from the database
-                        // QuerySnapshot studentSnapshot = await FirebaseFirestore
-                        //     .instance
-                        //     .collection('subject_allocations')
-                        //     .where('_selectedStudents',
-                        //         arrayContains: subjectNamesList)
-                        //     .get();
-
-                        // Update the selected students lists
-                        // setState(() {
-                        //   _selectedStudents.clear();
-                        //   _selectedStudentNames.clear();
-                        //   studentSnapshot.docs.forEach((doc) {
+                        // return DropdownButtonFormField<String>(
+                        //   value: _selectedSubject,
+                        //   items: snapshot.data!.docs.map((doc) {
                         //     Map<String, dynamic> data =
                         //         doc.data() as Map<String, dynamic>;
-                        //     String studentId = doc.id;
-                        //     String studentName = data['studentName'];
-                        //     _selectedStudents.add(studentId);
-                        //     _selectedStudentNames[studentId] = studentName;
-                        //   });
-                        // });
-                      },
-                      validator: (value) {
-                        if (value == null) {
-                          return 'Please select a subject';
-                        }
-                        return null;
-                      },
-                    );
+                        //     return DropdownMenuItem<String>(
+                        //       value: doc.id,
+                        //       child: Text(data['courseName']),
+                        //     );
+                        //   }).toList(),
+                        //   hint: const Text('Select a subject'),
+                        //   onChanged: (value) {
+                        //     setState(
+                        //       () {
+                        //         _selectedSubject = value;
+                        //         _selectedSubjectName = (snapshot.data!.docs
+                        //             .firstWhere((doc) => doc.id == _selectedSubject)
+                        //             .data() as Map<String, dynamic>)['courseName'];
+                        //         if (!subjectNamesList
+                        //             .contains(_selectedSubjectName)) {
+                        //           subjectNamesList.add(_selectedSubjectName!);
+                        //         }
 
-                    // return DropdownButtonFormField<String>(
-                    //   value: _selectedSubject,
-                    //   items: snapshot.data!.docs.map((doc) {
-                    //     Map<String, dynamic> data =
-                    //         doc.data() as Map<String, dynamic>;
-                    //     return DropdownMenuItem<String>(
-                    //       value: doc.id,
-                    //       child: Text(data['courseName']),
-                    //     );
-                    //   }).toList(),
-                    //   hint: const Text('Select a subject'),
-                    //   onChanged: (value) {
-                    //     setState(
-                    //       () {
-                    //         _selectedSubject = value;
-                    //         _selectedSubjectName = (snapshot.data!.docs
-                    //             .firstWhere((doc) => doc.id == _selectedSubject)
-                    //             .data() as Map<String, dynamic>)['courseName'];
-                    //         if (!subjectNamesList
-                    //             .contains(_selectedSubjectName)) {
-                    //           subjectNamesList.add(_selectedSubjectName!);
-                    //         }
-
-                    //         print(
-                    //             'The selected subject is = ${_selectedSubjectName.toString()}');
-                    //       },
-                    //     );
-                    //   },
-                    //   validator: (value) {
-                    //     if (value == null) {
-                    //       return 'Please select a subject';
-                    //     }
-                    //     return null;
-                    //   },
-                    // );
-                  },
+                        //         print(
+                        //             'The selected subject is = ${_selectedSubjectName.toString()}');
+                        //       },
+                        //     );
+                        //   },
+                        //   validator: (value) {
+                        //     if (value == null) {
+                        //       return 'Please select a subject';
+                        //     }
+                        //     return null;
+                        //   },
+                        // );
+                      },
+                    ),
+                  ),
                 ),
                 CheckboxListTile(
                     title: const Text('Select All'),
