@@ -30,6 +30,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   // ignore: prefer_typing_uninitialized_variables
+  bool _obscureText = true;
   var width, height;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -282,24 +283,103 @@ class _SignInState extends State<SignIn> {
                               ),
                             ],
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.only(left: width * 0.05),
-                            child: TextFormField(
-                              controller: emailController,
-                              // maxLength: 10,
-                              keyboardType: TextInputType.emailAddress,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'E-mail',
-                                // labelText: 'Enter Email',
-                                hintStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: width * 0.04,
-                                  color: const Color.fromRGBO(34, 34, 34, 0.5),
-                                ), /*labelText: 'Enter your email'*/
-                              ),
+                          child: TextFormField(
+                            controller: emailController,
+                            // maxLength: 10,
+                            // autovalidateMode:
+                            //     AutovalidateMode.onUserInteraction,
+                            // autofocus: true,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.fromLTRB(
+                                  20.0, 17.0, 10.0, 17.0),
+                              border: InputBorder.none,
+                              hintText: 'E-mail',
+                              // labelText: 'Enter Email',
+                              hintStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w400,
+                                fontSize: width * 0.04,
+                                color: const Color.fromRGBO(34, 34, 34, 0.5),
+                              ), /*labelText: 'Enter your email'*/
                             ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Enter Your Email";
+                              } else if (!RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value)) {
+                                return "Invalid Format";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          width: width * 0.85,
+                          height: height * 0.065,
+                          decoration: BoxDecoration(
+                            color: const Color(0xffFFFFFF),
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color.fromRGBO(0, 0, 0, 0.08),
+                                blurRadius: 15,
+                                offset: Offset(0, 13), // Shadow position
+                              ),
+                            ],
+                          ),
+                          child: TextFormField(
+                            controller: passwordController,
+                            obscureText: _obscureText,
+                            // maxLength: 10,
+                            // autovalidateMode:
+                            //     AutovalidateMode.onUserInteraction,
+                            // autofocus: true,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.fromLTRB(
+                                  20.0, 17.0, 10.0, 17.0),
+                              border: InputBorder.none,
+                              hintText: 'Password',
+                              suffixIcon: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _obscureText = !_obscureText;
+                                  });
+                                },
+                                child: Icon(_obscureText
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
+                              ),
+                              // labelText: 'Enter Email',
+                              hintStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w400,
+                                fontSize: width * 0.04,
+                                color: const Color.fromRGBO(34, 34, 34, 0.5),
+                              ), /*labelText: 'Enter your email'*/
+                            ),
+                            // validator: (value) {
+                            //     if (value!.isEmpty) {
+                            //       return "Enter Your Password";
+                            //     } else if (value.length < 8) {
+                            //       return 'Write Minimum 8 Character password';
+                            //     }
+                            //     return null;
+                            //   },
+
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Enter Your Password";
+                              } else if (!RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value)) {
+                                return "Invalid Format";
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         // Container(
@@ -318,36 +398,68 @@ class _SignInState extends State<SignIn> {
                         //     ],
                         //   ),
                         //child:
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: width * 0.06, right: width * 0.06),
-                          child: Card(
-                            elevation: 07,
-                            child: TextFormField(
-                              keyboardType: TextInputType.text,
-                              controller: passwordController,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: const BorderSide(
-                                    width: 0,
-                                    style: BorderStyle.none,
-                                  ),
-                                ),
-                                contentPadding: const EdgeInsets.fromLTRB(
-                                    20.0, 17.0, 10.0, 17.0),
-                                hintText: 'Password',
-                                hintStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: width * 0.04,
-                                  color: const Color.fromRGBO(34, 34, 34, 0.5),
-                                ), /*labelText: 'Enter your email'*/
-                              ),
-                              //     ),
-                            ),
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: EdgeInsets.only(
+                        //       left: width * 0.06, right: width * 0.06),
+                        //   child: Card(
+                        //     elevation: 07,
+                        //     child: TextFormField(
+                        //       obscureText: _obscureText,
+                        //       keyboardType: TextInputType.text,
+                        //       controller: passwordController,
+                        //       // autofocus: true,
+                        //       // autovalidateMode:
+                        //       //     AutovalidateMode.onUserInteraction,
+                        //       decoration: InputDecoration(
+                        //         suffixIcon: GestureDetector(
+                        //           onTap: () {
+                        //             setState(() {
+                        //               _obscureText = !_obscureText;
+                        //             });
+                        //           },
+                        //           child: Icon(_obscureText
+                        //               ? Icons.visibility_off
+                        //               : Icons.visibility),
+                        //         ),
+                        //         border: OutlineInputBorder(
+                        //           borderRadius: BorderRadius.circular(20),
+                        //           borderSide: const BorderSide(
+                        //             width: 0,
+                        //             style: BorderStyle.none,
+                        //           ),
+                        //         ),
+                        //         contentPadding: const EdgeInsets.fromLTRB(
+                        //             20.0, 17.0, 10.0, 17.0),
+                        //         hintText: 'Password',
+                        //         hintStyle: TextStyle(
+                        //           fontFamily: 'Montserrat',
+                        //           fontWeight: FontWeight.w400,
+                        //           fontSize: width * 0.04,
+                        //           color: const Color.fromRGBO(34, 34, 34, 0.5),
+                        //         ), /*labelText: 'Enter your email'*/
+                        //       ),
+                        //       // validator: (value) {
+                        //       //   if (value!.isEmpty) {
+                        //       //     return "Enter Your Password";
+                        //       //   } else if (value.length < 8) {
+                        //       //     return 'Write Minimum 8 Character password';
+                        //       //   }
+                        //       //   return null;
+                        //       // },
+                        //       // validator: (value) {
+                        //       //   if (value!.isEmpty) {
+                        //       //     return "Enter Your Email";
+                        //       //   } else if (!RegExp(
+                        //       //           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        //       //       .hasMatch(value)) {
+                        //       //     return "Invalid Format";
+                        //       //   }
+                        //       //   return null;
+                        //       // },
+                        //       //     ),
+                        //     ),
+                        //   ),
+                        // ),
                         Align(
                           alignment: Alignment.topRight,
                           child: Padding(

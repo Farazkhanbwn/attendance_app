@@ -225,10 +225,6 @@ class _CourseScreenState extends State<CourseScreen> {
                   height: height * 0.07,
                   child: FutureBuilder<QuerySnapshot>(
                     future: FirebaseFirestore.instance
-                        // .collection('users')
-                        // .doc('1')
-                        // .collection('Teacher')
-                        // .get(),
                         .collection('users')
                         .where('role', isEqualTo: 'Teacher')
                         .get(),
