@@ -88,16 +88,12 @@ class _CoursesShowState extends State<CourseDisplay> {
                                 )));
                   },
                   child: Card(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 05),
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        title: Text(course['courseName'] ?? ''),
-                        subtitle: Text(course['courseID']),
+                    child: ListTile(
+                      title: Text(course['courseName'] ?? ''),
+                      subtitle: Text(course['courseID']),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 20,
                       ),
                     ),
                   ),

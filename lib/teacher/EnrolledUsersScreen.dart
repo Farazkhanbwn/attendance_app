@@ -52,20 +52,6 @@ class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreens> {
 
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
-            // return Center(
-            //   child: ShimmerEffect(
-            //     child: Container(
-            //       width: 200,
-            //       height: 50,
-            //       color: Colors.blueGrey,
-            //     ),
-            //     duration: Duration(seconds: 2),
-            //     baseColor: Colors.grey[300]!,
-            //     highlightColor: Colors.grey[100]!,
-            //     width: 200,
-            //     height: 50,
-            //   ),
-            // );
           }
 
           if (snapshot.data!.docs.isEmpty) {
