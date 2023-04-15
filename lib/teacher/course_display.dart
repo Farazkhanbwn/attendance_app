@@ -32,12 +32,6 @@ class _CoursesShowState extends State<CourseDisplay> {
       String email = _user!.email!;
 
       await FirebaseFirestore.instance
-          // .collection('users')
-          // .doc('1')
-          // .collection('Teacher')
-          // .doc('1yKAK0aEM8szPNfA9YfN')
-          // .doc(email)
-          // .get()
           .collection('users')
           .doc(email)
           .get()
