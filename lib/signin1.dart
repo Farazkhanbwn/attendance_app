@@ -130,7 +130,7 @@ class _SignInState extends State<SignIn1> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => CourseDisplay(),
+              builder: (context) => CourseDisplays(),
               // builder: (context) => const TeacherDisplay(),
             ),
           );

@@ -4,12 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class CourseDisplay extends StatefulWidget {
+class CourseDisplays extends StatefulWidget {
   @override
   _CoursesShowState createState() => _CoursesShowState();
 }
 
-class _CoursesShowState extends State<CourseDisplay> {
+class _CoursesShowState extends State<CourseDisplays> {
   late User? _user;
   late String _currentUserName = '';
 
