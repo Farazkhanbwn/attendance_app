@@ -1,15 +1,16 @@
+import 'package:attendance_app/chatgpt/enrolled_students.dart';
 import 'package:attendance_app/teacher/EnrolledUsersScreen.dart';
 import 'package:attendance_app/teacher/bluetooth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class CourseDisplays extends StatefulWidget {
+class CourseDisplay extends StatefulWidget {
   @override
   _CoursesShowState createState() => _CoursesShowState();
 }
 
-class _CoursesShowState extends State<CourseDisplays> {
+class _CoursesShowState extends State<CourseDisplay> {
   late User? _user;
   late String _currentUserName = '';
 
@@ -86,9 +87,11 @@ class _CoursesShowState extends State<CourseDisplays> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              EnrollStudents(subjectName: subjectname),
-                        ));
+                            builder: (context) =>
+                                // EnrollStudents(subjectName: subjectname),
+                                EnrolledStudentsScreen(
+                                  subjectName: subjectname,
+                                )));
                   },
                   child: Card(
                     margin: const EdgeInsets.symmetric(

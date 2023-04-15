@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class EnrolledStudentsScreen extends StatefulWidget {
+class EnrolledStudentsScreens extends StatefulWidget {
   final String subjectName;
 
-  EnrolledStudentsScreen({required this.subjectName});
+  EnrolledStudentsScreens({required this.subjectName});
 
   @override
   _EnrolledStudentsScreenState createState() => _EnrolledStudentsScreenState();
 }
 
-class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
-  late Stream<QuerySnapshot> _enrolledStudentsStream;
+class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreens> {
+  late Stream<QuerySnapshot> _enrolledStudentsStream = Stream.empty();
 
   @override
   void initState() {
