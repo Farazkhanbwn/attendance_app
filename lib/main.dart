@@ -9,6 +9,7 @@ import 'package:attendance_app/chatgpt/test2.dart';
 import 'package:attendance_app/chatgpt/test4.dart';
 import 'package:attendance_app/chatgpt/test5.dart';
 import 'package:attendance_app/chatgpt/test6.dart';
+import 'package:attendance_app/chatgpt/testing_list.dart';
 import 'package:attendance_app/forget_pass.dart';
 import 'package:attendance_app/recover_pass.dart';
 import 'package:attendance_app/shimmer.dart';
@@ -76,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // CourseScreen(),
           // AllocateSubjectForm(),
           const Shimmer(),
+          const testList(),
           SubjectToStudents(),
           MyScreens(),
           // CheckboxListScreen(),

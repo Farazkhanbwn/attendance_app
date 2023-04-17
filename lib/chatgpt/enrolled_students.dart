@@ -12,19 +12,20 @@ class EnrolledStudentsScreen extends StatefulWidget {
 
 class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
   Stream<List<String>>? _enrolledStudentsStream = Stream.empty();
-  Future<List<String>> getStudentIds() async {
-    List<String> studentIds = [];
-    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
-        .instance
-        .collection('users')
-        .where('role', isEqualTo: 'Student')
-        .get();
-    snapshot.docs.forEach((doc) {
-      studentIds.add(doc['adminId']);
-      print('student id is = ${studentIds}');
-    });
-    return studentIds;
-  }
+
+  // Future<List<String>> getStudentIds() async {
+  //   List<String> studentIds = [];
+  //   QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+  //       .instance
+  //       .collection('users')
+  //       .where('role', isEqualTo: 'Student')
+  //       .get();
+  //   snapshot.docs.forEach((doc) {
+  //     studentIds.add(doc['adminId']);
+  //     print('student id is = ${studentIds}');
+  //   });
+  //   return studentIds;
+  // }
 
   // Future<void> fetchData() async {
   //   QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
@@ -57,9 +58,7 @@ class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
         actions: [
           Center(
             child: InkWell(
-              onTap: () {
-                getStudentIds();
-              },
+              onTap: () {},
               child: SizedBox(
                 width: width * 0.1,
                 height: height * 0.02,
