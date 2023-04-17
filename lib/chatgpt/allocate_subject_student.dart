@@ -229,20 +229,20 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                     ),
                   ),
                 ),
-                // CheckboxListTile(
-                //     title: const Text('Select All'),
-                //     value: _selectAll,
-                //     onChanged: (bool? value) {
-                //       setState(() {
-                //         _selectAll = value!;
-                //         if (_selectAll) {
-                //           _checkedItems = List.from(_selectedStudents);
-                //         } else {
-                //           _checkedItems.clear();
-                //         }
-                //       });
-                //     }),
-                // const SizedBox(height: 16),
+                CheckboxListTile(
+                    title: const Text('Select All'),
+                    value: _selectAll,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _selectAll = value!;
+                        if (_selectAll) {
+                          _checkedItems = List.from(_selectedStudents);
+                        } else {
+                          _checkedItems.clear();
+                        }
+                      });
+                    }),
+                const SizedBox(height: 16),
                 SizedBox(
                   width: width,
                   height: height * 0.5,
@@ -255,8 +255,8 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                           .get(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return Center(
-                              child: const CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator());
                         }
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -313,6 +313,9 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: height * 0.03,
+                ),
                 Align(
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton(
@@ -338,7 +341,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                               enrolledStudents.clear();
                             });
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
                                   content: Text('Subject allocations saved')),
                             );
                           },
@@ -356,7 +359,11 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                       //     SnackBar(content: Text('Subject allocations saved')),
                       //   );
                       // },
-                      child: const Text('Save subject allocations'),
+                      child: const Text(
+                        'Save subject allocations',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
                     )
                     // ElevatedButton(
                     //   child: const Text('Allocate Subject'),
