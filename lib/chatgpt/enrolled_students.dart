@@ -12,6 +12,29 @@ class EnrolledStudentsScreen extends StatefulWidget {
 
 class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
   Stream<List<String>>? _enrolledStudentsStream = Stream.empty();
+  Future<List<String>> getStudentIds() async {
+    List<String> studentIds = [];
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection('users')
+        .where('role', isEqualTo: 'Student')
+        .get();
+    snapshot.docs.forEach((doc) {
+      studentIds.add(doc['adminId']);
+      print('student id is = ${studentIds}');
+    });
+    return studentIds;
+  }
+
+  // Future<void> fetchData() async {
+  //   QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+  //       .instance
+  //       .collection('users')
+  //       .where('role', isEqualTo: 'Student')
+  //       .get();
+  //   List<String> studentIds = snapshot.docs.map((doc) => doc.id).toList();
+  //   print('students user id is = ${studentIds}');
+  // }
 
   @override
   void initState() {
@@ -21,13 +44,33 @@ class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
         .doc(widget.subjectName)
         .snapshots()
         .map((snapshot) => snapshot.get('students').cast<String>());
+    // getStudentIds();
   }
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Enrolled Students'),
+        title: const Text('Enrolled Students'),
+        actions: [
+          Center(
+            child: InkWell(
+              onTap: () {
+                getStudentIds();
+              },
+              child: SizedBox(
+                width: width * 0.1,
+                height: height * 0.02,
+                child: const Text(
+                  'scan',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+              ),
+            ),
+          )
+        ],
         centerTitle: true,
       ),
       body: StreamBuilder<List<String>>(
@@ -46,7 +89,7 @@ class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
               return Card(
                   child: ListTile(
                 title: Text(studentname),
-                // trailing: Text('Mark'),
+                trailing: const Text('pending'),
               ));
             },
           );

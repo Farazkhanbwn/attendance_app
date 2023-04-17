@@ -91,7 +91,7 @@ class _CoursesShowState extends State<CourseDisplay> {
                     child: ListTile(
                       title: Text(course['courseName'] ?? ''),
                       subtitle: Text(course['courseID']),
-                      trailing: Icon(
+                      trailing: const Icon(
                         Icons.arrow_forward_ios_rounded,
                         size: 20,
                       ),

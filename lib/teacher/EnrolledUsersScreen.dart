@@ -39,6 +39,7 @@ class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreens> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.subjectName + ' Students'),
+        actions: [Icon(Icons.search)],
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
