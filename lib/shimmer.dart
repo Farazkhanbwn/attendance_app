@@ -1,3 +1,4 @@
+import 'package:attendance_app/chatgpt/shimmer.dart';
 import 'package:flutter/material.dart';
 
 class Shimmer extends StatefulWidget {
@@ -10,16 +11,21 @@ class Shimmer extends StatefulWidget {
 class _ShimmerState extends State<Shimmer> {
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Shimmer Effect'),
+        title: const Text('Shimmers Effect'),
         centerTitle: true,
       ),
-      body: Column(
-        children: [],
-      ),
+      body: Column(children: <Widget>[
+        ShimmerEffect(
+          duration: const Duration(microseconds: 30),
+          baseColor: Colors.black,
+          highlightColor: Colors.amber,
+          width: 300,
+          height: 400,
+          child: Text('Shimmer Effect'),
+        )
+      ]),
     );
   }
 }
