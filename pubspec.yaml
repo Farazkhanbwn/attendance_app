@@ -46,8 +46,6 @@ dependencies:
   uuid:
   fluttertoast:
   shimmer: ^2.0.0
-  flutter_bluetooth_serial:
-  flutter_blue:
   
 
 dev_dependencies:
