@@ -75,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // CourseScreen(),
           // AllocateSubjectForm(),
           SubjectToStudents(),
-          MyScreens(),
+          // MyScreens(),
           // CheckboxListScreen(),
           // MyScreen(),
           // SubjectPage(),

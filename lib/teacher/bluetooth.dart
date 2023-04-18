@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_blue/flutter_blue.dart';
 
 class EnrollStudents extends StatefulWidget {
   final String subjectName;
@@ -13,20 +12,20 @@ class EnrollStudents extends StatefulWidget {
 
 class _EnrolledStudentsScreenState extends State<EnrollStudents> {
   Stream<QuerySnapshot> _enrolledStudentsStream = Stream.empty();
-  FlutterBlue flutterBlue = FlutterBlue.instance;
-  // Create a list to hold nearby devices
-  List<ScanResult> nearbyDevices = [];
-  // Callback function to handle scan results
-  void handleScanResult(ScanResult scanResult) {
-    setState(() {
-      nearbyDevices.add(scanResult);
-    });
-  }
+  // FlutterBlue flutterBlue = FlutterBlue.instance;
+  // // Create a list to hold nearby devices
+  // List<ScanResult> nearbyDevices = [];
+  // // Callback function to handle scan results
+  // void handleScanResult(ScanResult scanResult) {
+  //   setState(() {
+  //     nearbyDevices.add(scanResult);
+  //   });
+  // }
 
 // Function to start scanning for nearby devices
-  void startScanningForDevices() {
-    flutterBlue.scan().listen(handleScanResult);
-  }
+  // void startScanningForDevices() {
+  //   flutterBlue.scan().listen(handleScanResult);
+  // }
 
   @override
   void initState() {
