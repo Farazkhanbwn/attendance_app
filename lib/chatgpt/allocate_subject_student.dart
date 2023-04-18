@@ -320,32 +320,37 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Get the current enroll students list for the selected subject from Firebase
-                        FirebaseFirestore.instance
-                            .collection('subject_allocation')
-                            .doc(_selectedSubjectName)
-                            .get()
-                            .then(
-                          (docSnapshot) {
-                            // Add the selected students to the enroll students list if they are not already present
-                            // Save the updated enroll students list to Firebase
-                            FirebaseFirestore.instance
-                                .collection('subject_allocation')
-                                .doc(_selectedSubjectName)
-                                .set({
-                              'students': _selectedStudents,
-                              'subjectName': _selectedSubjectName
-                            });
-                            // Clear the selected students list and show a confirmation dialog
-                            setState(() {
-                              enrolledStudents.clear();
-                            });
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Subject allocations saved')),
-                            );
-                          },
-                        );
+                        if (_formKey.currentState!.validate()) {
+                          // Get the current enroll students list for the selected subject from Firebase
+                          FirebaseFirestore.instance
+                              .collection('subject_allocation')
+                              .doc(_selectedSubjectName)
+                              .get()
+                              .then(
+                            (docSnapshot) {
+                              // Add the selected students to the enroll students list if they are not already present
+                              // Save the updated enroll students list to Firebase
+                              FirebaseFirestore.instance
+                                  .collection('subject_allocation')
+                                  .doc(_selectedSubjectName)
+                                  .set({
+                                'students': _selectedStudents,
+                                'subjectName': _selectedSubjectName
+                              });
+                              // Clear the selected students list and show a confirmation dialog
+                              setState(() {
+                                enrolledStudents.clear();
+                                // _formKey.currentState!.reset();
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Subject allocations saved')),
+                              );
+                            },
+                          );
+                          _formKey.currentState!.reset();
+                          _selectedSubjectName = '';
+                        }
                       },
                       // onPressed: () async {
                       //   await FirebaseFirestore.instance

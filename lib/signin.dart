@@ -295,6 +295,7 @@ class _SignInState extends State<SignIn> {
                                   20.0, 17.0, 10.0, 17.0),
                               border: InputBorder.none,
                               hintText: 'E-mail',
+                              suffixIcon: const Icon(Icons.email),
                               // labelText: 'Enter Email',
                               hintStyle: TextStyle(
                                 fontFamily: 'Montserrat',
