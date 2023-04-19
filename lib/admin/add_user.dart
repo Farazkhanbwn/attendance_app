@@ -206,33 +206,7 @@ class _DummyState extends State<Dummy> {
         role: rool,
         uid: id,
         adminId: adminIdcontroller.text);
-    // CollectionReference<Map<String, dynamic>> teachersCollection = instance
-    //     .collection('users')
-    //     .doc(roleId.text.toString())
-    //     .collection('teachers');
-    // // Create a new teacher document in the subcollection with the teacherId
-    // await teachersCollection.doc(id).set(model.toMap());
 
-    // if (rool == 'Teacher') {
-    //   await instance
-    //       .collection('users')
-    //       .doc('1')
-    //       .collection('Teacher')
-    //       .doc(emailcontroller.text)
-    //       .set(model.toMap());
-    // } else if (rool == 'Student') {
-    //   await instance
-    //       .collection('users')
-    //       .doc('2')
-    //       .collection('Student')
-    //       .add(model.toMap());
-    // } else {
-    //   await instance
-    //       .collection('users')
-    //       .doc('3')
-    //       .collection('Admin')
-    //       .add(model.toMap());
-    // }
     await instance
         .collection('users')
         .doc(emailcontroller.text.trim())

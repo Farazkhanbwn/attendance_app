@@ -13,30 +13,6 @@ class EnrolledStudentsScreen extends StatefulWidget {
 class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
   Stream<List<String>>? _enrolledStudentsStream = Stream.empty();
 
-  // Future<List<String>> getStudentIds() async {
-  //   List<String> studentIds = [];
-  //   QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
-  //       .instance
-  //       .collection('users')
-  //       .where('role', isEqualTo: 'Student')
-  //       .get();
-  //   snapshot.docs.forEach((doc) {
-  //     studentIds.add(doc['adminId']);
-  //     print('student id is = ${studentIds}');
-  //   });
-  //   return studentIds;
-  // }
-
-  // Future<void> fetchData() async {
-  //   QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
-  //       .instance
-  //       .collection('users')
-  //       .where('role', isEqualTo: 'Student')
-  //       .get();
-  //   List<String> studentIds = snapshot.docs.map((doc) => doc.id).toList();
-  //   print('students user id is = ${studentIds}');
-  // }
-
   @override
   void initState() {
     super.initState();

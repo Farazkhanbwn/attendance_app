@@ -1,37 +1,36 @@
+import 'dart:ffi';
+
+import 'package:attendance_app/models/admin/course_allocate.dart';
 import 'package:attendance_app/models/allocation_subject.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class SubjectToStudents extends StatefulWidget {
+class SubjectToStudent extends StatefulWidget {
   @override
   _AllocateSubjectFormState createState() => _AllocateSubjectFormState();
 }
 
-class _AllocateSubjectFormState extends State<SubjectToStudents> {
+class _AllocateSubjectFormState extends State<SubjectToStudent> {
   final _formKey = GlobalKey<FormState>();
+  FirebaseFirestore instance = FirebaseFirestore.instance;
+
   String? _selectedSubject;
   String? _selectedSubjectName;
   List<String> _selectedStudents = [];
-  List<String> subjectNamesList = [];
   bool _selectAll = false;
   List<String> enrolledStudents = [];
   List<String> _checkedItems = [];
-  Map<String, String> _selectedStudentNames = {};
+  // Map<String, String> _selectedStudentNames = {};
 
-  Future<void> allocateSubject(
-    // List<String> selectedStudents,
-    String selectedSubject,
-    String selectedSubjectName,
-    // String studentName,
-  ) async {
-    final CollectionReference allocationsRef =
-        FirebaseFirestore.instance.collection('subject_allocations');
-    // String gmail = data['email'];
-    for (final gmail in _selectedStudents) {
-      final docRef = allocationsRef.doc(_selectedSubjectName);
-      // final docRef = allocationsRef.doc(Student['email'].toString());
-      final studentName = _selectedStudentNames[gmail];
-    }
+  AllocateSubject() async {
+    CourseAllocate model = CourseAllocate(
+      students: _selectedStudents,
+      subjectname: _selectedSubjectName,
+    );
+    await instance
+        .collection('subject_allocations')
+        .doc(_selectedSubjectName)
+        .set(model.toMap());
   }
 
   @override
@@ -86,14 +85,17 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                   value: doc.id,
                                   child: Text(
                                     data['courseName'],
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
                                   ),
                                 );
                               }).toList(),
                               dropdownColor: Color.fromARGB(255, 99, 201, 248),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               hint: const Text(
                                 'Select a subject',
                                 style: TextStyle(
@@ -127,7 +129,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                 }
                                 DocumentSnapshot studentSnapshot =
                                     await FirebaseFirestore.instance
-                                        .collection('subject_allocation')
+                                        .collection('subject_allocations')
                                         .doc(_selectedSubjectName)
                                         .get();
                                 if (studentSnapshot.exists) {
@@ -191,7 +193,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                               },
                               validator: (value) {
                                 if (value == null) {
-                                  return 'Please select a subject';
+                                  return 'Please select a subject ';
                                 }
                                 return null;
                               },
@@ -305,11 +307,11 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                         _selectedStudents.add(studentName);
                                         print(
                                             'selected student name is ={$_selectedStudents}');
-                                        _selectedStudentNames[studentId] =
-                                            studentName;
+                                        // _selectedStudentNames[studentId] =
+                                        //     studentName;
                                       } else {
                                         _selectedStudents.remove(studentName);
-                                        _selectedStudentNames.remove(studentId);
+                                        // _selectedStudentNames.remove(studentId);
                                       }
                                     });
                                   },
@@ -330,27 +332,16 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          // Save the updated enroll students list to Firebase
-                          FirebaseFirestore.instance
-                              .collection('subject_allocation')
-                              .doc(_selectedSubjectName)
-                              .set({
-                            'students': _selectedStudents,
-                            'subjectName': _selectedSubjectName
-                          });
-                          // Clear the selected students list and show a confirmation dialog
+                          AllocateSubject();
                           setState(() {
                             enrolledStudents.clear();
-                            // _formKey.currentState!.reset();
+                            _selectedSubject = null;
                           });
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                                content: Text('Subject allocations saved')),
+                                content: Text(
+                                    'Subject allocation Changes Successfully')),
                           );
-                          // },
-                          // );
-                          _formKey.currentState!.reset();
-                          _selectedSubjectName = '';
                         }
                       },
                       child: const Text(
@@ -358,29 +349,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
-                    )
-                    // ElevatedButton(
-                    //   child: const Text('Allocate Subject'),
-                    //   onPressed: () async {
-                    //     if (_formKey.currentState!.validate()) {
-                    //       allocateSubject(
-                    //         _selectedSubject.toString(),
-                    //         _selectedSubjectName.toString(),
-                    //         // studentName.toString(),
-                    //       );
-                    //       // Show success message
-                    //       ScaffoldMessenger.of(context).showSnackBar(
-                    //         SnackBar(
-                    //           content: Text(
-                    //               'Subject allocated to ${_selectedStudents.length} students'),
-                    //         ),
-                    //       );
-                    //       _formKey.currentState!.reset();
-                    //       _selectedStudents = [];
-                    //     }
-                    //   },
-                    // ),
-                    ),
+                    )),
                 // Checkbox list for selecting students
                 const SizedBox(height: 16),
                 // Button for submitting the form
