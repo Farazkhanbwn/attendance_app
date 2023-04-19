@@ -49,7 +49,7 @@ class _EnrolledStudentsScreenState extends State<EnrollStudents> {
                   return Center(child: CircularProgressIndicator());
                 }
 
-                if (snapshot?.data?.docs.isEmpty ?? true) {
+                if (snapshot.data?.docs.isEmpty ?? true) {
                   return const Center(
                     child: Text('None of the students are enrolled'),
                   );
