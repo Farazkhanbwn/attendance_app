@@ -1,5 +1,5 @@
 import 'package:attendance_app/admin/add_course.dart';
-import 'package:attendance_app/chatgpt/test1.dart';
+import 'package:attendance_app/testing/test1.dart';
 import 'package:attendance_app/student/course_view.dart';
 import 'package:flutter/material.dart';
 

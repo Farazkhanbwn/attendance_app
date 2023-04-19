@@ -4,12 +4,8 @@ import 'package:attendance_app/admin/add_course.dart';
 import 'package:attendance_app/admin/admin_view.dart';
 import 'package:attendance_app/admin/allocation_subject_student.dart';
 import 'package:attendance_app/admin/student_page.dart';
-import 'package:attendance_app/chatgpt/allocate_subject_student.dart';
-import 'package:attendance_app/chatgpt/enrolled_students.dart';
-import 'package:attendance_app/chatgpt/test2.dart';
-import 'package:attendance_app/chatgpt/test4.dart';
-import 'package:attendance_app/chatgpt/test5.dart';
-import 'package:attendance_app/chatgpt/test6.dart';
+import 'package:attendance_app/testing/test1.dart';
+import 'package:attendance_app/testing/test6.dart';
 import 'package:attendance_app/forget_pass.dart';
 import 'package:attendance_app/recover_pass.dart';
 import 'package:attendance_app/signin.dart';
@@ -17,7 +13,7 @@ import 'package:attendance_app/signin1.dart';
 import 'package:attendance_app/signup1.dart';
 import 'package:attendance_app/splash.dart';
 import 'package:attendance_app/student_display.dart';
-import 'package:attendance_app/teacher/bluetooth.dart';
+import 'package:attendance_app/teacher/EnrollStudents.dart';
 import 'package:attendance_app/teacher/course_display.dart';
 import 'package:attendance_app/teacher/teacher_view.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -76,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // CourseScreen(),
           // AllocateSubjectForm(),
           SubjectToStudents(),
-          AllocateSubjectForm(),
+          CoursesShow7(),
           // MyScreens(),
           // CheckboxListScreen(),
           // MyScreen(),

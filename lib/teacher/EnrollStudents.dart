@@ -12,20 +12,6 @@ class EnrollStudents extends StatefulWidget {
 
 class _EnrolledStudentsScreenState extends State<EnrollStudents> {
   Stream<QuerySnapshot> _enrolledStudentsStream = Stream.empty();
-  // FlutterBlue flutterBlue = FlutterBlue.instance;
-  // // Create a list to hold nearby devices
-  // List<ScanResult> nearbyDevices = [];
-  // // Callback function to handle scan results
-  // void handleScanResult(ScanResult scanResult) {
-  //   setState(() {
-  //     nearbyDevices.add(scanResult);
-  //   });
-  // }
-
-// Function to start scanning for nearby devices
-  // void startScanningForDevices() {
-  //   flutterBlue.scan().listen(handleScanResult);
-  // }
 
   @override
   void initState() {
@@ -35,9 +21,7 @@ class _EnrolledStudentsScreenState extends State<EnrollStudents> {
         .doc(widget.subjectName)
         .snapshots()
         .map((docSnapshot) => docSnapshot.data()?['students'] ?? []);
-    // .collection('subject_allocations')
-    // .where('subjectNamesList', arrayContains: widget.subjectName)
-    // .snapshots();
+
     print('_enrolledstudentStream is =${_enrolledStudentsStream.toString()}');
   }
 
@@ -91,10 +75,6 @@ class _EnrolledStudentsScreenState extends State<EnrollStudents> {
               },
             ),
           ),
-          // ElevatedButton(
-          //   onPressed: startScanningForDevices,
-          //   child: const Text('Scan for nearby devices'),
-          // ),
         ],
       ),
     );

@@ -5,7 +5,7 @@ import 'package:attendance_app/admin/add_user.dart';
 import 'package:attendance_app/admin/add_admin.dart';
 import 'package:attendance_app/admin/admin_view.dart';
 import 'package:attendance_app/button.dart';
-import 'package:attendance_app/chatgpt/test1.dart';
+import 'package:attendance_app/testing/test1.dart';
 import 'package:attendance_app/forget_pass.dart';
 import 'package:attendance_app/recover_pass.dart';
 import 'package:attendance_app/splash.dart';

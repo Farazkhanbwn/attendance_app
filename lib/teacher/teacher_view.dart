@@ -1,7 +1,7 @@
 import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/admin/add_user.dart';
-import 'package:attendance_app/chatgpt/test1.dart';
-import 'package:attendance_app/chatgpt/test6.dart';
+import 'package:attendance_app/testing/test1.dart';
+import 'package:attendance_app/testing/test6.dart';
 import 'package:attendance_app/teacher/course_display.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';

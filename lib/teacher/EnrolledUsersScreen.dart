@@ -1,35 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class EnrolledStudentsScreens extends StatefulWidget {
+class EnrolledStudentsScreen extends StatefulWidget {
   final String subjectName;
 
-  EnrolledStudentsScreens({required this.subjectName});
+  const EnrolledStudentsScreen({required this.subjectName});
 
   @override
   _EnrolledStudentsScreenState createState() => _EnrolledStudentsScreenState();
 }
 
-class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreens> {
-  late Stream<QuerySnapshot> _enrolledStudentsStream = Stream.empty();
+class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
+  Stream<List<String>>? _enrolledStudentsStream = Stream.empty();
 
   @override
   void initState() {
     super.initState();
-    // Replace with the subject name you want to retrieve
-
-    FirebaseFirestore.instance
+    _enrolledStudentsStream = FirebaseFirestore.instance
         .collection('subject_allocation')
         .doc(widget.subjectName)
-        .get()
-        .then((docSnapshot) {
-      if (docSnapshot.exists) {
-        List<dynamic> enrolledStudents = docSnapshot.data()!['students'];
-        print(enrolledStudents);
-      } else {
-        print('No allocation found for subject ${widget.subjectName}');
-      }
-    }).catchError((error) => print('Failed to get allocation: $error'));
+        .snapshots()
+        .map((snapshot) => snapshot.get('students').cast<String>());
+    // getStudentIds();
   }
 
   @override
@@ -38,44 +30,42 @@ class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreens> {
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.subjectName + ' Students'),
-        actions: [Icon(Icons.search)],
+        title: const Text('Enrolled Students'),
+        actions: [
+          Center(
+            child: InkWell(
+              onTap: () {},
+              child: SizedBox(
+                width: width * 0.1,
+                height: height * 0.02,
+                child: const Text(
+                  'scan',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+              ),
+            ),
+          )
+        ],
         centerTitle: true,
       ),
-      body: StreamBuilder<QuerySnapshot>(
+      body: StreamBuilder<List<String>>(
         stream: _enrolledStudentsStream,
         builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error.toString()}'),
-            );
-          }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-
-          if (snapshot.data!.docs.isEmpty) {
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(
               child: Text('None of the students are enrolled'),
             );
           }
 
           return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
+            itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
-              String StudentName = snapshot.data!.docs[index]['studentName'];
-
-              return Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: width * 0.05, vertical: height * 0.002),
-                child: Card(
-                  elevation: 5,
+              final studentname = snapshot.data![index];
+              return Card(
                   child: ListTile(
-                    title: Text(StudentName),
-                  ),
-                ),
-              );
+                title: Text(studentname),
+                trailing: const Text('pending'),
+              ));
             },
           );
         },
