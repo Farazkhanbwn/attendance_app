@@ -1,5 +1,4 @@
 import 'package:another_flushbar/flushbar.dart';
-import 'package:attendance_app/Teacher_display.dart';
 import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/admin/add_user.dart';
 import 'package:attendance_app/admin/add_admin.dart';
@@ -11,7 +10,6 @@ import 'package:attendance_app/recover_pass.dart';
 import 'package:attendance_app/splash.dart';
 import 'package:attendance_app/student/course_view.dart';
 import 'package:attendance_app/student/student_view.dart';
-import 'package:attendance_app/student_display.dart';
 import 'package:attendance_app/teacher/course_display.dart';
 import 'package:attendance_app/teacher/teacher_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
