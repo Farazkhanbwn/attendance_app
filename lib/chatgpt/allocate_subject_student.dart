@@ -18,8 +18,6 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
   List<String> _checkedItems = [];
   Map<String, String> _selectedStudentNames = {};
 
-  CollectionReference<Map<String, dynamic>> usersRef =
-      FirebaseFirestore.instance.collection('users');
   Future<void> allocateSubject(
     // List<String> selectedStudents,
     String selectedSubject,
@@ -50,7 +48,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
               children: <Widget>[
                 // Drop-down for selecting subject
                 Container(
-                  alignment: Alignment.center,
+                  alignment: Alignment.bottomRight,
                   width: width,
                   height: height * 0.13,
                   // color: Colors.blue,
@@ -59,9 +57,10 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: SizedBox(
-                      width: width * 0.85,
+                    child: Container(
+                      width: width,
                       height: height * 0.07,
+                      color: Color.fromARGB(255, 93, 200, 250),
                       child: FutureBuilder<QuerySnapshot>(
                         future: FirebaseFirestore.instance
                             .collection('courses')
@@ -77,6 +76,8 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                             child: DropdownButtonFormField<String>(
                               decoration:
                                   InputDecoration.collapsed(hintText: ''),
+                              iconEnabledColor: Colors.white,
+                              // iconDisabledColor: Colors.red,
                               value: _selectedSubject,
                               items: snapshot.data!.docs.map((doc) {
                                 Map<String, dynamic> data =
@@ -85,12 +86,20 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                   value: doc.id,
                                   child: Text(
                                     data['courseName'],
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
                                   ),
                                 );
                               }).toList(),
+                              dropdownColor: Color.fromARGB(255, 99, 201, 248),
                               hint: const Text(
                                 'Select a subject',
-                                style: TextStyle(color: Colors.grey),
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 254, 254),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500),
                               ),
                               onChanged: (value) async {
                                 setState(
@@ -243,10 +252,10 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                       });
                     }),
                 const SizedBox(height: 16),
-                SizedBox(
+                Container(
                   width: width,
                   height: height * 0.5,
-                  // color: Colors.amber,
+                  color: Color.fromARGB(255, 76, 193, 247),
                   child: SingleChildScrollView(
                     child: FutureBuilder<QuerySnapshot>(
                       future: FirebaseFirestore.instance
@@ -317,57 +326,37 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                   height: height * 0.03,
                 ),
                 Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: Alignment.center,
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          // Get the current enroll students list for the selected subject from Firebase
+                          // Save the updated enroll students list to Firebase
                           FirebaseFirestore.instance
                               .collection('subject_allocation')
                               .doc(_selectedSubjectName)
-                              .get()
-                              .then(
-                            (docSnapshot) {
-                              // Add the selected students to the enroll students list if they are not already present
-                              // Save the updated enroll students list to Firebase
-                              FirebaseFirestore.instance
-                                  .collection('subject_allocation')
-                                  .doc(_selectedSubjectName)
-                                  .set({
-                                'students': _selectedStudents,
-                                'subjectName': _selectedSubjectName
-                              });
-                              // Clear the selected students list and show a confirmation dialog
-                              setState(() {
-                                enrolledStudents.clear();
-                                // _formKey.currentState!.reset();
-                              });
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Subject allocations saved')),
-                              );
-                            },
+                              .set({
+                            'students': _selectedStudents,
+                            'subjectName': _selectedSubjectName
+                          });
+                          // Clear the selected students list and show a confirmation dialog
+                          setState(() {
+                            enrolledStudents.clear();
+                            // _formKey.currentState!.reset();
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Subject allocations saved')),
                           );
+                          // },
+                          // );
                           _formKey.currentState!.reset();
                           _selectedSubjectName = '';
                         }
                       },
-                      // onPressed: () async {
-                      //   await FirebaseFirestore.instance
-                      //       .collection('subject_allocation')
-                      //       .doc(_selectedSubjectName)
-                      //       .set({
-                      //     'subjectName': _selectedSubjectName,
-                      //     'students': _selectedStudents,
-                      //   });
-                      //   ScaffoldMessenger.of(context).showSnackBar(
-                      //     SnackBar(content: Text('Subject allocations saved')),
-                      //   );
-                      // },
                       child: const Text(
                         'Save subject allocations',
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     )
                     // ElevatedButton(

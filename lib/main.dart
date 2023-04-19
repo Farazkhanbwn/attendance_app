@@ -2,6 +2,7 @@ import 'package:attendance_app/admin/add_user.dart';
 import 'package:attendance_app/admin/add_admin.dart';
 import 'package:attendance_app/admin/add_course.dart';
 import 'package:attendance_app/admin/admin_view.dart';
+import 'package:attendance_app/admin/allocation_subject_student.dart';
 import 'package:attendance_app/admin/student_page.dart';
 import 'package:attendance_app/chatgpt/allocate_subject_student.dart';
 import 'package:attendance_app/chatgpt/enrolled_students.dart';
@@ -75,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // CourseScreen(),
           // AllocateSubjectForm(),
           SubjectToStudents(),
+          AllocateSubjectForm(),
           // MyScreens(),
           // CheckboxListScreen(),
           // MyScreen(),
