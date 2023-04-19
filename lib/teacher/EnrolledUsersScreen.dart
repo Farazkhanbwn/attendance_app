@@ -17,7 +17,7 @@ class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
   void initState() {
     super.initState();
     _enrolledStudentsStream = FirebaseFirestore.instance
-        .collection('subject_allocation')
+        .collection('subject_allocations')
         .doc(widget.subjectName)
         .snapshots()
         .map((snapshot) => snapshot.get('students').cast<String>());

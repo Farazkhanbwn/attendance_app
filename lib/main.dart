@@ -13,7 +13,6 @@ import 'package:attendance_app/signin1.dart';
 import 'package:attendance_app/signup1.dart';
 import 'package:attendance_app/splash.dart';
 import 'package:attendance_app/student_display.dart';
-import 'package:attendance_app/teacher/EnrollStudents.dart';
 import 'package:attendance_app/teacher/course_display.dart';
 import 'package:attendance_app/teacher/teacher_view.dart';
 import 'package:firebase_core/firebase_core.dart';
