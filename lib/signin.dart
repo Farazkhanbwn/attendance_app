@@ -4,6 +4,8 @@ import 'package:attendance_app/admin/add_user.dart';
 import 'package:attendance_app/admin/add_admin.dart';
 import 'package:attendance_app/admin/admin_view.dart';
 import 'package:attendance_app/button.dart';
+import 'package:attendance_app/flutsh&toast.dart/flushbar.dart';
+import 'package:attendance_app/flutsh&toast.dart/handleExceptonError.dart';
 import 'package:attendance_app/testing/test1.dart';
 import 'package:attendance_app/forget_pass.dart';
 import 'package:attendance_app/recover_pass.dart';
@@ -31,9 +33,10 @@ class _SignInState extends State<SignIn> {
   var width, height;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  late String errorMessage;
+  String errorMessage = '';
   final _formkey = GlobalKey<FormState>();
   FirebaseAuth auth = FirebaseAuth.instance;
+
   void signIn() async {
     try {
       UserCredential credential = await auth.signInWithEmailAndPassword(
@@ -46,62 +49,15 @@ class _SignInState extends State<SignIn> {
         // context,
         // MaterialPageRoute(builder: (context) => AddAdmin()));
         route();
-
-        Flushbar(
-          maxWidth: width * 0.8,
-          backgroundColor: Colors.black,
-          flushbarPosition: FlushbarPosition.TOP,
-          margin: const EdgeInsets.all(3),
-          message: 'Login Succesfull',
-          icon: const Icon(
-            Icons.check_circle_outline,
-            size: 28.0,
-            color: Colors.black54,
-          ),
-          duration: const Duration(seconds: 2),
-          leftBarIndicatorColor: Colors.grey,
-        ).show(context);
+        showFlushbar(context, 'LoginSuccessfull');
         // postdatatoSP();
 
       }
     } on FirebaseAuthException catch (error) {
-      switch (error.code) {
-        case "invalid-email":
-          errorMessage = "invalid-email";
-          break;
-        case "wrong-password":
-          errorMessage = "wrong-password";
-          break;
-        case "user-not-found":
-          errorMessage = "user-not-found";
-          break;
-        case "user-disabled":
-          errorMessage = "user-disabled";
-          break;
-        case "too-many-requests":
-          errorMessage = "too-many-requests";
-          break;
-        case "operation-not-allowed":
-          errorMessage = "operation-not-allowed";
-          break;
-        default:
-          errorMessage = "An error occured";
-      }
-      Flushbar(
-        maxWidth: width * 0.9,
-        backgroundColor: Colors.black,
-        flushbarPosition: FlushbarPosition.TOP,
-        margin: const EdgeInsets.all(3),
-        message: errorMessage,
-        icon: const Icon(
-          Icons.check_circle_outline,
-          size: 28.0,
-          color: Colors.black54,
-        ),
-        duration: const Duration(seconds: 2),
-        leftBarIndicatorColor: Colors.grey,
-      ).show(context);
+      handleFirebaseAuthException(context, error);
     }
+    print('Error Message is = ${errorMessage}');
+    // showFlushbar(context, );
   }
 
   // Future postdatatoSP() async {
