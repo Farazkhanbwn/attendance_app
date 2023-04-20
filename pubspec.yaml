@@ -44,6 +44,7 @@ dependencies:
   intl:
   shared_preferences:
   uuid:
+  google_fonts:
   fluttertoast:
   shimmer: ^2.0.0
   

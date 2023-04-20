@@ -18,6 +18,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'painter/painter.dart';
 
 class SignIn extends StatefulWidget {
@@ -57,9 +58,8 @@ class _SignInState extends State<SignIn> {
       handleFirebaseAuthException(context, error);
     }
     print('Error Message is = ${errorMessage}');
-    // showFlushbar(context, );
+    showFlushbar(context, errorMessage);
   }
-
   // Future postdatatoSP() async {
   //   SharedPreferences sharedprefrence = await SharedPreferences.getInstance();
   //   sharedprefrence.setString('UserID', Staticdata.id
@@ -194,6 +194,19 @@ class _SignInState extends State<SignIn> {
                         image: const DecorationImage(
                             image: AssetImage('images/complain.png')),
                       ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(top: height * 0.25, left: width * 0.03),
+                    child: Text(
+                      'welcome to',
+                      style: TextStyle(
+                          fontSize: width * 0.075,
+                          fontWeight: FontWeight.w500,
+                          fontStyle: FontStyle.italic,
+                          // fontFamily: GoogleFonts.sanchez().fontFamily,
+                          color: Color.fromARGB(255, 224, 224, 224)),
                     ),
                   ),
                 ],
