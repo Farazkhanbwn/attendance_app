@@ -1,3 +1,5 @@
+import 'package:another_flushbar/flushbar.dart';
+import 'package:attendance_app/flutsh&toast.dart/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -26,4 +28,5 @@ void handleFirebaseAuthException(
     default:
       errorMessage = "An error occured";
   }
+  showFlushbar(context, errorMessage);
 }

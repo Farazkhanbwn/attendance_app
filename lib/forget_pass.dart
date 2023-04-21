@@ -1,6 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/button.dart';
+import 'package:attendance_app/flutsh&toast.dart/flushbar.dart';
 import 'package:attendance_app/recover_pass.dart';
 import 'package:attendance_app/utils/header.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -211,20 +212,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const RecoverPassword()));
-                        Flushbar(
-                          maxWidth: width * 0.9,
-                          backgroundColor: Colors.black,
-                          flushbarPosition: FlushbarPosition.BOTTOM,
-                          margin: const EdgeInsets.all(3),
-                          message: 'Reset Passwrod Request Send',
-                          icon: const Icon(
-                            Icons.check_circle_outline,
-                            size: 28.0,
-                            color: Colors.black54,
-                          ),
-                          duration: const Duration(seconds: 2),
-                          leftBarIndicatorColor: Colors.grey,
-                        ).show(context);
+                        showFlushbar(context, 'Reset Passwrod Request Send');
 
                         // Handle button press event here
                       },

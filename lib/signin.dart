@@ -44,21 +44,16 @@ class _SignInState extends State<SignIn> {
           email: emailController.text, password: passwordController.text);
       if (credential.user != null) {
         Staticdata.id = credential.user!.uid;
-        print('${credential.user!.uid}');
-        // Navigator.push(
-        //     context, MaterialPageRoute(builder: (context) => TeacherView()));
-        // context,
-        // MaterialPageRoute(builder: (context) => AddAdmin()));
+        print(' your user id is = ${credential.user!.uid}');
+
         route();
-        showFlushbar(context, 'LoginSuccessfull');
+
         // postdatatoSP();
 
       }
     } on FirebaseAuthException catch (error) {
       handleFirebaseAuthException(context, error);
     }
-    print('Error Message is = ${errorMessage}');
-    showFlushbar(context, errorMessage);
   }
   // Future postdatatoSP() async {
   //   SharedPreferences sharedprefrence = await SharedPreferences.getInstance();
@@ -81,9 +76,11 @@ class _SignInState extends State<SignIn> {
             context,
             MaterialPageRoute(
               builder: (context) => TeacherView(),
+
               // builder: (context) => const TeacherDisplay(),
             ),
           );
+          showFlushbar(context, 'Login Successfull');
         } else if (documentSnapshot.get('role') == 'Student') {
           Navigator.pushReplacement(
             context,
@@ -92,6 +89,7 @@ class _SignInState extends State<SignIn> {
               // builder: (context) => StudentDisplay(),
             ),
           );
+          showFlushbar(context, 'Login Successfull');
         } else {
           Navigator.pushReplacement(
             context,
@@ -99,62 +97,13 @@ class _SignInState extends State<SignIn> {
               builder: (context) => const AdminView(),
             ),
           );
+          showFlushbar(context, 'Login Successfull');
         }
       } else {
         print('Document does not exist on the database');
       }
     });
   }
-
-  // void signIn(String email, String password) async {
-  //   if (_formkey.currentState!.validate()) {
-  //     try {
-  //       UserCredential userCredential =
-  //           await FirebaseAuth.instance.signInWithEmailAndPassword(
-  //         email: emailController.text,
-  //         password: passwordController.text,
-  //       );
-  //       route();
-  //     } on FirebaseAuthException catch (error) {
-  //       switch (error.code) {
-  //         case "invalid-email":
-  //           errorMessage = "invalid-email";
-  //           break;
-  //         case "wrong-password":
-  //           errorMessage = "wrong-password";
-  //           break;
-  //         case "user-not-found":
-  //           errorMessage = "user-not-found";
-  //           break;
-  //         case "user-disabled":
-  //           errorMessage = "user-disabled";
-  //           break;
-  //         case "too-many-requests":
-  //           errorMessage = "too-many-requests";
-  //           break;
-  //         case "operation-not-allowed":
-  //           errorMessage = "operation-not-allowed";
-  //           break;
-  //         default:
-  //           errorMessage = "An error occured";
-  //       }
-  //       Flushbar(
-  //         maxWidth: width * 0.9,
-  //         backgroundColor: Colors.black,
-  //         flushbarPosition: FlushbarPosition.TOP,
-  //         margin: EdgeInsets.all(3),
-  //         message: errorMessage,
-  //         icon: Icon(
-  //           Icons.check_circle_outline,
-  //           size: 28.0,
-  //           color: Colors.black54,
-  //         ),
-  //         duration: Duration(seconds: 2),
-  //         leftBarIndicatorColor: Colors.grey,
-  //       ).show(context);
-  //     }
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -198,9 +147,9 @@ class _SignInState extends State<SignIn> {
                   ),
                   Padding(
                     padding:
-                        EdgeInsets.only(top: height * 0.25, left: width * 0.03),
+                        EdgeInsets.only(top: height * 0.3, left: width * 0.03),
                     child: Text(
-                      'welcome to',
+                      'Welcome Back',
                       style: TextStyle(
                           fontSize: width * 0.075,
                           fontWeight: FontWeight.w500,
