@@ -657,13 +657,39 @@ class _CourseScreenState extends State<CourseScreen> {
                                     child: Center(
                                       child: InkWell(
                                         onTap: () {
-                                          FirebaseFirestore.instance
-                                              .collection('courses')
-                                              .doc(
-                                                  snapshot.data!.docs[index].id)
-                                              .delete();
-                                          showFlushbar(context,
-                                              'User Deleted Successfully');
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: const Text(
+                                                    "Confirm Deletion"),
+                                                content: const Text(
+                                                    "Are you sure you want to delete this course?"),
+                                                actions: [
+                                                  TextButton(
+                                                    child: const Text("Cancel"),
+                                                    onPressed: () =>
+                                                        Navigator.of(context)
+                                                            .pop(),
+                                                  ),
+                                                  TextButton(
+                                                    child: const Text("Delete"),
+                                                    onPressed: () {
+                                                      FirebaseFirestore.instance
+                                                          .collection('courses')
+                                                          .doc(snapshot.data!
+                                                              .docs[index].id)
+                                                          .delete();
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      showFlushbar(context,
+                                                          'Course Deleted Successfully');
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
                                         },
                                         child: Icon(
                                           Icons.clear_rounded,

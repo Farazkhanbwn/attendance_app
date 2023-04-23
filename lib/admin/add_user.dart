@@ -827,13 +827,46 @@ class _DummyState extends State<Dummy> {
                                         child: Center(
                                           child: InkWell(
                                             onTap: () {
-                                              FirebaseFirestore.instance
-                                                  .collection('users')
-                                                  .doc(snapshot
-                                                      .data!.docs[index].id)
-                                                  .delete();
-                                              showFlushbar(context,
-                                                  'User Deleted Successfully');
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    title: const Text(
+                                                        'Confirm Deletion'),
+                                                    content: const Text(
+                                                        'Are you sure you want to delete this user?'),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child: Text('CANCEL'),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  'users')
+                                                              .doc(snapshot
+                                                                  .data!
+                                                                  .docs[index]
+                                                                  .id)
+                                                              .delete();
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                          showFlushbar(context,
+                                                              'User Deleted Successfully');
+                                                        },
+                                                        child: const Text(
+                                                            'DELETE'),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
                                             },
                                             child: Icon(
                                               Icons.clear_rounded,

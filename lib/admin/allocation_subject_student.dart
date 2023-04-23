@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:attendance_app/flutsh&toast.dart/flushbar.dart';
 import 'package:attendance_app/models/admin/course_allocate.dart';
 import 'package:attendance_app/models/allocation_subject.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -337,6 +338,8 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                             enrolledStudents.clear();
                             _selectedSubject = null;
                           });
+                          // showFlushbar(
+                          //     context, 'Allocation Changes Successfully');
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                                 content: Text(
