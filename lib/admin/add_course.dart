@@ -407,15 +407,10 @@ class _CourseScreenState extends State<CourseScreen> {
                                   .doc()
                                   .set(newCourse.toMap())
                                   .then((value) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content:
-                                          Text('Course Added Successfully')),
-                                );
+                                showFlushbar(
+                                    context, 'Course Added Successfully');
                               }).catchError((error) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text(error.toString())),
-                                );
+                                showFlushbar(context, error);
                               });
                             }
                           },
