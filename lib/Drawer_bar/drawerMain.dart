@@ -14,14 +14,13 @@ Drawer navigationDrawer(context) {
         children: [
           drawerHeader(context), // Inside Reusable Widgets Folder
           // Inside drawerMain of navigationDrawer Folder
-          listTileMyQuiz(context),
-          listTileCreate(context),
-          listTileStudentResult(context),
+          listTileAllTeachers(context),
+          listTileStudents(context),
+          listTileAdmins(context),
           listTileProfile(context),
           listTileAbout(context),
           listTilePrivacyPolicy(context),
           listTileTerms(context),
-          listTileShare(context),
         ],
       ),
     ),

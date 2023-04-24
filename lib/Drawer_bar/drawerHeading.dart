@@ -1,3 +1,4 @@
+import 'package:attendance_app/Theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
@@ -10,7 +11,7 @@ drawerHeader(context) {
     margin: const EdgeInsets.only(bottom: 20),
     padding: const EdgeInsets.only(bottom: 20, top: 10),
     width: double.infinity,
-    color: Colors.blueGrey,
+    color: Color(0xff1F456E),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [userImage(), userName(context), userEmail(context)],
@@ -38,9 +39,9 @@ userName(context) {
       margin: const EdgeInsets.only(bottom: 5, top: 10),
       alignment: Alignment.center,
       child: Text(
-        'Hello',
+        // 'Hello',
         // providerValue.userName == ""
-        //     ? "${FirebaseAuth.instance.currentUser?.displayName}"
+        "${FirebaseAuth.instance.currentUser?.displayName}",
         //     : providerValue.userName,
         style: TextStyle(
             // fontSize: setSize(context, 20),

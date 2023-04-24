@@ -1,3 +1,4 @@
+import 'package:attendance_app/Drawer_bar/drawerMain.dart';
 import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/admin/add_user.dart';
 import 'package:attendance_app/admin/add_course.dart';
@@ -22,12 +23,13 @@ class _AdminViewState extends State<AdminView> {
       appBar: AppBar(
         title: const Text('Admin Site'),
         centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back,
-              color: Color.fromARGB(255, 236, 236, 236)),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back,
+        //       color: Color.fromARGB(255, 236, 236, 236)),
+        //   onPressed: () => Navigator.of(context).pop(),
+        // ),
       ),
+      drawer: navigationDrawer(context),
       body: SizedBox(
         width: width,
         height: height,
