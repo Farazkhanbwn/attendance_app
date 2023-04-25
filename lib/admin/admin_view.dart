@@ -3,7 +3,10 @@ import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/admin/add_user.dart';
 import 'package:attendance_app/admin/add_course.dart';
 import 'package:attendance_app/admin/allocation_subject_student.dart';
+import 'package:attendance_app/signin.dart';
+import 'package:attendance_app/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminView extends StatefulWidget {
   const AdminView({super.key});
@@ -13,6 +16,35 @@ class AdminView extends StatefulWidget {
 }
 
 class _AdminViewState extends State<AdminView> {
+  void _logout() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Logout'),
+          content: Text('Are you sure you want to log out?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () => Navigator.pop(context),
+            ),
+            TextButton(
+              child: Text('Logout'),
+              onPressed: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.clear();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => SignIn()),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -21,8 +53,33 @@ class _AdminViewState extends State<AdminView> {
     return Scaffold(
       backgroundColor: MyTheme.background,
       appBar: AppBar(
-        title: const Text('Admin Site'),
+        backgroundColor: MyTheme.background,
+        shadowColor: Colors.grey,
+        title: const Text(
+          'Admin Panel',
+          style: TextStyle(
+            color: Colors.blue,
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          ),
+        ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: (() {
+              _logout();
+            }),
+            icon: Icon(
+              Icons.logout,
+              size: width * 0.06,
+              color: Colors.blue,
+            ),
+          ),
+          SizedBox(
+            width: width * 0.04,
+          )
+        ],
+        iconTheme: const IconThemeData(color: Colors.blue),
         // leading: IconButton(
         //   icon: const Icon(Icons.arrow_back,
         //       color: Color.fromARGB(255, 236, 236, 236)),

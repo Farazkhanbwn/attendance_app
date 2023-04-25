@@ -19,6 +19,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'painter/painter.dart';
 
 class SignIn extends StatefulWidget {
@@ -62,15 +63,16 @@ class _SignInState extends State<SignIn> {
   //       );
   // }
 
-  void route() {
+  void route() async {
     User? user = FirebaseAuth.instance.currentUser;
     var kk = FirebaseFirestore.instance
         .collection('users')
         .doc(emailController.text)
         .get()
-        .then((DocumentSnapshot documentSnapshot) {
+        .then((DocumentSnapshot documentSnapshot) async {
       if (documentSnapshot.exists) {
         print('document exist at this moment');
+
         if (documentSnapshot.get('role') == "Teacher") {
           Navigator.pushReplacement(
             context,
@@ -80,6 +82,9 @@ class _SignInState extends State<SignIn> {
               // builder: (context) => const TeacherDisplay(),
             ),
           );
+          // Store role in shared preferences
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString('role', 'Teacher');
           showFlushbar(context, 'Login Successfull');
         } else if (documentSnapshot.get('role') == 'Student') {
           Navigator.pushReplacement(
@@ -89,6 +94,9 @@ class _SignInState extends State<SignIn> {
               // builder: (context) => StudentDisplay(),
             ),
           );
+          // Store role in shared preferences
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString('role', 'Student');
           showFlushbar(context, 'Login Successfull');
         } else {
           Navigator.pushReplacement(
@@ -97,6 +105,9 @@ class _SignInState extends State<SignIn> {
               builder: (context) => const AdminView(),
             ),
           );
+          // Store role in shared preferences
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString('role', 'Admin');
           showFlushbar(context, 'Login Successfull');
         }
       } else {

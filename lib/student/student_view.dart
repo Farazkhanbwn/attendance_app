@@ -1,7 +1,10 @@
 import 'package:attendance_app/admin/add_course.dart';
+import 'package:attendance_app/signin.dart';
+import 'package:attendance_app/splash.dart';
 import 'package:attendance_app/testing/test1.dart';
 import 'package:attendance_app/student/course_view.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StudentView extends StatefulWidget {
   const StudentView({super.key});
@@ -11,6 +14,35 @@ class StudentView extends StatefulWidget {
 }
 
 class _StudentViewState extends State<StudentView> {
+  void _logout() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Logout'),
+          content: Text('Are you sure you want to log out?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () => Navigator.pop(context),
+            ),
+            TextButton(
+              child: Text('Logout'),
+              onPressed: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.clear();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => SignIn()),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -24,6 +56,20 @@ class _StudentViewState extends State<StudentView> {
               color: Color.fromARGB(255, 236, 236, 236)),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              _logout();
+            },
+            icon: Icon(
+              Icons.logout,
+              size: width * 0.06,
+            ),
+          ),
+          SizedBox(
+            width: width * 0.02,
+          )
+        ],
       ),
       body: SizedBox(
         width: width,

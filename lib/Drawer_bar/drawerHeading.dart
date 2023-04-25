@@ -10,7 +10,8 @@ drawerHeader(context) {
     margin: const EdgeInsets.only(bottom: 20),
     padding: const EdgeInsets.only(bottom: 20, top: 10),
     width: double.infinity,
-    color: Color(0xff1F456E),
+    // color: const Color(0xff1F456E),
+    color: Colors.blue,
     child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [userImage(), userName(context), userEmail(context)],

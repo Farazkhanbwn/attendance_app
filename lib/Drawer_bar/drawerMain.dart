@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'drawerBody.dart';
 
 Drawer navigationDrawer(context) {
+  var width = MediaQuery.of(context).size.width;
   return Drawer(
     // width: screenWidth(context) / 1.6,
-    width: 400,
+    width: width * 0.6,
     elevation: 20,
     child: SingleChildScrollView(
       child: Column(
