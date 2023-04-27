@@ -80,15 +80,15 @@ class _SplashState extends State<Splash> {
       body: SizedBox(
         height: height,
         width: width,
-        // child: Center(
-        //     child: Text(
-        //   'Hello we are Learning',
-        //   style: TextStyle(
-        //       fontSize: width * 0.06,
-        //       fontWeight: FontWeight.w500,
-        //       color: MyTheme.primaryColor),
-        // )),
-        child: Lottie.asset('assets/coms.json'),
+        child: Center(
+            child: Text(
+          'Hello we are Learning',
+          style: TextStyle(
+              fontSize: width * 0.06,
+              fontWeight: FontWeight.w500,
+              color: MyTheme.primaryColor),
+        )),
+        // child: Lottie.asset('assets/coms.json'),
       ),
     );
   }
