@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: PageView(
         children: [
-          Splash(),
+          // Splash(),
           const SignIn(),
           // SignIn1(),
           // ForgetPassword(),
