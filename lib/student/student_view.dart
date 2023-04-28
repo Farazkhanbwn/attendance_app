@@ -78,6 +78,18 @@ class _StudentViewState extends State<StudentView> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Container(
+              width: width,
+              height: height * 0.35,
+              decoration: BoxDecoration(
+                // color: Colors.amber,
+                image: DecorationImage(
+                    image: AssetImage('images/attendance2.png')),
+              ),
+            ),
+            SizedBox(
+              height: height * 0.1,
+            ),
             InkWell(
               onTap: () {
                 Navigator.push(context,
@@ -94,12 +106,16 @@ class _StudentViewState extends State<StudentView> {
                   child: Padding(
                     padding: EdgeInsets.all(width * 0.018),
                     child: const ListTile(
+                      trailing: Icon(
+                        Icons.keyboard_arrow_right,
+                        size: 50,
+                      ),
                       // leading: Icon(Icons.person),
                       title: Text(
                         'Enroll Courses',
                         style: TextStyle(
                             fontSize: 22, fontWeight: FontWeight.w500),
-                        textAlign: TextAlign.center,
+                        // textAlign: TextAlign.center,
                       ),
                       // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
                     ),
@@ -123,12 +139,16 @@ class _StudentViewState extends State<StudentView> {
                   child: Padding(
                     padding: EdgeInsets.all(width * 0.018),
                     child: const ListTile(
+                      trailing: Icon(
+                        Icons.keyboard_arrow_right,
+                        size: 50,
+                      ),
                       // leading: Icon(Icons.person),
                       title: Text(
                         'Attendance Record',
                         style: TextStyle(
                             fontSize: 22, fontWeight: FontWeight.w500),
-                        textAlign: TextAlign.center,
+                        // textAlign: TextAlign.center,
                       ),
                       // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
                     ),
@@ -152,12 +172,16 @@ class _StudentViewState extends State<StudentView> {
                   child: Padding(
                     padding: EdgeInsets.all(width * 0.018),
                     child: const ListTile(
+                      trailing: Icon(
+                        Icons.keyboard_arrow_right,
+                        size: 50,
+                      ),
                       // leading: Icon(Icons.person),
                       title: Text(
                         'ChatBox',
                         style: TextStyle(
                             fontSize: 22, fontWeight: FontWeight.w500),
-                        textAlign: TextAlign.center,
+                        // textAlign: TextAlign.center,
                       ),
                       // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
                     ),
