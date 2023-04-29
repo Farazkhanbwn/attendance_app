@@ -74,125 +74,157 @@ class _StudentViewState extends State<StudentView> {
       body: SizedBox(
         width: width,
         height: height,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: width,
-              height: height * 0.35,
-              decoration: BoxDecoration(
-                // color: Colors.amber,
-                image: DecorationImage(
-                    image: AssetImage('images/attendance2.png')),
+        child: Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: width,
+                height: height * 0.35,
+                decoration: BoxDecoration(
+                  // color: Colors.amber,
+                  image: DecorationImage(
+                      image: AssetImage('images/attendance2.png')),
+                ),
               ),
-            ),
-            SizedBox(
-              height: height * 0.1,
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MyCoursesPage()));
-              },
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                child: Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  // margin: EdgeInsets.all(20),
-                  child: Padding(
-                    padding: EdgeInsets.all(width * 0.018),
-                    child: const ListTile(
-                      trailing: Icon(
-                        Icons.keyboard_arrow_right,
-                        size: 50,
+              SizedBox(
+                height: height * 0.05,
+              ),
+              Divider(),
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MyCoursesPage()));
+                },
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: width * 0.05,
+                    ),
+                    Container(
+                      width: width * 0.12,
+                      height: height * 0.09,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        image: AssetImage('images/enroll courses.png'),
+                        // fit: BoxFit.fill,
+                      )),
+                    ),
+                    SizedBox(
+                      width: width * 0.03,
+                    ),
+                    Text(
+                      'Enroll Courses',
+                      style: TextStyle(
+                        fontSize: width * 0.04,
+                        fontWeight: FontWeight.w400,
                       ),
-                      // leading: Icon(Icons.person),
-                      title: Text(
-                        'Enroll Courses',
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w500),
-                        // textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      width: width * 0.4,
+                    ),
+                    Icon(
+                      Icons.keyboard_arrow_right,
+                      color: Color.fromARGB(255, 7, 132, 235),
+                      size: width * 0.07,
+                    )
+                  ],
+                ),
+                // child: Padding(
+                //   padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                //   child: Padding(
+                //     padding: EdgeInsets.all(width * 0.018),
+                //     child: const ListTile(
+                //       // tileColor: Colors.amber,
+                //       trailing: Icon(
+                //         Icons.keyboard_arrow_right,
+                //         size: 50,
+                //       ),
+                //       // leading: Icon(Icons.person),
+                //       title: Text(
+                //         'Enroll Courses',
+                //         style:
+                //             TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+                //         // textAlign: TextAlign.center,
+                //       ),
+                //       // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+                //     ),
+                //   ),
+                // ),
+              ),
+              Divider(),
+              InkWell(
+                onTap: () {
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => const Dummy()));
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                  child: Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    // margin: EdgeInsets.all(20),
+                    child: Padding(
+                      padding: EdgeInsets.all(width * 0.018),
+                      child: const ListTile(
+                        trailing: Icon(
+                          Icons.keyboard_arrow_right,
+                          size: 50,
+                        ),
+                        // leading: Icon(Icons.person),
+                        title: Text(
+                          'Attendance Record',
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.w500),
+                          // textAlign: TextAlign.center,
+                        ),
+                        // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
                       ),
-                      // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
                     ),
                   ),
                 ),
               ),
-            ),
-            InkWell(
-              onTap: () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => const Dummy()));
-              },
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                child: Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  // margin: EdgeInsets.all(20),
-                  child: Padding(
-                    padding: EdgeInsets.all(width * 0.018),
-                    child: const ListTile(
-                      trailing: Icon(
-                        Icons.keyboard_arrow_right,
-                        size: 50,
+              InkWell(
+                onTap: () {
+                  // Navigator.push(
+                  //     context, MaterialPageRoute(builder: (context) => Dummy()));
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                  child: Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    // margin: EdgeInsets.all(20),
+                    child: Padding(
+                      padding: EdgeInsets.all(width * 0.018),
+                      child: const ListTile(
+                        trailing: Icon(
+                          Icons.keyboard_arrow_right,
+                          size: 50,
+                        ),
+                        // leading: Icon(Icons.person),
+                        title: Text(
+                          'ChatBox',
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.w500),
+                          // textAlign: TextAlign.center,
+                        ),
+                        // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
                       ),
-                      // leading: Icon(Icons.person),
-                      title: Text(
-                        'Attendance Record',
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w500),
-                        // textAlign: TextAlign.center,
-                      ),
-                      // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
                     ),
                   ),
                 ),
               ),
-            ),
-            InkWell(
-              onTap: () {
-                // Navigator.push(
-                //     context, MaterialPageRoute(builder: (context) => Dummy()));
-              },
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                child: Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  // margin: EdgeInsets.all(20),
-                  child: Padding(
-                    padding: EdgeInsets.all(width * 0.018),
-                    child: const ListTile(
-                      trailing: Icon(
-                        Icons.keyboard_arrow_right,
-                        size: 50,
-                      ),
-                      // leading: Icon(Icons.person),
-                      title: Text(
-                        'ChatBox',
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w500),
-                        // textAlign: TextAlign.center,
-                      ),
-                      // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: height * 0.15,
-            )
-          ],
+              SizedBox(
+                height: height * 0.15,
+              )
+            ],
+          ),
         ),
       ),
     );
