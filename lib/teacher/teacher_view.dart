@@ -130,7 +130,7 @@ class _TeacherViewState extends State<TeacherView> {
                     ),
                   ),
                   SizedBox(
-                    width: width * 0.4,
+                    width: width * 0.45,
                   ),
                   Icon(
                     Icons.keyboard_arrow_right,
@@ -176,7 +176,7 @@ class _TeacherViewState extends State<TeacherView> {
                     ),
                   ),
                   SizedBox(
-                    width: width * 0.32,
+                    width: width * 0.35,
                   ),
                   Icon(
                     Icons.keyboard_arrow_right,
