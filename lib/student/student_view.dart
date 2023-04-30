@@ -1,3 +1,4 @@
+import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/admin/add_course.dart';
 import 'package:attendance_app/signin.dart';
 import 'package:attendance_app/splash.dart';
@@ -49,6 +50,7 @@ class _StudentViewState extends State<StudentView> {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: MyTheme.primaryColor,
         title: const Text('Student Dashboard'),
         centerTitle: true,
         leading: IconButton(

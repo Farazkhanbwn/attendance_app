@@ -1,3 +1,4 @@
+import 'package:attendance_app/Theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ drawerHeader(context) {
     padding: const EdgeInsets.only(bottom: 20, top: 10),
     width: double.infinity,
     // color: const Color(0xff1F456E),
-    color: Colors.blue,
+    color: MyTheme.primaryColor,
     child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [userImage(), userName(context), userEmail(context)],
@@ -29,7 +30,7 @@ userEmail(context) {
             // fontSize: setSize(context, 17),
             fontSize: 18,
             fontWeight: FontWeight.w500,
-            color: Colors.white),
+            color: MyTheme.whiteColor),
         overflow: TextOverflow.ellipsis,
         textAlign: TextAlign.center,
       ));
@@ -60,10 +61,10 @@ Widget userName(BuildContext context) {
         alignment: Alignment.center,
         child: Text(
           displayName,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: MyTheme.whiteColor,
           ),
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.center,
@@ -82,7 +83,7 @@ userImage() {
         border: Border.all(color: Colors.black, width: 1.7)),
     margin: const EdgeInsets.only(top: 40, bottom: 10),
     child: imgUrl == "null"
-        ? Text('Hello we Are Learning')
+        ? const Text('Hello we Are Learning')
         // Image.asset(
         //     appLogo,
         //     height: 130,

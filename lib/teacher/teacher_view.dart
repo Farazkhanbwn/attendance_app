@@ -53,6 +53,7 @@ class _TeacherViewState extends State<TeacherView> {
     return Scaffold(
       backgroundColor: MyTheme.background,
       appBar: AppBar(
+        backgroundColor: MyTheme.primaryColor,
         title: const Text('Teacher Dashboard'),
         automaticallyImplyLeading: true,
         centerTitle: true,

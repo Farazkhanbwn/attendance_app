@@ -1,3 +1,4 @@
+import 'package:attendance_app/Theme.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -30,6 +31,7 @@ class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: MyTheme.primaryColor,
         title: const Text('Enrolled Students'),
         actions: [
           Center(

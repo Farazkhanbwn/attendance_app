@@ -1,3 +1,4 @@
+import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/teacher/EnrolledUsersScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -48,6 +49,7 @@ class _CoursesShowState extends State<CourseDisplay> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: MyTheme.primaryColor,
           title: const Text('All Courses'),
           centerTitle: true,
         ),

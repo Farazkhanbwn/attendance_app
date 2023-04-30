@@ -53,12 +53,12 @@ class _AdminViewState extends State<AdminView> {
     return Scaffold(
       backgroundColor: MyTheme.background,
       appBar: AppBar(
-        backgroundColor: MyTheme.background,
+        backgroundColor: MyTheme.primaryColor,
         shadowColor: Colors.grey,
-        title: const Text(
+        title: Text(
           'Admin Panel',
           style: TextStyle(
-            color: Colors.blue,
+            color: MyTheme.whiteColor,
             fontWeight: FontWeight.bold,
             fontSize: 22,
           ),
@@ -72,14 +72,14 @@ class _AdminViewState extends State<AdminView> {
             icon: Icon(
               Icons.logout,
               size: width * 0.06,
-              color: Colors.blue,
+              color: MyTheme.whiteColor,
             ),
           ),
           SizedBox(
             width: width * 0.04,
           )
         ],
-        iconTheme: const IconThemeData(color: Colors.blue),
+        iconTheme: IconThemeData(color: MyTheme.whiteColor),
         // leading: IconButton(
         //   icon: const Icon(Icons.arrow_back,
         //       color: Color.fromARGB(255, 236, 236, 236)),

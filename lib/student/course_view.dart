@@ -1,3 +1,4 @@
+import 'package:attendance_app/Theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -82,6 +83,7 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
       //   ),
       // );
       appBar: AppBar(
+        backgroundColor: MyTheme.primaryColor,
         title: const Text('My Courses'),
         centerTitle: true,
       ),
