@@ -88,7 +88,7 @@ class _CourseScreenState extends State<CourseScreen> {
                     height: height * 0.07,
                     width: width,
                     child: Padding(
-                      padding: EdgeInsets.only(),
+                      padding: const EdgeInsets.only(),
                       child: Row(
                         children: [
                           Padding(
