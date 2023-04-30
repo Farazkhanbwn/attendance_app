@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MyTheme {
   static Color background = const Color(0xffF8F8F8);
   static Color textform = const Color(0xffFFFFFF);
-  static Color blackColor = const Color.fromARGB(255, 0, 0, 0);
+  static Color blackColor = Colors.black54;
   static Color blue = const Color.fromARGB(255, 26, 116, 189);
   static Color lightblue = Colors.blue.shade200;
   static Color whiteColor = const Color(0xffFFFFFF);

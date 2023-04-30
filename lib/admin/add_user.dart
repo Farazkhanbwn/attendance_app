@@ -198,7 +198,10 @@ class _DummyState extends State<Dummy> {
                                 onTap: () {
                                   Navigator.pop(context);
                                 },
-                                child: Icon(Icons.arrow_back)),
+                                child: Icon(
+                                  Icons.arrow_back,
+                                  color: MyTheme.primaryColor,
+                                )),
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: width * 0.25),
@@ -207,7 +210,7 @@ class _DummyState extends State<Dummy> {
                               style: TextStyle(
                                   fontSize: width * 0.05,
                                   fontWeight: FontWeight.w800,
-                                  color: MyTheme.lightblue),
+                                  color: MyTheme.primaryColor),
                             ),
                           ),
                         ],
@@ -242,6 +245,7 @@ class _DummyState extends State<Dummy> {
                               //     : null,
                               border: InputBorder.none,
                               hintText: 'Name',
+                              hintStyle: TextStyle(color: MyTheme.blackColor),
                               suffixIcon: Icon(
                                 Icons.person,
                                 color: MyTheme.primaryColor,
@@ -285,6 +289,7 @@ class _DummyState extends State<Dummy> {
                               //     ? 'Email field cannot be empty'
                               //     : null,
                               hintText: 'Email',
+                              hintStyle: TextStyle(color: MyTheme.blackColor),
                               suffixIcon: Icon(
                                 Icons.email,
                                 color: MyTheme.primaryColor,
@@ -326,6 +331,7 @@ class _DummyState extends State<Dummy> {
                               //     : null,
                               border: InputBorder.none,
                               hintText: 'Password',
+                              hintStyle: TextStyle(color: MyTheme.blackColor),
                               // focusedBorder: OutlineInputBorder(
                               //   borderSide: BorderSide(
                               //       color: Colors.deepPurple, width: 2.0),
@@ -382,6 +388,8 @@ class _DummyState extends State<Dummy> {
                                   //     : null,
                                   border: InputBorder.none,
                                   hintText: 'Admin ID',
+                                  hintStyle:
+                                      TextStyle(color: MyTheme.blackColor),
                                   // focusedBorder: OutlineInputBorder(
                                   //   borderSide: BorderSide(
                                   //       color: Colors.deepPurple, width: 2.0),
@@ -421,7 +429,10 @@ class _DummyState extends State<Dummy> {
                                   left: width * 0.03, right: width * 0.02),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<String>(
-                                  hint: Text('Select Role'),
+                                  hint: Text(
+                                    'Select Role',
+                                    style: TextStyle(color: MyTheme.blackColor),
+                                  ),
                                   // underline: SizedBox(),
 
                                   iconEnabledColor: Colors.blue,

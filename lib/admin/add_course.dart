@@ -52,15 +52,11 @@ class _CourseScreenState extends State<CourseScreen> {
   // }
 
   Future<void> _fetchTeachers() async {
-    QuerySnapshot<Map<String, dynamic>> snapshot =
-        await FirebaseFirestore.instance
-            // .collection('users')
-            // .doc('1')
-            // .collection('Teacher')
-            // .get();
-            .collection('users')
-            .where('role', isEqualTo: 'Teacher')
-            .get();
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection('users')
+        .where('role', isEqualTo: 'Teacher')
+        .get();
     print('the list are give ${snapshot.docs}');
 
     setState(() {
@@ -78,10 +74,6 @@ class _CourseScreenState extends State<CourseScreen> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Add Course'),
-      //   centerTitle: true,
-      // ),
       body: Column(
         children: [
           Padding(
@@ -105,7 +97,10 @@ class _CourseScreenState extends State<CourseScreen> {
                                 onTap: () {
                                   Navigator.pop(context);
                                 },
-                                child: Icon(Icons.arrow_back)),
+                                child: Icon(
+                                  Icons.arrow_back,
+                                  color: MyTheme.primaryColor,
+                                )),
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: width * 0.23),
@@ -114,7 +109,7 @@ class _CourseScreenState extends State<CourseScreen> {
                               style: TextStyle(
                                   fontSize: width * 0.05,
                                   fontWeight: FontWeight.w800,
-                                  color: MyTheme.lightblue),
+                                  color: MyTheme.primaryColor),
                             ),
                           ),
                         ],
@@ -148,7 +143,7 @@ class _CourseScreenState extends State<CourseScreen> {
                             // labelText: 'Course Name',
                             // labelStyle: TextStyle(color: MyTheme.greycolor),
                             hintText: 'Course Name',
-                            hintStyle: TextStyle(color: MyTheme.greycolor),
+                            hintStyle: TextStyle(color: MyTheme.blackColor),
                             suffixIcon: Icon(
                               Icons.person,
                               color: MyTheme.primaryColor,
@@ -183,7 +178,7 @@ class _CourseScreenState extends State<CourseScreen> {
                             // labelText: 'Course Name',
                             // labelStyle: TextStyle(color: MyTheme.greycolor),
                             hintText: 'Course ID',
-                            hintStyle: TextStyle(color: MyTheme.greycolor),
+                            hintStyle: TextStyle(color: MyTheme.blackColor),
                             suffixIcon: Icon(
                               Icons.accessibility,
                               color: MyTheme.primaryColor,
@@ -218,7 +213,7 @@ class _CourseScreenState extends State<CourseScreen> {
                             // labelText: 'Course Name',
                             // labelStyle: TextStyle(color: MyTheme.greycolor),
                             hintText: 'Admin ID',
-                            hintStyle: TextStyle(color: MyTheme.greycolor),
+                            hintStyle: TextStyle(color: MyTheme.blackColor),
                             suffixIcon: Icon(
                               Icons.add_road,
                               color: MyTheme.primaryColor,
@@ -269,9 +264,9 @@ class _CourseScreenState extends State<CourseScreen> {
                                   child: Text(data['name']),
                                 );
                               }).toList(),
-                              hint: const Text(
+                              hint: Text(
                                 'Select a Teacher',
-                                style: TextStyle(color: Colors.grey),
+                                style: TextStyle(color: MyTheme.blackColor),
                               ),
                               onChanged: (value) {
                                 setState(() {

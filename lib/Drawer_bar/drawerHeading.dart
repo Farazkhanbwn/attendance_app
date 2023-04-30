@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
@@ -34,23 +35,42 @@ userEmail(context) {
       ));
 }
 
-userName(context) {
-  return Container(
-      margin: const EdgeInsets.only(bottom: 5, top: 10),
-      alignment: Alignment.center,
-      child: Text(
-        // 'Hello',
-        // providerValue.userName == ""
-        "${FirebaseAuth.instance.currentUser?.displayName}",
-        //     : providerValue.userName,
-        style: TextStyle(
-            // fontSize: setSize(context, 20),
+Widget userName(BuildContext context) {
+  // final user = FirebaseAuth.instance.currentUser;
+  // final displayName = user?.displayName ?? "Anonymous";
+  return StreamBuilder<DocumentSnapshot>(
+    stream: FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.email)
+        .snapshots(),
+    builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+      if (snapshot.hasError) {
+        return Text('Error: ${snapshot.error}');
+      }
+
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return CircularProgressIndicator();
+      }
+
+      final data = snapshot.data!.data() as Map<String, dynamic>;
+      final displayName = data['name'] ?? 'Name';
+
+      return Container(
+        margin: const EdgeInsets.only(bottom: 5, top: 10),
+        alignment: Alignment.center,
+        child: Text(
+          displayName,
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Colors.white),
-        overflow: TextOverflow.ellipsis,
-        textAlign: TextAlign.center,
-      ));
+            color: Colors.white,
+          ),
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+        ),
+      );
+    },
+  );
 }
 
 userImage() {
