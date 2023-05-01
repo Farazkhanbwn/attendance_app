@@ -66,26 +66,6 @@ Widget listTileStudents(context) {
   );
 }
 
-Widget listTileProfile(context) {
-  return ListTile(
-    contentPadding: const EdgeInsets.only(top: 15, left: 20),
-    leading:
-        const Icon(FontAwesomeIcons.userPen, size: 20, color: Colors.black),
-    title: Text(
-      "My Profile",
-      style: TextStyle(
-          // fontSize: setSize(context, 18),
-          fontSize: 18,
-          fontWeight: FontWeight.w400),
-    ),
-    onTap: () {
-      Navigator.pop(context);
-      // Navigator.push(context,
-      //     MaterialPageRoute(builder: (context) => const ProfilePage()));
-    },
-  );
-}
-
 ListTile listTileAbout(context) {
   return ListTile(
     style: ListTileStyle.drawer,

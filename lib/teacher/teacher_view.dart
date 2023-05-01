@@ -86,7 +86,7 @@ class _TeacherViewState extends State<TeacherView> {
             Container(
               width: width,
               height: height * 0.35,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 // color: Colors.amber,
                 image: DecorationImage(
                     image: AssetImage('images/attendance2.png')),
@@ -124,14 +124,14 @@ class _TeacherViewState extends State<TeacherView> {
                     width: width * 0.03,
                   ),
                   Text(
-                    'Enroll Courses',
+                    'Enrolled Courses',
                     style: TextStyle(
                       fontSize: width * 0.04,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                   SizedBox(
-                    width: width * 0.45,
+                    width: width * 0.395,
                   ),
                   Icon(
                     Icons.keyboard_arrow_right,

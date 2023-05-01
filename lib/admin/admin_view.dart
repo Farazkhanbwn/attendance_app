@@ -94,64 +94,117 @@ class _AdminViewState extends State<AdminView> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Container(
+              width: width,
+              height: height * 0.35,
+              decoration: const BoxDecoration(
+                // color: Colors.amber,
+                image: DecorationImage(
+                    image: AssetImage('images/attendance2.png')),
+              ),
+            ),
+            SizedBox(
+              height: height * 0.05,
+            ),
+            Divider(
+              thickness: 1,
+              color: Color.fromARGB(255, 216, 216, 216),
+              endIndent: width * 0.03,
+              indent: width * 0.03,
+            ),
             InkWell(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Dummy()));
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Dummy()));
               },
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                child: Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: width * 0.05,
                   ),
-                  // margin: EdgeInsets.all(20),
-                  child: Padding(
-                    padding: EdgeInsets.all(width * 0.018),
-                    child: const ListTile(
-                      // leading: Icon(Icons.person),
-                      title: Text(
-                        'Add New User',
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w500),
-                        textAlign: TextAlign.center,
-                      ),
-                      // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+                  Container(
+                    width: width * 0.12,
+                    height: height * 0.09,
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                      image: AssetImage('images/enroll courses.png'),
+                      // fit: BoxFit.fill,
+                    )),
+                  ),
+                  SizedBox(
+                    width: width * 0.03,
+                  ),
+                  Text(
+                    'Add New User',
+                    style: TextStyle(
+                      fontSize: width * 0.04,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
-                ),
+                  SizedBox(
+                    width: width * 0.395,
+                  ),
+                  Icon(
+                    Icons.keyboard_arrow_right,
+                    color: Color.fromARGB(255, 7, 132, 235),
+                    size: width * 0.07,
+                  )
+                ],
               ),
+            ),
+            Divider(
+              thickness: 1,
+              color: Color.fromARGB(255, 216, 216, 216),
+              endIndent: width * 0.03,
+              indent: width * 0.03,
             ),
             InkWell(
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => CourseScreen()));
               },
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                child: Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: width * 0.05,
                   ),
-                  // margin: EdgeInsets.all(20),
-                  child: Padding(
-                    padding: EdgeInsets.all(width * 0.018),
-                    child: const ListTile(
-                      // leading: Icon(Icons.person),
-                      title: Text(
-                        'Create Course',
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w500),
-                        textAlign: TextAlign.center,
-                      ),
-                      // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+                  Container(
+                    width: width * 0.12,
+                    height: height * 0.09,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      image: AssetImage('images/enroll courses.png'),
+                      // fit: BoxFit.fill,
+                    )),
+                  ),
+                  SizedBox(
+                    width: width * 0.03,
+                  ),
+                  Text(
+                    'Create Course',
+                    style: TextStyle(
+                      fontSize: width * 0.04,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
-                ),
+                  SizedBox(
+                    width: width * 0.395,
+                  ),
+                  Icon(
+                    Icons.keyboard_arrow_right,
+                    color: Color.fromARGB(255, 7, 132, 235),
+                    size: width * 0.07,
+                  )
+                ],
               ),
             ),
+            Divider(
+              thickness: 1,
+              color: Color.fromARGB(255, 216, 216, 216),
+              endIndent: width * 0.03,
+              indent: width * 0.03,
+            ),
+
             // InkWell(
             //   onTap: () {
             //     // Navigator.push(context,
@@ -188,33 +241,47 @@ class _AdminViewState extends State<AdminView> {
                     MaterialPageRoute(
                         builder: (context) => SubjectToStudents()));
               },
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                child: Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: width * 0.05,
                   ),
-                  // margin: EdgeInsets.all(20),
-                  child: Padding(
-                    padding: EdgeInsets.all(width * 0.018),
-                    child: const ListTile(
-                      // leading: Icon(Icons.person),
-                      title: Text(
-                        'Allocate Course To Student',
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w500),
-                        textAlign: TextAlign.center,
-                      ),
-                      // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+                  Container(
+                    width: width * 0.12,
+                    height: height * 0.09,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      image: AssetImage('images/enroll courses.png'),
+                      // fit: BoxFit.fill,
+                    )),
+                  ),
+                  SizedBox(
+                    width: width * 0.03,
+                  ),
+                  Text(
+                    'Allocate Course to Students',
+                    style: TextStyle(
+                      fontSize: width * 0.04,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
-                ),
+                  SizedBox(
+                    width: width * 0.15,
+                  ),
+                  Icon(
+                    Icons.keyboard_arrow_right,
+                    color: Color.fromARGB(255, 7, 132, 235),
+                    size: width * 0.07,
+                  )
+                ],
               ),
             ),
-            SizedBox(
-              height: height * 0.2,
-            )
+            Divider(
+              thickness: 1,
+              color: Color.fromARGB(255, 216, 216, 216),
+              endIndent: width * 0.03,
+              indent: width * 0.03,
+            ),
           ],
         ),
       ),

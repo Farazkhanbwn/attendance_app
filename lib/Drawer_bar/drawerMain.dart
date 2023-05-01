@@ -19,7 +19,6 @@ Drawer navigationDrawer(context) {
           listTileAllTeachers(context),
           listTileStudents(context),
           listTileAdmins(context),
-          listTileProfile(context),
           listTileAbout(context),
           listTilePrivacyPolicy(context),
           listTileTerms(context),
