@@ -1,5 +1,7 @@
 import 'dart:ffi';
 
+import 'package:attendance_app/Theme.dart';
+import 'package:attendance_app/button.dart';
 import 'package:attendance_app/flutsh&toast.dart/flushbar.dart';
 import 'package:attendance_app/models/admin/course_allocate.dart';
 import 'package:attendance_app/models/allocation_subject.dart';
@@ -94,7 +96,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                   ),
                                 );
                               }).toList(),
-                              dropdownColor: Color.fromARGB(255, 99, 201, 248),
+                              dropdownColor: MyTheme.primaryColor,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               hint: const Text(
@@ -170,27 +172,6 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                     },
                                   );
                                 }).toList();
-
-                                // Fetch the students for the selected subject from the database
-                                // QuerySnapshot studentSnapshot = await FirebaseFirestore
-                                //     .instance
-                                //     .collection('subject_allocations')
-                                //     .where('_selectedStudents',
-                                //         arrayContains: subjectNamesList)
-                                //     .get();
-                                // Update the selected students lists
-                                // setState(() {
-                                //   _selectedStudents.clear();
-                                //   _selectedStudentNames.clear();
-                                //   studentSnapshot.docs.forEach((doc) {
-                                //     Map<String, dynamic> data =
-                                //         doc.data() as Map<String, dynamic>;
-                                //     String studentId = doc.id;
-                                //     String studentName = data['studentName'];
-                                //     _selectedStudents.add(studentId);
-                                //     _selectedStudentNames[studentId] = studentName;
-                                //   });
-                                // });
                               },
                               validator: (value) {
                                 if (value == null) {
@@ -200,42 +181,6 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                               },
                             ),
                           );
-
-                          // return DropdownButtonFormField<String>(
-                          //   value: _selectedSubject,
-                          //   items: snapshot.data!.docs.map((doc) {
-                          //     Map<String, dynamic> data =
-                          //         doc.data() as Map<String, dynamic>;
-                          //     return DropdownMenuItem<String>(
-                          //       value: doc.id,
-                          //       child: Text(data['courseName']),
-                          //     );
-                          //   }).toList(),
-                          //   hint: const Text('Select a subject'),
-                          //   onChanged: (value) {
-                          //     setState(
-                          //       () {
-                          //         _selectedSubject = value;
-                          //         _selectedSubjectName = (snapshot.data!.docs
-                          //             .firstWhere((doc) => doc.id == _selectedSubject)
-                          //             .data() as Map<String, dynamic>)['courseName'];
-                          //         if (!subjectNamesList
-                          //             .contains(_selectedSubjectName)) {
-                          //           subjectNamesList.add(_selectedSubjectName!);
-                          //         }
-
-                          //         print(
-                          //             'The selected subject is = ${_selectedSubjectName.toString()}');
-                          //       },
-                          //     );
-                          //   },
-                          //   validator: (value) {
-                          //     if (value == null) {
-                          //       return 'Please select a subject';
-                          //     }
-                          //     return null;
-                          //   },
-                          // );
                         },
                       ),
                     ),
@@ -255,10 +200,80 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                       });
                     }),
                 const SizedBox(height: 16),
+                // Container(
+                //   width: width,
+                //   height: height * 0.5,
+                //   color: Color.fromARGB(255, 76, 193, 247),
+                //   child: SingleChildScrollView(
+                //     child: FutureBuilder<QuerySnapshot>(
+                //       future: FirebaseFirestore.instance
+                //           .collection('users')
+                //           .where('role', isEqualTo: 'Student')
+                //           .get(),
+                //       builder: (context, snapshot) {
+                //         if (!snapshot.hasData) {
+                //           return const Center(
+                //               child: CircularProgressIndicator());
+                //         }
+                //         return Column(
+                //           crossAxisAlignment: CrossAxisAlignment.start,
+                //           children: snapshot.data!.docs.map((doc) {
+                //             String studentId = doc.id;
+                //             // print('studentid is = ${studentId}');
+                //             Map<String, dynamic> data =
+                //                 doc.data() as Map<String, dynamic>;
+                //             String studentName = data['name'];
+                //             // print('Student Name is = ${studentName}');
+                //             // String studentName = data['name'];
+                //             return Padding(
+                //               padding: const EdgeInsets.symmetric(
+                //                   horizontal: 10, vertical: 3),
+                //               child: Card(
+                //                 shape: RoundedRectangleBorder(
+                //                   borderRadius: BorderRadius.circular(8),
+                //                 ),
+                //                 elevation: 5,
+                //                 child: CheckboxListTile(
+                //                   contentPadding: const EdgeInsets.symmetric(
+                //                     horizontal: 15,
+                //                   ),
+                //                   title: Text(studentName),
+                //                   subtitle: Text(data['email']),
+                //                   value:
+                //                       _selectedStudents.contains(studentName),
+                //                   onChanged: (value) {
+                //                     setState(() {
+                //                       if (value!) {
+                //                         // _selectedStudents = enrolledStudents;
+                //                         print(
+                //                             '_selected students = ${_selectedStudents}');
+
+                //                         // _selectedStudents
+                //                         //     .add(enrolledStudents.toString());
+                //                         _selectedStudents.add(studentName);
+                //                         print(
+                //                             'selected student name is ={$_selectedStudents}');
+                //                         // _selectedStudentNames[studentId] =
+                //                         //     studentName;
+                //                       } else {
+                //                         _selectedStudents.remove(studentName);
+                //                         // _selectedStudentNames.remove(studentId);
+                //                       }
+                //                     });
+                //                   },
+                //                 ),
+                //               ),
+                //             );
+                //           }).toList(),
+                //         );
+                //       },
+                //     ),
+                //   ),
+                // ),
                 Container(
                   width: width,
                   height: height * 0.5,
-                  color: Color.fromARGB(255, 76, 193, 247),
+                  color: Colors.blue[300],
                   child: SingleChildScrollView(
                     child: FutureBuilder<QuerySnapshot>(
                       future: FirebaseFirestore.instance
@@ -274,12 +289,10 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: snapshot.data!.docs.map((doc) {
                             String studentId = doc.id;
-                            // print('studentid is = ${studentId}');
                             Map<String, dynamic> data =
                                 doc.data() as Map<String, dynamic>;
                             String studentName = data['name'];
-                            // print('Student Name is = ${studentName}');
-                            // String studentName = data['name'];
+                            String studentEmail = data['email'];
                             return Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 3),
@@ -292,30 +305,36 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                   contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 15,
                                   ),
-                                  title: Text(studentName),
-                                  subtitle: Text(data['email']),
+                                  title: Text(
+                                    studentName,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: Colors.blue[900],
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    studentEmail,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.blue[700],
+                                    ),
+                                  ),
                                   value:
                                       _selectedStudents.contains(studentName),
                                   onChanged: (value) {
                                     setState(() {
                                       if (value!) {
-                                        // _selectedStudents = enrolledStudents;
-                                        print(
-                                            '_selected students = ${_selectedStudents}');
-
-                                        // _selectedStudents
-                                        //     .add(enrolledStudents.toString());
                                         _selectedStudents.add(studentName);
-                                        print(
-                                            'selected student name is ={$_selectedStudents}');
-                                        // _selectedStudentNames[studentId] =
-                                        //     studentName;
                                       } else {
                                         _selectedStudents.remove(studentName);
-                                        // _selectedStudentNames.remove(studentId);
                                       }
                                     });
                                   },
+                                  activeColor: Colors.blue[800],
+                                  checkColor: Colors.white,
+                                  controlAffinity:
+                                      ListTileControlAffinity.leading,
                                 ),
                               ),
                             );
@@ -325,12 +344,14 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                     ),
                   ),
                 ),
+
                 SizedBox(
                   height: height * 0.03,
                 ),
                 Align(
                     alignment: Alignment.center,
-                    child: ElevatedButton(
+                    child: MyButton(
+                      text: 'Save Changes',
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           AllocateSubject();
@@ -347,11 +368,11 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                           );
                         }
                       },
-                      child: const Text(
-                        'Save subject allocations',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
+                      // child: const Text(
+                      //   'Save subject allocations',
+                      //   style: TextStyle(
+                      //       fontSize: 20, fontWeight: FontWeight.bold),
+                      // ),
                     )),
                 // Checkbox list for selecting students
                 const SizedBox(height: 16),

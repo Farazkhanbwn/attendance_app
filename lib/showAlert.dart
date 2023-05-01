@@ -5,14 +5,14 @@ showAlertDialog(BuildContext context) {
   AlertDialog alert = AlertDialog(
     content: Row(
       children: [
-        CircularProgressIndicator(
+        const CircularProgressIndicator(
             // backgroundColor: MyTheme.blue,
             // color: MyTheme.primaryColor,
             ),
         Container(
-          margin: EdgeInsets.only(left: 20),
-          child: Text(
-            "Loading",
+          margin: const EdgeInsets.only(left: 20),
+          child: const Text(
+            "Loading...",
           ),
         ),
       ],

@@ -41,36 +41,21 @@ class _SignInState extends State<SignIn> {
   FirebaseAuth auth = FirebaseAuth.instance;
 
   void signIn() async {
-    // showDialog(
-    //   barrierDismissible: false,
-    //   context: context,
-    //   builder: (BuildContext context) {
-    //     return AlertDialog(
-    //       content: Row(
-    //         children: [
-    //           CircularProgressIndicator(),
-    //           SizedBox(width: 20),
-    //           Text("Signing in..."),
-    //         ],
-    //       ),
-    //     );
-    //   },
-    // );
-
     try {
       showAlertDialog(context);
+
       UserCredential credential = await auth.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
       if (credential.user != null) {
         Staticdata.id = credential.user!.uid;
         print(' your user id is = ${credential.user!.uid}');
-
         route();
 
         // postdatatoSP();
 
       }
     } on FirebaseAuthException catch (error) {
+      Navigator.pop(context);
       handleFirebaseAuthException(context, error);
     }
   }
