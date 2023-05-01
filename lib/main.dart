@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // StudentDisplay(),
           // DummyTeacherScreen(),
           // AllocateSubjectFormN(),
-          const Dummy(),
+          const AddUser(),
           // const TeacherView(),
           // const Dummy1(),
           // Not Used this page // TeacherDropdown2(),

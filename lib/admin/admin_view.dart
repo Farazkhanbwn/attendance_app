@@ -114,8 +114,8 @@ class _AdminViewState extends State<AdminView> {
             ),
             InkWell(
               onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Dummy()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddUser()));
               },
               child: Row(
                 children: [
@@ -127,7 +127,7 @@ class _AdminViewState extends State<AdminView> {
                     height: height * 0.09,
                     decoration: const BoxDecoration(
                         image: DecorationImage(
-                      image: AssetImage('images/enroll courses.png'),
+                      image: AssetImage('images/think.png'),
                       // fit: BoxFit.fill,
                     )),
                   ),
@@ -249,9 +249,9 @@ class _AdminViewState extends State<AdminView> {
                   Container(
                     width: width * 0.12,
                     height: height * 0.09,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         image: DecorationImage(
-                      image: AssetImage('images/enroll courses.png'),
+                      image: AssetImage('images/record.png'),
                       // fit: BoxFit.fill,
                     )),
                   ),

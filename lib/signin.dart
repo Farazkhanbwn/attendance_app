@@ -6,6 +6,7 @@ import 'package:attendance_app/admin/admin_view.dart';
 import 'package:attendance_app/button.dart';
 import 'package:attendance_app/flutsh&toast.dart/flushbar.dart';
 import 'package:attendance_app/flutsh&toast.dart/handleExceptonError.dart';
+import 'package:attendance_app/showAlert.dart';
 import 'package:attendance_app/testing/test1.dart';
 import 'package:attendance_app/forget_pass.dart';
 import 'package:attendance_app/recover_pass.dart';
@@ -40,7 +41,24 @@ class _SignInState extends State<SignIn> {
   FirebaseAuth auth = FirebaseAuth.instance;
 
   void signIn() async {
+    // showDialog(
+    //   barrierDismissible: false,
+    //   context: context,
+    //   builder: (BuildContext context) {
+    //     return AlertDialog(
+    //       content: Row(
+    //         children: [
+    //           CircularProgressIndicator(),
+    //           SizedBox(width: 20),
+    //           Text("Signing in..."),
+    //         ],
+    //       ),
+    //     );
+    //   },
+    // );
+
     try {
+      showAlertDialog(context);
       UserCredential credential = await auth.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
       if (credential.user != null) {

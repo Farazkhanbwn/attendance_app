@@ -12,14 +12,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Dummy extends StatefulWidget {
-  const Dummy({super.key});
+class AddUser extends StatefulWidget {
+  const AddUser({super.key});
 
   @override
-  State<Dummy> createState() => _DummyState();
+  State<AddUser> createState() => _DummyState();
 }
 
-class _DummyState extends State<Dummy> {
+class _DummyState extends State<AddUser> {
   // Map<String, TextEditingController> _controllers = {
   //   'namecontroller': TextEditingController(),
   //   'emailcontroller': TextEditingController(),
@@ -129,7 +129,7 @@ class _DummyState extends State<Dummy> {
       UserCredential credential = await auth.createUserWithEmailAndPassword(
           email: emailcontroller.text, password: passwordcontroller.text);
       if (credential.user != null) {
-        showFlushbar(context, 'Signup Succcessfully');
+        showFlushbar(context, 'User Added Successfully');
         postDataToFB();
         namecontroller.clear();
         emailcontroller.clear();

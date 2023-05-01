@@ -23,6 +23,20 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   FirebaseAuth auth = FirebaseAuth.instance;
   bool passwordvisible = false;
   final _formKey = GlobalKey<FormState>();
+
+  Future<void> resetPassword(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      print("Password reset email sent");
+      showFlushbar(context, 'Password reset email send');
+    } catch (error) {
+      print("Error sending password reset email: $error");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("${error}")),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -206,13 +220,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     MyButton(
                       text: 'Reset',
                       onPressed: () {
-                        auth.sendPasswordResetEmail(
-                            email: emailcontroller.text);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const RecoverPassword()));
-                        showFlushbar(context, 'Reset Passwrod Request Send');
+                        resetPassword(emailcontroller.text);
+                        // auth.sendPasswordResetEmail(
+                        //     email: emailcontroller.text);
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => const RecoverPassword()));
 
                         // Handle button press event here
                       },

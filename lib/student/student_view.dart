@@ -76,221 +76,219 @@ class _StudentViewState extends State<StudentView> {
       body: SizedBox(
         width: width,
         height: height,
-        child: Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: width,
-                height: height * 0.35,
-                decoration: BoxDecoration(
-                  // color: Colors.amber,
-                  image: DecorationImage(
-                      image: AssetImage('images/attendance2.png')),
-                ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: width,
+              height: height * 0.35,
+              decoration: BoxDecoration(
+                // color: Colors.amber,
+                image: DecorationImage(
+                    image: AssetImage('images/attendance2.png')),
               ),
-              SizedBox(
-                height: height * 0.05,
+            ),
+            SizedBox(
+              height: height * 0.05,
+            ),
+            Divider(
+              thickness: 1,
+              color: Color.fromARGB(255, 216, 216, 216),
+              endIndent: width * 0.03,
+              indent: width * 0.03,
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MyCoursesPage()));
+              },
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: width * 0.05,
+                  ),
+                  Container(
+                    width: width * 0.12,
+                    height: height * 0.09,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      image: AssetImage('images/enroll courses.png'),
+                      // fit: BoxFit.fill,
+                    )),
+                  ),
+                  SizedBox(
+                    width: width * 0.03,
+                  ),
+                  Text(
+                    'Enroll Courses',
+                    style: TextStyle(
+                      fontSize: width * 0.04,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  SizedBox(
+                    width: width * 0.4,
+                  ),
+                  Icon(
+                    Icons.keyboard_arrow_right,
+                    color: Color.fromARGB(255, 7, 132, 235),
+                    size: width * 0.07,
+                  )
+                ],
               ),
-              Divider(
-                thickness: 1,
-                color: Color.fromARGB(255, 216, 216, 216),
-                endIndent: width * 0.03,
-                indent: width * 0.03,
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MyCoursesPage()));
-                },
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: width * 0.05,
-                    ),
-                    Container(
-                      width: width * 0.12,
-                      height: height * 0.09,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        image: AssetImage('images/enroll courses.png'),
-                        // fit: BoxFit.fill,
-                      )),
-                    ),
-                    SizedBox(
-                      width: width * 0.03,
-                    ),
-                    Text(
-                      'Enroll Courses',
-                      style: TextStyle(
-                        fontSize: width * 0.04,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    SizedBox(
-                      width: width * 0.4,
-                    ),
-                    Icon(
-                      Icons.keyboard_arrow_right,
-                      color: Color.fromARGB(255, 7, 132, 235),
-                      size: width * 0.07,
-                    )
-                  ],
-                ),
-                // child: Padding(
-                //   padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                //   child: Padding(
-                //     padding: EdgeInsets.all(width * 0.018),
-                //     child: const ListTile(
-                //       // tileColor: Colors.amber,
-                //       trailing: Icon(
-                //         Icons.keyboard_arrow_right,
-                //         size: 50,
-                //       ),
-                //       // leading: Icon(Icons.person),
-                //       title: Text(
-                //         'Enroll Courses',
-                //         style:
-                //             TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-                //         // textAlign: TextAlign.center,
-                //       ),
-                //       // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-                //     ),
-                //   ),
-                // ),
-              ),
-              Divider(
-                thickness: 1,
-                color: Color.fromARGB(255, 216, 216, 216),
-                endIndent: width * 0.03,
-                indent: width * 0.03,
-              ),
-              InkWell(
-                onTap: () {
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => MyCoursesPage()));
-                },
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: width * 0.055,
-                    ),
-                    Container(
-                      width: width * 0.12,
-                      height: height * 0.09,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        image: AssetImage('images/record.png'),
-                        // fit: BoxFit.fill,
-                      )),
-                    ),
-                    SizedBox(
-                      width: width * 0.03,
-                    ),
-                    Text(
-                      'Attendance Record',
-                      style: TextStyle(
-                        fontSize: width * 0.04,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    SizedBox(
-                      width: width * 0.32,
-                    ),
-                    Icon(
-                      Icons.keyboard_arrow_right,
-                      color: Color.fromARGB(255, 7, 132, 235),
-                      size: width * 0.07,
-                    )
-                  ],
-                ),
-              ),
-              // InkWell(
-              //   onTap: () {
-              //     // Navigator.push(
-              //     //     context, MaterialPageRoute(builder: (context) => Dummy()));
-              //   },
+              // child: Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: width * 0.05),
               //   child: Padding(
-              //     padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-              //     child: Card(
-              //       elevation: 5,
-              //       shape: RoundedRectangleBorder(
-              //         borderRadius: BorderRadius.circular(10),
+              //     padding: EdgeInsets.all(width * 0.018),
+              //     child: const ListTile(
+              //       // tileColor: Colors.amber,
+              //       trailing: Icon(
+              //         Icons.keyboard_arrow_right,
+              //         size: 50,
               //       ),
-              //       // margin: EdgeInsets.all(20),
-              //       child: Padding(
-              //         padding: EdgeInsets.all(width * 0.018),
-              //         child: const ListTile(
-              //           trailing: Icon(
-              //             Icons.keyboard_arrow_right,
-              //             size: 50,
-              //           ),
-              //           // leading: Icon(Icons.person),
-              //           title: Text(
-              //             'ChatBox',
-              //             style: TextStyle(
-              //                 fontSize: 22, fontWeight: FontWeight.w500),
-              //             // textAlign: TextAlign.center,
-              //           ),
-              //           // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-              //         ),
+              //       // leading: Icon(Icons.person),
+              //       title: Text(
+              //         'Enroll Courses',
+              //         style:
+              //             TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+              //         // textAlign: TextAlign.center,
               //       ),
+              //       // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
               //     ),
               //   ),
               // ),
-              // Divider(),
-              // InkWell(
-              //   onTap: () {
-              //     // Navigator.push(context,
-              //     //     MaterialPageRoute(builder: (context) => MyCoursesPage()));
-              //   },
-              //   child: Row(
-              //     children: [
-              //       SizedBox(
-              //         width: width * 0.055,
-              //       ),
-              //       Container(
-              //         width: width * 0.12,
-              //         height: height * 0.09,
-              //         decoration: BoxDecoration(
-              //             image: DecorationImage(
-              //           image: AssetImage('images/record.png'),
-              //           // fit: BoxFit.fill,
-              //         )),
-              //       ),
-              //       SizedBox(
-              //         width: width * 0.03,
-              //       ),
-              //       Text(
-              //         'Attendance Record',
-              //         style: TextStyle(
-              //           fontSize: width * 0.04,
-              //           fontWeight: FontWeight.w400,
-              //         ),
-              //       ),
-              //       SizedBox(
-              //         width: width * 0.32,
-              //       ),
-              //       Icon(
-              //         Icons.keyboard_arrow_right,
-              //         color: Color.fromARGB(255, 7, 132, 235),
-              //         size: width * 0.07,
-              //       )
-              //     ],
-              //   ),
-              // ),
-              Divider(
-                thickness: 1,
-                endIndent: width * 0.03,
-                indent: width * 0.03,
-                color: Color.fromARGB(255, 216, 216, 216),
+            ),
+            Divider(
+              thickness: 1,
+              color: Color.fromARGB(255, 216, 216, 216),
+              endIndent: width * 0.03,
+              indent: width * 0.03,
+            ),
+            InkWell(
+              onTap: () {
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => MyCoursesPage()));
+              },
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: width * 0.055,
+                  ),
+                  Container(
+                    width: width * 0.12,
+                    height: height * 0.09,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      image: AssetImage('images/record.png'),
+                      // fit: BoxFit.fill,
+                    )),
+                  ),
+                  SizedBox(
+                    width: width * 0.03,
+                  ),
+                  Text(
+                    'Attendance Record',
+                    style: TextStyle(
+                      fontSize: width * 0.04,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  SizedBox(
+                    width: width * 0.32,
+                  ),
+                  Icon(
+                    Icons.keyboard_arrow_right,
+                    color: Color.fromARGB(255, 7, 132, 235),
+                    size: width * 0.07,
+                  )
+                ],
               ),
-              SizedBox(
-                height: height * 0.15,
-              )
-            ],
-          ),
+            ),
+            // InkWell(
+            //   onTap: () {
+            //     // Navigator.push(
+            //     //     context, MaterialPageRoute(builder: (context) => Dummy()));
+            //   },
+            //   child: Padding(
+            //     padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+            //     child: Card(
+            //       elevation: 5,
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(10),
+            //       ),
+            //       // margin: EdgeInsets.all(20),
+            //       child: Padding(
+            //         padding: EdgeInsets.all(width * 0.018),
+            //         child: const ListTile(
+            //           trailing: Icon(
+            //             Icons.keyboard_arrow_right,
+            //             size: 50,
+            //           ),
+            //           // leading: Icon(Icons.person),
+            //           title: Text(
+            //             'ChatBox',
+            //             style: TextStyle(
+            //                 fontSize: 22, fontWeight: FontWeight.w500),
+            //             // textAlign: TextAlign.center,
+            //           ),
+            //           // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // Divider(),
+            // InkWell(
+            //   onTap: () {
+            //     // Navigator.push(context,
+            //     //     MaterialPageRoute(builder: (context) => MyCoursesPage()));
+            //   },
+            //   child: Row(
+            //     children: [
+            //       SizedBox(
+            //         width: width * 0.055,
+            //       ),
+            //       Container(
+            //         width: width * 0.12,
+            //         height: height * 0.09,
+            //         decoration: BoxDecoration(
+            //             image: DecorationImage(
+            //           image: AssetImage('images/record.png'),
+            //           // fit: BoxFit.fill,
+            //         )),
+            //       ),
+            //       SizedBox(
+            //         width: width * 0.03,
+            //       ),
+            //       Text(
+            //         'Attendance Record',
+            //         style: TextStyle(
+            //           fontSize: width * 0.04,
+            //           fontWeight: FontWeight.w400,
+            //         ),
+            //       ),
+            //       SizedBox(
+            //         width: width * 0.32,
+            //       ),
+            //       Icon(
+            //         Icons.keyboard_arrow_right,
+            //         color: Color.fromARGB(255, 7, 132, 235),
+            //         size: width * 0.07,
+            //       )
+            //     ],
+            //   ),
+            // ),
+            Divider(
+              thickness: 1,
+              endIndent: width * 0.03,
+              indent: width * 0.03,
+              color: Color.fromARGB(255, 216, 216, 216),
+            ),
+            SizedBox(
+              height: height * 0.15,
+            )
+          ],
         ),
       ),
     );
