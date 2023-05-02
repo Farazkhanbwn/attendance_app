@@ -4,6 +4,7 @@ import 'package:attendance_app/admin/add_course.dart';
 import 'package:attendance_app/admin/admin_view.dart';
 import 'package:attendance_app/admin/allocation_subject_student.dart';
 import 'package:attendance_app/admin/student_page.dart';
+import 'package:attendance_app/teacher/EnrolledUsersScreen.dart';
 import 'package:attendance_app/testing/test1.dart';
 import 'package:attendance_app/testing/test6.dart';
 import 'package:attendance_app/forget_pass.dart';
@@ -59,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           // Splash(),
           const SignIn(),
+          EnrolledStudentsScreen(subjectName: 'Cloud Computing'),
           // SignIn1(),
           // ForgetPassword(),
           // RecoverPassword(),
