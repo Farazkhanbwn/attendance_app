@@ -54,23 +54,24 @@ class _TeacherViewState extends State<TeacherView> {
       backgroundColor: MyTheme.background,
       appBar: AppBar(
         backgroundColor: MyTheme.primaryColor,
-        title: const Text('Teacher Dashboard'),
-        automaticallyImplyLeading: true,
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back,
-              color: Color.fromARGB(255, 236, 236, 236)),
-          onPressed: () => Navigator.of(context).pop(),
+        title: const Text(
+          'Teacher Dashboard',
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back,
+        //       color: Color.fromARGB(255, 236, 236, 236)),
+        //   onPressed: () => Navigator.of(context).pop(),
+        // ),
         actions: [
           IconButton(
-              onPressed: () {
-                _logout();
-              },
-              icon: Icon(
-                Icons.logout,
-                size: width * 0.05,
-              )),
+            onPressed: () {
+              _logout();
+            },
+            icon: Icon(Icons.logout, size: width * 0.05),
+          ),
           SizedBox(
             width: width * 0.03,
           )

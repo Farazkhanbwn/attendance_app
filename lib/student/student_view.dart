@@ -53,11 +53,12 @@ class _StudentViewState extends State<StudentView> {
         backgroundColor: MyTheme.primaryColor,
         title: const Text('Student Dashboard'),
         centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back,
-              color: Color.fromARGB(255, 236, 236, 236)),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        automaticallyImplyLeading: false,
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back,
+        //       color: Color.fromARGB(255, 236, 236, 236)),
+        //   onPressed: () => Navigator.of(context).pop(),
+        // ),
         actions: [
           IconButton(
             onPressed: () {

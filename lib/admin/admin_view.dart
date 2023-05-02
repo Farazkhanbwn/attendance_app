@@ -251,7 +251,7 @@ class _AdminViewState extends State<AdminView> {
                     height: height * 0.09,
                     decoration: const BoxDecoration(
                         image: DecorationImage(
-                      image: AssetImage('images/record.png'),
+                      image: AssetImage('images/face2.png'),
                       // fit: BoxFit.fill,
                     )),
                   ),
@@ -270,7 +270,7 @@ class _AdminViewState extends State<AdminView> {
                   ),
                   Icon(
                     Icons.keyboard_arrow_right,
-                    color: Color.fromARGB(255, 7, 132, 235),
+                    color: const Color.fromARGB(255, 7, 132, 235),
                     size: width * 0.07,
                   )
                 ],

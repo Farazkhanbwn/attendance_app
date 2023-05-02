@@ -77,22 +77,14 @@ Widget userName(BuildContext context) {
 userImage() {
   String? imgUrl = FirebaseAuth.instance.currentUser?.photoURL.toString();
   return Container(
-    decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.white,
-        border: Border.all(color: Colors.black, width: 1.7)),
-    margin: const EdgeInsets.only(top: 40, bottom: 10),
-    child: imgUrl == "null"
-        ? const Text('Hello we Are Learning')
-        // Image.asset(
-        //     appLogo,
-        //     height: 130,
-        //     width: 150,
-        //   )
-        : Image.asset(
-            imgUrl!,
-            height: 130,
-            width: 150,
-          ),
-  );
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.white,
+          border: Border.all(color: Colors.black, width: 1.7)),
+      margin: const EdgeInsets.only(top: 40, bottom: 10),
+      child: Image.asset(
+        'images/complain.png',
+        height: 130,
+        width: 150,
+      ));
 }

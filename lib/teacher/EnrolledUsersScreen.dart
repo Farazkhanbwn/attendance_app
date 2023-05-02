@@ -41,11 +41,11 @@ class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
 // Define a function to start and stop scanning
   void scan() {
     // Start scanning
-    // Start scanning
     flutterBlue.startScan(
-        timeout: const Duration(seconds: 4),
-        scanMode: ScanMode.lowLatency,
-        allowDuplicates: false);
+      timeout: const Duration(seconds: 4),
+      scanMode: ScanMode.lowLatency,
+      allowDuplicates: false,
+    );
 
     flutterBlue.scanResults.listen((results) {
       // do something with scan results

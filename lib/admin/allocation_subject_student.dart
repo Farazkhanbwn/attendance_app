@@ -41,6 +41,11 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
+      // appBar: AppBar(
+      //   title: Text('Allocate Subject'),
+      //   centerTitle: true,
+      //   backgroundColor: MyTheme.primaryColor,
+      // ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
@@ -48,6 +53,39 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                SizedBox(
+                  height: height * 0.02,
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  height: height * 0.07,
+                  width: width,
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: width * 0.05),
+                        child: InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: MyTheme.primaryColor,
+                            )),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: width * 0.2),
+                        child: Text(
+                          'Subject Allocation',
+                          style: TextStyle(
+                              fontSize: width * 0.05,
+                              fontWeight: FontWeight.w800,
+                              color: MyTheme.primaryColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 // Drop-down for selecting subject
                 Container(
                   alignment: Alignment.bottomRight,
@@ -62,7 +100,8 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                     child: Container(
                       width: width,
                       height: height * 0.07,
-                      color: Color.fromARGB(255, 93, 200, 250),
+                      // color: Color.fromARGB(255, 93, 200, 250),
+
                       child: FutureBuilder<QuerySnapshot>(
                         future: FirebaseFirestore.instance
                             .collection('courses')
@@ -78,7 +117,8 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                             child: DropdownButtonFormField<String>(
                               decoration:
                                   InputDecoration.collapsed(hintText: ''),
-                              iconEnabledColor: Colors.white,
+                              // iconEnabledColor: Colors.white,
+                              iconEnabledColor: MyTheme.primaryColor,
                               // iconDisabledColor: Colors.red,
                               value: _selectedSubject,
                               items: snapshot.data!.docs.map((doc) {
@@ -90,6 +130,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                     data['courseName'],
                                     style: const TextStyle(
                                       color: Colors.white,
+                                      // color: MyTheme.primaryColor,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18,
                                     ),
@@ -99,10 +140,11 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                               dropdownColor: MyTheme.primaryColor,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
-                              hint: const Text(
+                              hint: Text(
                                 'Select a subject',
                                 style: TextStyle(
-                                    color: Color.fromARGB(255, 255, 254, 254),
+                                    // color: Color.fromARGB(255, 255, 254, 254),
+                                    color: MyTheme.blue,
                                     fontSize: 20,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -186,19 +228,19 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                     ),
                   ),
                 ),
-                CheckboxListTile(
-                    title: const Text('Select All'),
-                    value: _selectAll,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _selectAll = value!;
-                        if (_selectAll) {
-                          _checkedItems = List.from(_selectedStudents);
-                        } else {
-                          _checkedItems.clear();
-                        }
-                      });
-                    }),
+                // CheckboxListTile(
+                //     title: const Text('Select All'),
+                //     value: _selectAll,
+                //     onChanged: (bool? value) {
+                //       setState(() {
+                //         _selectAll = value!;
+                //         if (_selectAll) {
+                //           _checkedItems = List.from(_selectedStudents);
+                //         } else {
+                //           _checkedItems.clear();
+                //         }
+                //       });
+                //     }),
                 const SizedBox(height: 16),
                 // Container(
                 //   width: width,
@@ -273,7 +315,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                 Container(
                   width: width,
                   height: height * 0.5,
-                  color: Colors.blue[300],
+                  // color: Colors.blue[300],
                   child: SingleChildScrollView(
                     child: FutureBuilder<QuerySnapshot>(
                       future: FirebaseFirestore.instance
@@ -314,7 +356,8 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                     ),
                                   ),
                                   subtitle: Text(
-                                    studentEmail,
+                                    // studentEmail,
+                                    'Student',
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.blue[700],
