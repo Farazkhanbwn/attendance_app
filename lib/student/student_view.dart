@@ -4,7 +4,10 @@ import 'package:attendance_app/signin.dart';
 import 'package:attendance_app/splash.dart';
 import 'package:attendance_app/testing/test1.dart';
 import 'package:attendance_app/student/course_view.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StudentView extends StatefulWidget {
@@ -15,6 +18,9 @@ class StudentView extends StatefulWidget {
 }
 
 class _StudentViewState extends State<StudentView> {
+  String blueId = '';
+  // flutterBlue flutterBlue = FlutterBlue.instance;
+  FlutterBluePlus flutterBlue = FlutterBluePlus.instance;
   void _logout() {
     showDialog(
       context: context,
@@ -36,6 +42,101 @@ class _StudentViewState extends State<StudentView> {
                   context,
                   MaterialPageRoute(builder: (context) => SignIn()),
                 );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadBluetoothId();
+  }
+
+  // Load Bluetooth ID for current student from Firebase database
+  Future<void> _loadBluetoothId() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot<Object?> studentSnapshot = await FirebaseFirestore
+          .instance
+          .collection('users')
+          .doc(user.email)
+          .get();
+      Map<String, dynamic> studentData =
+          studentSnapshot.data() as Map<String, dynamic>;
+      setState(() {
+        blueId = studentData['blueId'];
+        print('user bluetooth is equal to =${blueId.toString()}');
+        if (blueId == null || blueId.isEmpty) {
+          _showBluetoothDialog();
+        }
+      });
+    }
+  }
+
+  void _showBluetoothDialog() async {
+    String? selectedId;
+
+    // Scan for available Bluetooth devices
+
+    List<ScanResult> scanResults =
+        await flutterBlue.scan(timeout: Duration(seconds: 10)).toList();
+
+    // Build list of available Bluetooth devices
+    List<Widget> deviceList = [];
+    for (ScanResult result in scanResults) {
+      BluetoothDevice device = result.device;
+      deviceList.add(ListTile(
+        title: Text(device.name.isEmpty ? 'Unknown device' : device.name),
+        subtitle: Text(device.id.toString()),
+        onTap: () {
+          selectedId = device.id.toString();
+          Navigator.pop(context);
+        },
+      ));
+    }
+
+    // Show dialog box with list of devices
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Update Bluetooth ID'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: deviceList,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text('Update'),
+              onPressed: () async {
+                if (selectedId != null) {
+                  // Store selected Bluetooth ID in Firebase database
+                  User? user = FirebaseAuth.instance.currentUser;
+                  if (user != null) {
+                    await FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(user.email)
+                        .update({
+                      'blueId': selectedId,
+                    });
+                    setState(() {
+                      blueId = selectedId!;
+                    });
+                  }
+                  Navigator.pop(context);
+                }
               },
             ),
           ],

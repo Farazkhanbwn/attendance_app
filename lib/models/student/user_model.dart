@@ -8,6 +8,7 @@ class UserModel {
   String uid;
   String role;
   String adminId;
+  String blueId;
   UserModel({
     required this.name,
     required this.email,
@@ -15,6 +16,7 @@ class UserModel {
     required this.uid,
     required this.role,
     required this.adminId,
+    required this.blueId,
   });
 
   UserModel copyWith({
@@ -24,6 +26,7 @@ class UserModel {
     String? uid,
     String? role,
     String? adminId,
+    String? blueId,
   }) {
     return UserModel(
       name: name ?? this.name,
@@ -32,6 +35,7 @@ class UserModel {
       uid: uid ?? this.uid,
       role: role ?? this.role,
       adminId: adminId ?? this.adminId,
+      blueId: blueId ?? this.blueId,
     );
   }
 
@@ -43,6 +47,7 @@ class UserModel {
       'uid': uid,
       'role': role,
       'adminId': adminId,
+      'blueId': blueId,
     };
   }
 
@@ -54,6 +59,7 @@ class UserModel {
       uid: map['uid'] as String,
       role: map['role'] as String,
       adminId: map['adminId'] as String,
+      blueId: map['blueId'] as String,
     );
   }
 
@@ -64,7 +70,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(name: $name, email: $email, password: $password, uid: $uid, role: $role, adminId: $adminId)';
+    return 'UserModel(name: $name, email: $email, password: $password, uid: $uid, role: $role, adminId: $adminId, blueId: $blueId)';
   }
 
   @override
@@ -76,7 +82,8 @@ class UserModel {
         other.password == password &&
         other.uid == uid &&
         other.role == role &&
-        other.adminId == adminId;
+        other.adminId == adminId &&
+        other.blueId == blueId;
   }
 
   @override
@@ -86,6 +93,7 @@ class UserModel {
         password.hashCode ^
         uid.hashCode ^
         role.hashCode ^
-        adminId.hashCode;
+        adminId.hashCode ^
+        blueId.hashCode;
   }
 }

@@ -195,12 +195,14 @@ class _DummyState extends State<Dummy1> {
     User? user = auth.currentUser;
     var id = user!.uid;
     UserModel model = UserModel(
-        name: namecontroller.text,
-        email: emailcontroller.text,
-        password: passwordcontroller.text,
-        role: rool,
-        uid: id,
-        adminId: adminIdcontroller.text);
+      name: namecontroller.text,
+      email: emailcontroller.text,
+      password: passwordcontroller.text,
+      role: rool,
+      uid: id,
+      adminId: adminIdcontroller.text,
+      blueId: '',
+    );
     // CollectionReference<Map<String, dynamic>> teachersCollection = instance
     //     .collection('users')
     //     .doc(roleId.text.toString())

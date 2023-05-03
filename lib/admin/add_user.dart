@@ -148,15 +148,17 @@ class _DummyState extends State<AddUser> {
     User? user = auth.currentUser;
     var id = user!.uid;
     UserModel model = UserModel(
-        name: namecontroller.text
-            .split(' ')
-            .map((word) => word.capitalize())
-            .join(' '),
-        email: emailcontroller.text,
-        password: passwordcontroller.text,
-        role: rool,
-        uid: id,
-        adminId: adminIdcontroller.text);
+      name: namecontroller.text
+          .split(' ')
+          .map((word) => word.capitalize())
+          .join(' '),
+      email: emailcontroller.text,
+      password: passwordcontroller.text,
+      role: rool,
+      uid: id,
+      adminId: adminIdcontroller.text,
+      blueId: '',
+    );
 
     await instance
         .collection('users')
