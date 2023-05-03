@@ -158,45 +158,58 @@ class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
           child: Column(
             children: [
               SizedBox(
-                width: width,
-                height: height * 0.42,
-                child: StreamBuilder<List<String>>(
-                  stream: _enrolledStudentsStream,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const Center(
-                        child: Text('None of the students are enrolled'),
+                  width: width,
+                  height: height * 0.42,
+                  child: ListView.builder(
+                    itemCount: matchingIds.length,
+                    itemBuilder: (context, index) {
+                      final studentId = matchingIds[index];
+                      final isPresent = deviceList.contains(studentId);
+                      final statusText = isPresent ? 'present' : 'pending';
+                      return ListTile(
+                        title: Text('Student $studentId'),
+                        subtitle: Text(statusText),
                       );
-                    }
+                    },
+                  )
+                  // StreamBuilder<List<String>>(
+                  //   stream: _enrolledStudentsStream,
+                  //   builder: (context, snapshot) {
+                  //     if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  //       return const Center(
+                  //         child: Text('None of the students are enrolled'),
+                  //       );
+                  //     }
 
-                    return ListView.builder(
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        final studentname = snapshot.data![index];
-                        return Card(
-                            child: ListTile(
-                          title: Text(studentname),
-                          trailing: deviceList.contains(snapshot.data![index])
-                              ? const Text('present')
-                              : const Text('pending'),
-                        ));
-                      },
-                    );
-                  },
-                ),
-              ),
+                  //     return ListView.builder(
+                  //       itemCount: snapshot.data!.length,
+                  //       itemBuilder: (context, index) {
+                  //         final studentname = snapshot.data![index];
+                  //         return Card(
+                  //             child: ListTile(
+                  //           title: Text(studentname),
+                  //           trailing: deviceList.contains(snapshot.data![index])
+                  //               ? const Text('present')
+                  //               : const Text('pending'),
+                  //         ));
+                  //       },
+                  //     );
+                  //   },
+                  // ),
+                  ),
               ElevatedButton(
                 onPressed: () {
                   // Compare the two lists and show output
-
                   for (String id in deviceList) {
+                    print('deviceList is = ${deviceList.toList()}');
                     if (blueIds.contains(id)) {
                       matchingIds.add(id);
+                      matchingIds = matchingIds.toSet().toList();
                     }
                   }
                   print('Matching IDs: $matchingIds');
                 },
-                child: Text('Compare Lists'),
+                child: const Text('Compare Lists'),
               ),
               // SizedBox(
               //   width: width,
