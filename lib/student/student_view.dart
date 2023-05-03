@@ -22,6 +22,7 @@ class StudentView extends StatefulWidget {
 
 class _StudentViewState extends State<StudentView> {
   String blueId = '';
+  String? _displayName;
   // flutterBlue flutterBlue = FlutterBlue.instance;
   FlutterBluePlus flutterBlue = FlutterBluePlus.instance;
   void _logout() {
@@ -57,7 +58,25 @@ class _StudentViewState extends State<StudentView> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _getCurrentUserName();
+
     _loadBluetoothId();
+  }
+
+  void _getCurrentUserName() async {
+    final user = FirebaseAuth.instance.currentUser;
+    print('user is null ${user}');
+    if (user != null) {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.email)
+          .get();
+      final data = snapshot.data() as Map<String, dynamic>;
+      setState(() {
+        _displayName = data['name'];
+        print('display name  = ${_displayName}');
+      });
+    }
   }
 
   // Load Bluetooth ID for current student from Firebase database
@@ -74,6 +93,7 @@ class _StudentViewState extends State<StudentView> {
       setState(() {
         blueId = studentData['blueId'];
         print('user bluetooth is equal to =${blueId.toString()}');
+
         if (blueId == null || blueId.isEmpty) {
           print('blue is is null');
           showAlertDialog(context);
@@ -151,11 +171,11 @@ class _StudentViewState extends State<StudentView> {
     showAlertDialog(BuildContext context) {
       // set up the AlertDialog
       AlertDialog alert = AlertDialog(
-        title: Text("Alert"),
-        content: Text("This is an alert message!"),
+        title: const Text("Alert"),
+        content: const Text("This is an alert message!"),
         actions: [
           TextButton(
-            child: Text("OK"),
+            child: const Text("OK"),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -236,6 +256,39 @@ class _StudentViewState extends State<StudentView> {
     // );
   }
 
+  StreamBuilder<DocumentSnapshot> getCurrentUserName() {
+    return StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.email)
+          .snapshots(),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+
+        final data = snapshot.data!.data() as Map<String, dynamic>;
+        final displayName = data['name'] ?? 'Name';
+
+        return Text(
+          displayName,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: MyTheme.whiteColor,
+          ),
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -245,6 +298,7 @@ class _StudentViewState extends State<StudentView> {
         backgroundColor: MyTheme.primaryColor,
         title: const Text('Student Dashboard'),
         centerTitle: true,
+
         // leading: IconButton(
         //   icon: const Icon(Icons.arrow_back,
         //       color: Color.fromARGB(255, 236, 236, 236)),
@@ -304,8 +358,12 @@ class _StudentViewState extends State<StudentView> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MyCoursesPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MyCoursesPage(
+                                name: _displayName.toString(),
+                              )));
                 },
                 child: Row(
                   children: [

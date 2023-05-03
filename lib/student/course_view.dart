@@ -5,7 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MyCoursesPage extends StatefulWidget {
-  const MyCoursesPage({Key? key}) : super(key: key);
+  final String name;
+
+  const MyCoursesPage({Key? key, required this.name}) : super(key: key);
 
   @override
   _MyCoursesPageState createState() => _MyCoursesPageState();
@@ -131,11 +133,14 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
-                    .collection('subject_allocation')
-                    .where('students', arrayContains: user!.displayName)
+                    .collection('subject_allocations')
+                    .where('students', arrayContains: widget.name)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
+                    print('display name is = ${user!.displayName}');
+                    print('why display name is null');
+                    print('wiget name is = ${widget.name}');
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
@@ -151,7 +156,7 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
                       itemCount: courses.length,
                       itemBuilder: (context, index) {
                         var course = courses[index] as Map<String, dynamic>;
-                        var subjectNames = course['subjectName'];
+                        var subjectNames = course['subjectname'];
                         return Center(
                           child: Card(
                               child: ListTile(
