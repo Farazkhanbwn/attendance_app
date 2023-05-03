@@ -1,4 +1,5 @@
 import 'package:attendance_app/Theme.dart';
+import 'package:attendance_app/student/updat_blueId.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -87,6 +88,7 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
         title: const Text('My Courses'),
         centerTitle: true,
       ),
+
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

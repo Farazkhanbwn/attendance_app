@@ -4,6 +4,7 @@ import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/admin/add_course.dart';
 import 'package:attendance_app/signin.dart';
 import 'package:attendance_app/splash.dart';
+import 'package:attendance_app/student/updat_blueId.dart';
 import 'package:attendance_app/testing/test1.dart';
 import 'package:attendance_app/student/course_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -268,6 +269,7 @@ class _StudentViewState extends State<StudentView> {
         width: width * 0.7,
         child: Column(children: [
           drawerHeader(context),
+          UpdateBluetoothIdTile(),
           listTileRecord(context),
           listTileAbout(context),
           listTilePrivacyPolicy(context),

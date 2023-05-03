@@ -3,6 +3,7 @@ import 'package:attendance_app/Drawer_bar/drawerHeading.dart';
 import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/admin/add_user.dart';
 import 'package:attendance_app/signin.dart';
+import 'package:attendance_app/student/updat_blueId.dart';
 import 'package:attendance_app/testing/test1.dart';
 import 'package:attendance_app/testing/test6.dart';
 import 'package:attendance_app/teacher/course_display.dart';
@@ -82,6 +83,7 @@ class _TeacherViewState extends State<TeacherView> {
         width: width * 0.7,
         child: Column(children: [
           drawerHeader(context),
+          
           listTileAbout(context),
           listTilePrivacyPolicy(context),
           listTileTerms(context),

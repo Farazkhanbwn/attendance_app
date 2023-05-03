@@ -151,97 +151,100 @@ class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
       //     ),
       //   ],
       // ),
-      body: Column(
-        children: [
-          SizedBox(
-            width: width,
-            height: height * 0.42,
-            child: StreamBuilder<List<String>>(
-              stream: _enrolledStudentsStream,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(
-                    child: Text('None of the students are enrolled'),
-                  );
-                }
+      body: SingleChildScrollView(
+        child: SizedBox(
+          width: width,
+          height: height,
+          child: Column(
+            children: [
+              SizedBox(
+                width: width,
+                height: height * 0.42,
+                child: StreamBuilder<List<String>>(
+                  stream: _enrolledStudentsStream,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Center(
+                        child: Text('None of the students are enrolled'),
+                      );
+                    }
 
-                return ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    final studentname = snapshot.data![index];
-                    return Card(
-                        child: ListTile(
-                      title: Text(studentname),
-                      trailing: deviceList.contains(snapshot.data![index])
-                          ? const Text('present')
-                          : const Text('pending'),
-                    ));
-                  },
-                );
-              },
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              // Compare the two lists and show output
-
-              for (String id in deviceList) {
-                if (blueIds.contains(id)) {
-                  matchingIds.add(id);
-                }
-              }
-              print('Matching IDs: $matchingIds');
-            },
-            child: Text('Compare Lists'),
-          ),
-          SizedBox(
-            width: width,
-            height: height,
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('users')
-                  .where('role', isEqualTo: 'Student')
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-                // Get the list of student documents
-                final studentDocs = snapshot.data!.docs;
-
-                // Check each student document for a matching ID and update the "present" field
-                for (final doc in studentDocs) {
-                  final studentId = doc.id;
-                  final blueId = doc.get('blueId');
-
-                  if (blueId == matchingIds) {
-                    doc.reference.update({'present': true});
-                  }
-                }
-
-                // Build the UI with the updated list of student documents
-                return ListView.builder(
-                  itemCount: studentDocs.length,
-                  itemBuilder: (context, index) {
-                    final studentDoc = studentDocs[index];
-                    final studentName = studentDoc.get('name');
-                    final isPresent = studentDoc.get('present') ?? false;
-
-                    return Card(
-                      child: ListTile(
-                        title: Text(studentName),
-                        trailing: isPresent
-                            ? const Text('present')
-                            : const Text('pending'),
-                      ),
+                    return ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        final studentname = snapshot.data![index];
+                        return Card(
+                            child: ListTile(
+                          title: Text(studentname),
+                          trailing: deviceList.contains(snapshot.data![index])
+                              ? const Text('present')
+                              : const Text('pending'),
+                        ));
+                      },
                     );
                   },
-                );
-              },
-            ),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Compare the two lists and show output
+
+                  for (String id in deviceList) {
+                    if (blueIds.contains(id)) {
+                      matchingIds.add(id);
+                    }
+                  }
+                  print('Matching IDs: $matchingIds');
+                },
+                child: Text('Compare Lists'),
+              ),
+              // SizedBox(
+              //   width: width,
+              //   height: height * 0.42,
+              //   child: StreamBuilder<QuerySnapshot>(
+              //     stream: FirebaseFirestore.instance
+              //         .collection('users')
+              //         .where('role', isEqualTo: 'Student')
+              //         .snapshots(),
+              //     builder: (context, snapshot) {
+              //       if (!snapshot.hasData) {
+              //         return const Center(child: CircularProgressIndicator());
+              //       }
+
+              //       // Get the list of student documents
+              //       final studentDocs = snapshot.data!.docs;
+
+              //       // Check each student document for a matching ID and update the "present" field
+              //       for (final doc in studentDocs) {
+              //         final studentId = doc.id;
+              //         final blueId = doc.get('blueId');
+
+              //         if (blueId == matchingIds) {
+              //           doc.reference.update({'present': true});
+              //         }
+              //       }
+
+              //       // Build the UI with the updated list of student documents
+              //       return ListView.builder(
+              //         itemCount: studentDocs.length,
+              //         itemBuilder: (context, index) {
+              //           final studentDoc = studentDocs[index];
+              //           final studentName = studentDoc.get('name');
+              //           // final isPresent = studentDoc.get('present') ?? false;
+
+              //           return Card(
+              //             child: ListTile(
+              //                 title: Text(studentName),
+              //                 trailing: Text('hello')),
+              //           );
+              //         },
+              //       );
+              //     },
+              //   ),
+              // ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

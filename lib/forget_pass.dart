@@ -117,7 +117,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           Container(
                             alignment: Alignment.center,
                             width: width * 0.85,
-                            height: height * 0.065,
+                            height: height * 0.07,
                             decoration: BoxDecoration(
                               color: const Color(0xffFFFFFF),
                               borderRadius: BorderRadius.circular(10),
@@ -129,30 +129,29 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                 ),
                               ],
                             ),
-                            child: Padding(
-                              padding: EdgeInsets.only(left: width * 0.05),
-                              child: TextFormField(
-                                controller: emailcontroller,
-                                // maxLength: 10,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'E-mail',
-                                  // labelText: 'Enter Email',
-                                  hintStyle: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: width * 0.04,
-                                      color: const Color.fromRGBO(34, 34, 34,
-                                          0.5)), /*labelText: 'Enter your email'*/
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Invalid Credentials';
-                                  }
-                                  return null;
-                                },
-                                // controller: usernamecontroller,
+                            child: TextFormField(
+                              controller: emailcontroller,
+                              // maxLength: 10,
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.fromLTRB(
+                                    20.0, 10.0, 10.0, 16.0),
+                                border: InputBorder.none,
+                                hintText: 'E-mail',
+                                // labelText: 'Enter Email',
+                                hintStyle: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: width * 0.04,
+                                    color: const Color.fromRGBO(34, 34, 34,
+                                        0.5)), /*labelText: 'Enter your email'*/
                               ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Invalid Credentials';
+                                }
+                                return null;
+                              },
+                              // controller: usernamecontroller,
                             ),
                           ),
                           // Container(

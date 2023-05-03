@@ -129,7 +129,7 @@ class _DummyState extends State<AddUser> {
       UserCredential credential = await auth.createUserWithEmailAndPassword(
           email: emailcontroller.text, password: passwordcontroller.text);
       if (credential.user != null) {
-        showFlushbar(context, 'User Added Successfully');
+        showFlushbar(context, 'User Added');
         postDataToFB();
         namecontroller.clear();
         emailcontroller.clear();
@@ -139,7 +139,6 @@ class _DummyState extends State<AddUser> {
     } on FirebaseAuthException catch (e) {
       handleFirebaseAuthException(context, e);
       // postDataToFB();
-
     }
   }
 

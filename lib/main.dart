@@ -10,7 +10,6 @@ import 'package:attendance_app/testing/test6.dart';
 import 'package:attendance_app/forget_pass.dart';
 import 'package:attendance_app/recover_pass.dart';
 import 'package:attendance_app/signin.dart';
-import 'package:attendance_app/signup1.dart';
 import 'package:attendance_app/splash.dart';
 import 'package:attendance_app/teacher/course_display.dart';
 import 'package:attendance_app/teacher/teacher_view.dart';
