@@ -61,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // Splash(),
           const SignIn(),
           EnrolledStudentsScreen(subjectName: 'Cloud Computing'),
+          AddUser(),
           // SignIn1(),
           // ForgetPassword(),
           // RecoverPassword(),

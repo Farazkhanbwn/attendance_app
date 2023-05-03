@@ -98,10 +98,9 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: Container(
-                      width: width,
+                      width: width * 0.9,
                       height: height * 0.07,
-                      // color: Color.fromARGB(255, 93, 200, 250),
-
+                      color: Color.fromARGB(255, 93, 200, 250),
                       child: FutureBuilder<QuerySnapshot>(
                         future: FirebaseFirestore.instance
                             .collection('courses')
@@ -117,9 +116,9 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                             child: DropdownButtonFormField<String>(
                               decoration:
                                   InputDecoration.collapsed(hintText: ''),
-                              // iconEnabledColor: Colors.white,
-                              iconEnabledColor: MyTheme.primaryColor,
-                              // iconDisabledColor: Colors.red,
+                              iconEnabledColor: Colors.white,
+                              // iconEnabledColor: MyTheme.primaryColor,
+                              iconDisabledColor: Colors.red,
                               value: _selectedSubject,
                               items: snapshot.data!.docs.map((doc) {
                                 Map<String, dynamic> data =
@@ -128,7 +127,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                   value: doc.id,
                                   child: Text(
                                     data['courseName'],
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       color: Colors.white,
                                       // color: MyTheme.primaryColor,
                                       fontWeight: FontWeight.bold,
@@ -143,8 +142,8 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                               hint: Text(
                                 'Select a subject',
                                 style: TextStyle(
-                                    // color: Color.fromARGB(255, 255, 254, 254),
-                                    color: MyTheme.blue,
+                                    color: Color.fromARGB(255, 255, 254, 254),
+                                    // color: MyTheme.blue,
                                     fontSize: 20,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -350,10 +349,10 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                   title: Text(
                                     studentName,
                                     style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      color: Colors.blue[900],
-                                    ),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        // color: Colors.blue[900],
+                                        color: MyTheme.primaryColor),
                                   ),
                                   subtitle: Text(
                                     // studentEmail,

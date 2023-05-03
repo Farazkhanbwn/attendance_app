@@ -70,48 +70,42 @@ class _SignInState extends State<SignIn> {
     User? user = FirebaseAuth.instance.currentUser;
     var kk = FirebaseFirestore.instance
         .collection('users')
-        .doc(emailController.text)
+        .doc(emailController.text.trim())
         .get()
         .then((DocumentSnapshot documentSnapshot) async {
       if (documentSnapshot.exists) {
         print('document exist at this moment');
 
         if (documentSnapshot.get('role') == "Teacher") {
-          Navigator.pushReplacement(
+          Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(
-              builder: (context) => TeacherView(),
-
-              // builder: (context) => const TeacherDisplay(),
-            ),
+            MaterialPageRoute(builder: (context) => TeacherView()),
+            (Route<dynamic> route) => false,
           );
           // Store role in shared preferences
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('role', 'Teacher');
-          showFlushbar(context, 'Login Successfull');
+          // showFlushbar(context, 'Login Successfull');
         } else if (documentSnapshot.get('role') == 'Student') {
-          Navigator.pushReplacement(
+          Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(
-              builder: (context) => StudentView(),
-              // builder: (context) => StudentDisplay(),
-            ),
+            MaterialPageRoute(builder: (context) => const StudentView()),
+            (Route<dynamic> route) => false,
           );
           // Store role in shared preferences
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('role', 'Student');
-          showFlushbar(context, 'Login Successfull');
+          // showFlushbar(context, 'Login Successfull');
         } else {
-          Navigator.pushReplacement(
+          Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(
-              builder: (context) => const AdminView(),
-            ),
+            MaterialPageRoute(builder: (context) => AdminView()),
+            (Route<dynamic> route) => false,
           );
           // Store role in shared preferences
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('role', 'Admin');
-          showFlushbar(context, 'Login Successfull');
+          // showFlushbar(context, 'Login Successfull');
         }
       } else {
         print('Document does not exist on the database');

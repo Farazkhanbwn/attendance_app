@@ -6,6 +6,7 @@ class Painter extends CustomPainter {
   Painter() {
     design = Paint()
       ..color = Colors.blue.shade200
+      // ..color = MyTheme.primaryColor
       ..strokeWidth = 2
       ..style = PaintingStyle.fill;
     design2 = Paint()
