@@ -19,6 +19,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import '../createQuiz/mainScreen.dart';
 
 ListTile listTileAllTeachers(context) {
+  var width = MediaQuery.of(context).size.width;
   return ListTile(
     contentPadding: const EdgeInsets.only(left: 20),
     leading:
@@ -27,7 +28,7 @@ ListTile listTileAllTeachers(context) {
       "Teacher's",
       style: TextStyle(
         // fontSize: setSize(context, 18),
-        fontSize: 18,
+        fontSize: width * 0.045,
         fontWeight: FontWeight.w400,
       ),
     ),
@@ -40,15 +41,16 @@ ListTile listTileAllTeachers(context) {
 }
 
 Widget listTileStudents(context) {
+  var width = MediaQuery.of(context).size.width;
   return ListTile(
     contentPadding: const EdgeInsets.only(top: 15, left: 20),
     leading: const Icon(FontAwesomeIcons.arrowRightFromBracket,
         size: 20, color: Colors.black),
-    title: const Text(
+    title: Text(
       "Student's",
       style: TextStyle(
         // fontSize: setSize(context, 18),
-        fontSize: 18,
+        fontSize: width * 0.045,
         fontWeight: FontWeight.w400,
       ),
     ),
@@ -67,16 +69,17 @@ Widget listTileStudents(context) {
 }
 
 ListTile listTileAbout(context) {
+  var width = MediaQuery.of(context).size.width;
   return ListTile(
     style: ListTileStyle.drawer,
     contentPadding: const EdgeInsets.only(top: 15, left: 20),
     leading:
         const Icon(FontAwesomeIcons.circleInfo, size: 20, color: Colors.black),
-    title: const Text(
+    title: Text(
       "About Us",
       style: TextStyle(
           // fontSize: setSize(context, 18),
-          fontSize: 18,
+          fontSize: width * 0.045,
           fontWeight: FontWeight.w400),
     ),
     onTap: () {
@@ -88,16 +91,17 @@ ListTile listTileAbout(context) {
 }
 
 listTilePrivacyPolicy(context) {
+  var width = MediaQuery.of(context).size.width;
   return ListTile(
     style: ListTileStyle.drawer,
     contentPadding: const EdgeInsets.only(top: 15, left: 20),
     leading:
         const Icon(FontAwesomeIcons.userShield, size: 20, color: Colors.black),
-    title: const Text(
+    title: Text(
       "Privacy Policy",
       style: TextStyle(
           // fontSize: setSize(context, 17),
-          fontSize: 18,
+          fontSize: width * 0.045,
           fontWeight: FontWeight.w400),
     ),
     onTap: () {
@@ -110,16 +114,17 @@ listTilePrivacyPolicy(context) {
 }
 
 listTileTerms(context) {
+  var width = MediaQuery.of(context).size.width;
   return ListTile(
     style: ListTileStyle.drawer,
     contentPadding: const EdgeInsets.only(top: 15, left: 20),
     leading: const Icon(FontAwesomeIcons.bookOpenReader,
         size: 20, color: Colors.black),
-    title: const Text(
+    title: Text(
       "Terms and Conditions",
       style: TextStyle(
           // fontSize: setSize(context, 17),
-          fontSize: 17,
+          fontSize: width * 0.045,
           fontWeight: FontWeight.w400),
     ),
     onTap: () {
@@ -133,6 +138,7 @@ listTileTerms(context) {
 }
 
 ListTile listTileAdmins(context) {
+  var width = MediaQuery.of(context).size.width;
   return ListTile(
     contentPadding: const EdgeInsets.only(top: 15, left: 20),
     leading: const Icon(FontAwesomeIcons.squarePollVertical,
@@ -141,13 +147,34 @@ ListTile listTileAdmins(context) {
       "Admin's",
       style: TextStyle(
           // fontSize: setSize(context, 18),
-          fontSize: 18,
+          fontSize: width * 0.045,
           fontWeight: FontWeight.w400),
     ),
     onTap: () {
       Navigator.pop(context);
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const AdminsScreen()));
+    },
+  );
+}
+
+ListTile listTileRecord(context) {
+  var width = MediaQuery.of(context).size.width;
+  return ListTile(
+    style: ListTileStyle.drawer,
+    contentPadding: const EdgeInsets.only(top: 15, left: 20),
+    leading: const Icon(FontAwesomeIcons.readme, size: 20, color: Colors.black),
+    title: Text(
+      "Attendace Record",
+      style: TextStyle(
+          // fontSize: setSize(context, 18),
+          fontSize: width * 0.045,
+          fontWeight: FontWeight.w400),
+    ),
+    onTap: () {
+      Navigator.pop(context);
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => AboutPage()));
     },
   );
 }

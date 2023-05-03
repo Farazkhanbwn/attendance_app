@@ -8,9 +8,11 @@ import 'package:flutter/material.dart';
 // import 'profileSection/provider.dart';
 
 drawerHeader(context) {
+  var width = MediaQuery.of(context).size.width;
+  var height = MediaQuery.of(context).size.height;
   return Container(
-    margin: const EdgeInsets.only(bottom: 20),
-    padding: const EdgeInsets.only(bottom: 20, top: 10),
+    margin: EdgeInsets.only(bottom: height * 0.02),
+    padding: EdgeInsets.only(bottom: height * 0.02),
     width: double.infinity,
     // color: const Color(0xff1F456E),
     color: MyTheme.primaryColor,

@@ -92,10 +92,10 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Student Courses:',
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-            ),
+            // const Text(
+            //   'Student Courses:',
+            //   style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+            // ),
             const SizedBox(height: 10.0),
             // Expanded(
             //   child: ListView.builder(

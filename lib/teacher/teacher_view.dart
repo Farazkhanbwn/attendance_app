@@ -1,3 +1,5 @@
+import 'package:attendance_app/Drawer_bar/drawerBody.dart';
+import 'package:attendance_app/Drawer_bar/drawerHeading.dart';
 import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/admin/add_user.dart';
 import 'package:attendance_app/signin.dart';
@@ -58,7 +60,6 @@ class _TeacherViewState extends State<TeacherView> {
           'Teacher Dashboard',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        automaticallyImplyLeading: false,
         centerTitle: true,
         // leading: IconButton(
         //   icon: const Icon(Icons.arrow_back,
@@ -70,12 +71,21 @@ class _TeacherViewState extends State<TeacherView> {
             onPressed: () {
               _logout();
             },
-            icon: Icon(Icons.logout, size: width * 0.05),
+            icon: Icon(Icons.logout, size: width * 0.065),
           ),
           SizedBox(
-            width: width * 0.03,
+            width: width * 0.01,
           )
         ],
+      ),
+      drawer: Drawer(
+        width: width * 0.7,
+        child: Column(children: [
+          drawerHeader(context),
+          listTileAbout(context),
+          listTilePrivacyPolicy(context),
+          listTileTerms(context),
+        ]),
       ),
       body: SizedBox(
         width: width,

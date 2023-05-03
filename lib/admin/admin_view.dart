@@ -71,12 +71,12 @@ class _AdminViewState extends State<AdminView> {
             }),
             icon: Icon(
               Icons.logout,
-              size: width * 0.06,
+              size: width * 0.065,
               color: MyTheme.whiteColor,
             ),
           ),
           SizedBox(
-            width: width * 0.04,
+            width: width * 0.01,
           )
         ],
         iconTheme: IconThemeData(color: MyTheme.whiteColor),

@@ -200,7 +200,7 @@ class _SignInState extends State<SignIn> {
                         Container(
                           alignment: Alignment.center,
                           width: width * 0.85,
-                          height: height * 0.065,
+                          height: height * 0.07,
                           decoration: BoxDecoration(
                             color: const Color(0xffFFFFFF),
                             borderRadius: BorderRadius.circular(10),
@@ -221,7 +221,7 @@ class _SignInState extends State<SignIn> {
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.fromLTRB(
-                                  20.0, 17.0, 10.0, 17.0),
+                                  20.0, 10.0, 10.0, 16.0),
                               border: InputBorder.none,
                               hintText: 'E-mail',
                               suffixIcon: const Icon(Icons.email),
@@ -248,7 +248,7 @@ class _SignInState extends State<SignIn> {
                         Container(
                           alignment: Alignment.center,
                           width: width * 0.85,
-                          height: height * 0.065,
+                          height: height * 0.07,
                           decoration: BoxDecoration(
                             color: const Color(0xffFFFFFF),
                             borderRadius: BorderRadius.circular(10),
@@ -263,6 +263,7 @@ class _SignInState extends State<SignIn> {
                           child: TextFormField(
                             controller: passwordController,
                             obscureText: _obscureText,
+
                             // maxLength: 10,
                             // autovalidateMode:
                             //     AutovalidateMode.onUserInteraction,
@@ -270,7 +271,7 @@ class _SignInState extends State<SignIn> {
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.fromLTRB(
-                                  20.0, 17.0, 10.0, 17.0),
+                                  20.0, 10.0, 10.0, 16.0),
                               border: InputBorder.none,
                               hintText: 'Password',
                               suffixIcon: GestureDetector(

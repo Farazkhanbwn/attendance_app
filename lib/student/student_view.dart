@@ -1,3 +1,5 @@
+import 'package:attendance_app/Drawer_bar/drawerBody.dart';
+import 'package:attendance_app/Drawer_bar/drawerHeading.dart';
 import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/admin/add_course.dart';
 import 'package:attendance_app/signin.dart';
@@ -72,35 +74,20 @@ class _StudentViewState extends State<StudentView> {
         blueId = studentData['blueId'];
         print('user bluetooth is equal to =${blueId.toString()}');
         if (blueId == null || blueId.isEmpty) {
-          _showBluetoothDialog();
+          print('blue is is null');
+          showAlertDialog(context);
+          // _showBluetoothDialog();
         }
       });
     }
   }
 
-  void _showBluetoothDialog() async {
-    String? selectedId;
+  void showAlertDialog(BuildContext context) {
+    String blueId = '';
+    // Create a text controller to handle the user input
+    TextEditingController _textController = TextEditingController();
 
-    // Scan for available Bluetooth devices
-
-    List<ScanResult> scanResults =
-        await flutterBlue.scan(timeout: Duration(seconds: 10)).toList();
-
-    // Build list of available Bluetooth devices
-    List<Widget> deviceList = [];
-    for (ScanResult result in scanResults) {
-      BluetoothDevice device = result.device;
-      deviceList.add(ListTile(
-        title: Text(device.name.isEmpty ? 'Unknown device' : device.name),
-        subtitle: Text(device.id.toString()),
-        onTap: () {
-          selectedId = device.id.toString();
-          Navigator.pop(context);
-        },
-      ));
-    }
-
-    // Show dialog box with list of devices
+    // Show the dialog box
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -108,7 +95,17 @@ class _StudentViewState extends State<StudentView> {
           title: Text('Update Bluetooth ID'),
           content: SingleChildScrollView(
             child: ListBody(
-              children: deviceList,
+              children: [
+                Text('Please update your Bluetooth ID to continue:'),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: _textController,
+                  decoration: const InputDecoration(
+                    labelText: 'Bluetooth ID',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ],
             ),
           ),
           actions: <Widget>[
@@ -121,19 +118,22 @@ class _StudentViewState extends State<StudentView> {
             TextButton(
               child: Text('Update'),
               onPressed: () async {
-                if (selectedId != null) {
-                  // Store selected Bluetooth ID in Firebase database
+                String bluetoothId = _textController.text;
+                if (bluetoothId.isNotEmpty) {
+                  // Update the user's Bluetooth ID in Firebase database
                   User? user = FirebaseAuth.instance.currentUser;
                   if (user != null) {
                     await FirebaseFirestore.instance
                         .collection('users')
                         .doc(user.email)
                         .update({
-                      'blueId': selectedId,
+                      'blueId': bluetoothId,
                     });
-                    setState(() {
-                      blueId = selectedId!;
-                    });
+                    setState(
+                      () {
+                        blueId = bluetoothId;
+                      },
+                    );
                   }
                   Navigator.pop(context);
                 }
@@ -145,6 +145,96 @@ class _StudentViewState extends State<StudentView> {
     );
   }
 
+  void _showBluetoothDialog() async {
+    // String? selectedId;
+    showAlertDialog(BuildContext context) {
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        title: Text("Alert"),
+        content: Text("This is an alert message!"),
+        actions: [
+          TextButton(
+            child: Text("OK"),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
+
+    // Scan for available Bluetooth devices
+
+    // List<ScanResult> scanResults =
+    //     await flutterBlue.scan(timeout: Duration(seconds: 10)).toList();
+
+    // Build list of available Bluetooth devices
+    // List<Widget> deviceList = [];
+    // for (ScanResult result in scanResults) {
+    //   BluetoothDevice device = result.device;
+    //   deviceList.add(ListTile(
+    //     title: Text(device.name.isEmpty ? 'Unknown device' : device.name),
+    //     subtitle: Text(device.id.toString()),
+    //     onTap: () {
+    //       selectedId = device.id.toString();
+    //       Navigator.pop(context);
+    //     },
+    //   ));
+    // }
+
+    // Show dialog box with list of devices
+    // showDialog(
+    //   context: context,
+    //   builder: (BuildContext context) {
+    //     return AlertDialog(
+    //       title: const Text('Update Bluetooth ID'),
+    //       content: SingleChildScrollView(
+    //         child: ListBody(
+    //           children: deviceList,
+    //         ),
+    //       ),
+    //       actions: <Widget>[
+    //         TextButton(
+    //           child: Text('Cancel'),
+    //           onPressed: () {
+    //             Navigator.pop(context);
+    //           },
+    //         ),
+    //         TextButton(
+    //           child: Text('Update'),
+    //           onPressed: () async {
+    //             if (selectedId != null) {
+    //               // Store selected Bluetooth ID in Firebase database
+    //               User? user = FirebaseAuth.instance.currentUser;
+    //               if (user != null) {
+    //                 await FirebaseFirestore.instance
+    //                     .collection('users')
+    //                     .doc(user.email)
+    //                     .update({
+    //                   'blueId': selectedId,
+    //                 });
+    //                 setState(() {
+    //                   blueId = selectedId!;
+    //                 });
+    //               }
+    //               Navigator.pop(context);
+    //             }
+    //           },
+    //         ),
+    //       ],
+    //     );
+    //   },
+    // );
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -154,7 +244,6 @@ class _StudentViewState extends State<StudentView> {
         backgroundColor: MyTheme.primaryColor,
         title: const Text('Student Dashboard'),
         centerTitle: true,
-        automaticallyImplyLeading: false,
         // leading: IconButton(
         //   icon: const Icon(Icons.arrow_back,
         //       color: Color.fromARGB(255, 236, 236, 236)),
@@ -167,230 +256,168 @@ class _StudentViewState extends State<StudentView> {
             },
             icon: Icon(
               Icons.logout,
-              size: width * 0.06,
+              size: width * 0.065,
             ),
           ),
           SizedBox(
-            width: width * 0.02,
+            width: width * 0.01,
           )
         ],
       ),
-      body: SizedBox(
-        width: width,
-        height: height,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: width,
-              height: height * 0.35,
-              decoration: BoxDecoration(
-                // color: Colors.amber,
-                image: DecorationImage(
-                    image: AssetImage('images/attendance2.png')),
+      drawer: Drawer(
+        width: width * 0.7,
+        child: Column(children: [
+          drawerHeader(context),
+          listTileRecord(context),
+          listTileAbout(context),
+          listTilePrivacyPolicy(context),
+          listTileTerms(context),
+        ]),
+      ),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          width: width,
+          height: height,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: width,
+                height: height * 0.35,
+                decoration: const BoxDecoration(
+                  // color: Colors.amber,
+                  image: DecorationImage(
+                      image: AssetImage('images/attendance2.png')),
+                ),
               ),
-            ),
-            SizedBox(
-              height: height * 0.05,
-            ),
-            Divider(
-              thickness: 1,
-              color: Color.fromARGB(255, 216, 216, 216),
-              endIndent: width * 0.03,
-              indent: width * 0.03,
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MyCoursesPage()));
-              },
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: width * 0.05,
-                  ),
-                  Container(
-                    width: width * 0.12,
-                    height: height * 0.09,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                      image: AssetImage('images/enroll courses.png'),
-                      // fit: BoxFit.fill,
-                    )),
-                  ),
-                  SizedBox(
-                    width: width * 0.03,
-                  ),
-                  Text(
-                    'Enroll Courses',
-                    style: TextStyle(
-                      fontSize: width * 0.04,
-                      fontWeight: FontWeight.w400,
+              SizedBox(
+                height: height * 0.05,
+              ),
+              Divider(
+                thickness: 1,
+                color: Color.fromARGB(255, 216, 216, 216),
+                endIndent: width * 0.03,
+                indent: width * 0.03,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MyCoursesPage()));
+                },
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: width * 0.05,
                     ),
-                  ),
-                  SizedBox(
-                    width: width * 0.4,
-                  ),
-                  Icon(
-                    Icons.keyboard_arrow_right,
-                    color: Color.fromARGB(255, 7, 132, 235),
-                    size: width * 0.07,
-                  )
-                ],
-              ),
-              // child: Padding(
-              //   padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-              //   child: Padding(
-              //     padding: EdgeInsets.all(width * 0.018),
-              //     child: const ListTile(
-              //       // tileColor: Colors.amber,
-              //       trailing: Icon(
-              //         Icons.keyboard_arrow_right,
-              //         size: 50,
-              //       ),
-              //       // leading: Icon(Icons.person),
-              //       title: Text(
-              //         'Enroll Courses',
-              //         style:
-              //             TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-              //         // textAlign: TextAlign.center,
-              //       ),
-              //       // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-              //     ),
-              //   ),
-              // ),
-            ),
-            Divider(
-              thickness: 1,
-              color: Color.fromARGB(255, 216, 216, 216),
-              endIndent: width * 0.03,
-              indent: width * 0.03,
-            ),
-            InkWell(
-              onTap: () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => MyCoursesPage()));
-              },
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: width * 0.055,
-                  ),
-                  Container(
-                    width: width * 0.12,
-                    height: height * 0.09,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                      image: AssetImage('images/record.png'),
-                      // fit: BoxFit.fill,
-                    )),
-                  ),
-                  SizedBox(
-                    width: width * 0.03,
-                  ),
-                  Text(
-                    'Attendance Record',
-                    style: TextStyle(
-                      fontSize: width * 0.04,
-                      fontWeight: FontWeight.w400,
+                    Container(
+                      width: width * 0.12,
+                      height: height * 0.09,
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(
+                        image: AssetImage('images/enroll courses.png'),
+                        // fit: BoxFit.fill,
+                      )),
                     ),
-                  ),
-                  SizedBox(
-                    width: width * 0.32,
-                  ),
-                  Icon(
-                    Icons.keyboard_arrow_right,
-                    color: Color.fromARGB(255, 7, 132, 235),
-                    size: width * 0.07,
-                  )
-                ],
+                    SizedBox(
+                      width: width * 0.03,
+                    ),
+                    Text(
+                      'Enroll Courses',
+                      style: TextStyle(
+                        fontSize: width * 0.04,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    SizedBox(
+                      width: width * 0.4,
+                    ),
+                    Icon(
+                      Icons.keyboard_arrow_right,
+                      color: const Color.fromARGB(255, 7, 132, 235),
+                      size: width * 0.07,
+                    )
+                  ],
+                ),
+                // child: Padding(
+                //   padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                //   child: Padding(
+                //     padding: EdgeInsets.all(width * 0.018),
+                //     child: const ListTile(
+                //       // tileColor: Colors.amber,
+                //       trailing: Icon(
+                //         Icons.keyboard_arrow_right,
+                //         size: 50,
+                //       ),
+                //       // leading: Icon(Icons.person),
+                //       title: Text(
+                //         'Enroll Courses',
+                //         style:
+                //             TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+                //         // textAlign: TextAlign.center,
+                //       ),
+                //       // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+                //     ),
+                //   ),
+                // ),
               ),
-            ),
-            // InkWell(
-            //   onTap: () {
-            //     // Navigator.push(
-            //     //     context, MaterialPageRoute(builder: (context) => Dummy()));
-            //   },
-            //   child: Padding(
-            //     padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-            //     child: Card(
-            //       elevation: 5,
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(10),
-            //       ),
-            //       // margin: EdgeInsets.all(20),
-            //       child: Padding(
-            //         padding: EdgeInsets.all(width * 0.018),
-            //         child: const ListTile(
-            //           trailing: Icon(
-            //             Icons.keyboard_arrow_right,
-            //             size: 50,
-            //           ),
-            //           // leading: Icon(Icons.person),
-            //           title: Text(
-            //             'ChatBox',
-            //             style: TextStyle(
-            //                 fontSize: 22, fontWeight: FontWeight.w500),
-            //             // textAlign: TextAlign.center,
-            //           ),
-            //           // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // Divider(),
-            // InkWell(
-            //   onTap: () {
-            //     // Navigator.push(context,
-            //     //     MaterialPageRoute(builder: (context) => MyCoursesPage()));
-            //   },
-            //   child: Row(
-            //     children: [
-            //       SizedBox(
-            //         width: width * 0.055,
-            //       ),
-            //       Container(
-            //         width: width * 0.12,
-            //         height: height * 0.09,
-            //         decoration: BoxDecoration(
-            //             image: DecorationImage(
-            //           image: AssetImage('images/record.png'),
-            //           // fit: BoxFit.fill,
-            //         )),
-            //       ),
-            //       SizedBox(
-            //         width: width * 0.03,
-            //       ),
-            //       Text(
-            //         'Attendance Record',
-            //         style: TextStyle(
-            //           fontSize: width * 0.04,
-            //           fontWeight: FontWeight.w400,
-            //         ),
-            //       ),
-            //       SizedBox(
-            //         width: width * 0.32,
-            //       ),
-            //       Icon(
-            //         Icons.keyboard_arrow_right,
-            //         color: Color.fromARGB(255, 7, 132, 235),
-            //         size: width * 0.07,
-            //       )
-            //     ],
-            //   ),
-            // ),
-            Divider(
-              thickness: 1,
-              endIndent: width * 0.03,
-              indent: width * 0.03,
-              color: Color.fromARGB(255, 216, 216, 216),
-            ),
-            SizedBox(
-              height: height * 0.15,
-            )
-          ],
+              Divider(
+                thickness: 1,
+                color: Color.fromARGB(255, 216, 216, 216),
+                endIndent: width * 0.03,
+                indent: width * 0.03,
+              ),
+              InkWell(
+                onTap: () {
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => MyCoursesPage()));
+                },
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: width * 0.055,
+                    ),
+                    Container(
+                      width: width * 0.12,
+                      height: height * 0.09,
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(
+                        image: AssetImage('images/record.png'),
+                        // fit: BoxFit.fill,
+                      )),
+                    ),
+                    SizedBox(
+                      width: width * 0.03,
+                    ),
+                    Text(
+                      'Attendance Record',
+                      style: TextStyle(
+                        fontSize: width * 0.04,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    SizedBox(
+                      width: width * 0.32,
+                    ),
+                    Icon(
+                      Icons.keyboard_arrow_right,
+                      color: Color.fromARGB(255, 7, 132, 235),
+                      size: width * 0.07,
+                    )
+                  ],
+                ),
+              ),
+              Divider(
+                thickness: 1,
+                endIndent: width * 0.03,
+                indent: width * 0.03,
+                color: Color.fromARGB(255, 216, 216, 216),
+              ),
+              SizedBox(
+                height: height * 0.15,
+              )
+            ],
+          ),
         ),
       ),
     );

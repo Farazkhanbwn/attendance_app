@@ -15,7 +15,7 @@ class MyButton extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         width: width * 0.85,
-        height: height * 0.06,
+        height: height * 0.065,
         decoration: BoxDecoration(
           // boxShadow: [
           //   BoxShadow(
