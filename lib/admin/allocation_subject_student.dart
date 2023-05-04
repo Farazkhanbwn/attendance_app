@@ -41,11 +41,6 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Allocate Subject'),
-      //   centerTitle: true,
-      //   backgroundColor: MyTheme.primaryColor,
-      // ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
@@ -78,9 +73,10 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                         child: Text(
                           'Subject Allocation',
                           style: TextStyle(
-                              fontSize: width * 0.05,
-                              fontWeight: FontWeight.w800,
-                              color: MyTheme.primaryColor),
+                            fontSize: width * 0.05,
+                            fontWeight: FontWeight.w800,
+                            color: MyTheme.primaryColor,
+                          ),
                         ),
                       ),
                     ],
@@ -88,7 +84,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                 ),
                 // Drop-down for selecting subject
                 Container(
-                  alignment: Alignment.bottomRight,
+                  alignment: Alignment.center,
                   width: width,
                   height: height * 0.13,
                   // color: Colors.blue,
@@ -98,9 +94,9 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: Container(
-                      width: width * 0.9,
+                      width: width * 0.93,
                       height: height * 0.07,
-                      color: Color.fromARGB(255, 93, 200, 250),
+                      // color: Color.fromARGB(255, 93, 200, 250),
                       child: FutureBuilder<QuerySnapshot>(
                         future: FirebaseFirestore.instance
                             .collection('courses')
@@ -115,9 +111,9 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                 left: width * 0.02, top: height * 0.018),
                             child: DropdownButtonFormField<String>(
                               decoration:
-                                  InputDecoration.collapsed(hintText: ''),
-                              iconEnabledColor: Colors.white,
-                              // iconEnabledColor: MyTheme.primaryColor,
+                                  const InputDecoration.collapsed(hintText: ''),
+                              // iconEnabledColor: Colors.white,
+                              iconEnabledColor: MyTheme.primaryColor,
                               iconDisabledColor: Colors.red,
                               value: _selectedSubject,
                               items: snapshot.data!.docs.map((doc) {
@@ -128,24 +124,25 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                   child: Text(
                                     data['courseName'],
                                     style: TextStyle(
-                                      color: Colors.white,
-                                      // color: MyTheme.primaryColor,
+                                      // color: Colors.white,
+                                      color: MyTheme.primaryColor,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18,
                                     ),
                                   ),
                                 );
                               }).toList(),
-                              dropdownColor: MyTheme.primaryColor,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                              dropdownColor: MyTheme.whiteColor,
+                              // autovalidateMode:
+                              //     AutovalidateMode.onUserInteraction,
                               hint: Text(
                                 'Select a subject',
                                 style: TextStyle(
-                                    color: Color.fromARGB(255, 255, 254, 254),
-                                    // color: MyTheme.blue,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500),
+                                  // color: Color.fromARGB(255, 255, 254, 254),
+                                  color: MyTheme.primaryColor,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                               onChanged: (value) async {
                                 setState(
@@ -185,34 +182,36 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                 }
                                 // build the list of checkboxes for all students, marking those already enrolled as checked
                                 List<CheckboxListTile> studentCheckboxes =
-                                    snapshot.data!.docs.map((doc) {
-                                  Map<String, dynamic> data =
-                                      doc.data() as Map<String, dynamic>;
-                                  String studentName = data['name'] ?? '';
-                                  _selectedStudents = enrolledStudents;
-                                  print(
-                                      'Enrolled Students is = ${enrolledStudents.toString()}');
-                                  bool checked =
-                                      enrolledStudents.contains(studentName);
-                                  return CheckboxListTile(
-                                    title: Text(studentName),
-                                    value: checked,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        if (value != null) {
-                                          if (value) {
-                                            enrolledStudents.add(studentName);
-                                            print(
-                                                'enrolled Students is = ${enrolledStudents}');
-                                          } else {
-                                            enrolledStudents
-                                                .remove(studentName);
+                                    snapshot.data!.docs.map(
+                                  (doc) {
+                                    Map<String, dynamic> data =
+                                        doc.data() as Map<String, dynamic>;
+                                    String studentName = data['name'] ?? '';
+                                    _selectedStudents = enrolledStudents;
+                                    print(
+                                        'Enrolled Students is = ${enrolledStudents.toString()}');
+                                    bool checked =
+                                        enrolledStudents.contains(studentName);
+                                    return CheckboxListTile(
+                                      title: Text(studentName),
+                                      value: checked,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          if (value != null) {
+                                            if (value) {
+                                              enrolledStudents.add(studentName);
+                                              print(
+                                                  'enrolled Students is = ${enrolledStudents}');
+                                            } else {
+                                              enrolledStudents
+                                                  .remove(studentName);
+                                            }
                                           }
-                                        }
-                                      });
-                                    },
-                                  );
-                                }).toList();
+                                        });
+                                      },
+                                    );
+                                  },
+                                ).toList();
                               },
                               validator: (value) {
                                 if (value == null) {
@@ -311,7 +310,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                 //     ),
                 //   ),
                 // ),
-                Container(
+                SizedBox(
                   width: width,
                   height: height * 0.5,
                   // color: Colors.blue[300],

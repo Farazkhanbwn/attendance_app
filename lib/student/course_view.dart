@@ -25,14 +25,7 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
     // _getCourses();
   }
 
-  // void _getCourses() async {
-  //   QuerySnapshot querySnapshot =
-  //       await allocationsRef.where('user_email', isEqualTo: user?.email).get();
 
-  //   setState(() {
-  //     _courses = querySnapshot.docs;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

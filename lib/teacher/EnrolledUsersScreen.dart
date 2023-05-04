@@ -201,7 +201,8 @@ class _EnrolledStudentsScreenState extends State<EnrolledStudentsScreen> {
                 onPressed: () {
                   // Compare the two lists and show output
                   for (String id in deviceList) {
-                    print('deviceList is = ${deviceList.toList()}');
+                    print('Scanning Devices  is = ${deviceList.toList()}');
+                    print('Devices store in database is = ${blueIds}');
                     if (blueIds.contains(id)) {
                       matchingIds.add(id);
                       matchingIds = matchingIds.toSet().toList();
