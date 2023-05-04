@@ -4,37 +4,49 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class CourseAllocate {
-  final List<String>? students;
   final String? subjectname;
+  final String? studentName;
+  final String? studentid;
+  final String? subjectblueId;
   CourseAllocate({
-    this.students,
     this.subjectname,
+    this.studentName,
+    this.studentid,
+    this.subjectblueId,
   });
 
   CourseAllocate copyWith({
-    List<String>? students,
     String? subjectname,
+    String? studentName,
+    String? studentid,
+    String? subjectblueId,
   }) {
     return CourseAllocate(
-      students: students ?? this.students,
       subjectname: subjectname ?? this.subjectname,
+      studentName: studentName ?? this.studentName,
+      studentid: studentid ?? this.studentid,
+      subjectblueId: subjectblueId ?? this.subjectblueId,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'students': students,
       'subjectname': subjectname,
+      'studentName': studentName,
+      'studentid': studentid,
+      'subjectblueId': subjectblueId,
     };
   }
 
   factory CourseAllocate.fromMap(Map<String, dynamic> map) {
     return CourseAllocate(
-      students: map['students'] != null
-          ? List<String>.from((map['students'] as List<String>))
-          : null,
       subjectname:
           map['subjectname'] != null ? map['subjectname'] as String : null,
+      studentName:
+          map['studentName'] != null ? map['studentName'] as String : null,
+      studentid: map['studentid'] != null ? map['studentid'] as String : null,
+      subjectblueId:
+          map['subjectblueId'] != null ? map['subjectblueId'] as String : null,
     );
   }
 
@@ -44,17 +56,25 @@ class CourseAllocate {
       CourseAllocate.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() =>
-      'CourseAllocate(students: $students, subjectname: $subjectname)';
+  String toString() {
+    return 'CourseAllocate(subjectname: $subjectname, studentName: $studentName, studentid: $studentid, subjectblueId: $subjectblueId)';
+  }
 
   @override
   bool operator ==(covariant CourseAllocate other) {
     if (identical(this, other)) return true;
 
-    return listEquals(other.students, students) &&
-        other.subjectname == subjectname;
+    return other.subjectname == subjectname &&
+        other.studentName == studentName &&
+        other.studentid == studentid &&
+        other.subjectblueId == subjectblueId;
   }
 
   @override
-  int get hashCode => students.hashCode ^ subjectname.hashCode;
+  int get hashCode {
+    return subjectname.hashCode ^
+        studentName.hashCode ^
+        studentid.hashCode ^
+        subjectblueId.hashCode;
+  }
 }

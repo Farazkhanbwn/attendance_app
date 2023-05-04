@@ -4,6 +4,7 @@ import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/button.dart';
 import 'package:attendance_app/flutsh&toast.dart/flushbar.dart';
 import 'package:attendance_app/models/admin/course_allocate.dart';
+import 'package:attendance_app/models/admin/subject_allocation.dart';
 import 'package:attendance_app/models/allocation_subject.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -16,24 +17,42 @@ class SubjectToStudents extends StatefulWidget {
 class _AllocateSubjectFormState extends State<SubjectToStudents> {
   final _formKey = GlobalKey<FormState>();
   FirebaseFirestore instance = FirebaseFirestore.instance;
-
+  String? studentName;
+  String? stdId;
+  String? studentBlueId;
   String? _selectedSubject;
   String? _selectedSubjectName;
-  List<String> _selectedStudents = [];
+  List<CourseAllocate> _selectedStudents = [];
   bool _selectAll = false;
   List<String> enrolledStudents = [];
   List<String> _checkedItems = [];
   // Map<String, String> _selectedStudentNames = {};
+  DataToModelClass() {
+    CourseAllocation Allocate =
+        CourseAllocation(name: 'faraz', blueId: '1', rollno: 4);
+  }
 
+  // AllocateSubject() async {
+  //   CourseAllocate model = CourseAllocate(
+  //     students: _selectedStudents,
+  //     subjectname: _selectedSubjectName,
+  //   );
+  //   await instance
+  //       .collection('subject_allocations')
+  //       .doc(_selectedSubjectName)
+  //       .set(model.toMap());
+  // }
   AllocateSubject() async {
-    CourseAllocate model = CourseAllocate(
-      students: _selectedStudents,
-      subjectname: _selectedSubjectName,
-    );
-    await instance
-        .collection('subject_allocations')
-        .doc(_selectedSubjectName)
-        .set(model.toMap());
+    for (int i = 0; i < _selectedStudents.length; i++) {
+      await instance
+          .collection('subject_allocations')
+          .doc(_selectedSubjectName!)
+          .collection('${_selectedStudents[i].studentid}')
+          .add(_selectedStudents[i].toMap());
+    }
+    setState(() {
+      _selectedStudents.clear();
+    });
   }
 
   @override
@@ -151,7 +170,8 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                     print(
                                         'pakistan zindabad ${_selectedStudents}');
                                     print(
-                                        'enrolled students is = {$enrolledStudents}');
+                                      'enrolled students is = {$enrolledStudents}',
+                                    );
                                     _selectedSubject = value;
                                     _selectedSubjectName = (snapshot.data!.docs
                                             .firstWhere((doc) =>
@@ -159,12 +179,13 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                             .data()
                                         as Map<String, dynamic>)['courseName'];
                                     print(
-                                        'The selected subject is = ${_selectedSubjectName.toString()}');
+                                      'The selected subject is = ${_selectedSubjectName.toString()}',
+                                    );
                                   },
                                 );
                                 // _selectedStudents = enrolledStudents;
                                 if (_selectedSubject == null ||
-                                    _selectedSubject is! String) {
+                                    _selectedSubject!.isNotEmpty) {
                                   // handle the error, such as displaying an error message or returning null
                                   return null;
                                 }
@@ -172,11 +193,14 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                     await FirebaseFirestore.instance
                                         .collection('subject_allocations')
                                         .doc(_selectedSubjectName)
+                                        .collection('')
+                                        .doc()
                                         .get();
                                 if (studentSnapshot.exists) {
                                   enrolledStudents = List<String>.from(
-                                      (studentSnapshot.data()
-                                          as Map<String, dynamic>)['students']);
+                                      (studentSnapshot.data() as Map<String,
+                                          dynamic>)['studentName']);
+                                  print('snapshots for students = ${snapshot}');
                                 } else {
                                   enrolledStudents = [];
                                 }
@@ -187,7 +211,8 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                     Map<String, dynamic> data =
                                         doc.data() as Map<String, dynamic>;
                                     String studentName = data['name'] ?? '';
-                                    _selectedStudents = enrolledStudents;
+
+                                    // _selectedStudents = enrolledStudents;
                                     print(
                                         'Enrolled Students is = ${enrolledStudents.toString()}');
                                     bool checked =
@@ -331,8 +356,15 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                             String studentId = doc.id;
                             Map<String, dynamic> data =
                                 doc.data() as Map<String, dynamic>;
-                            String studentName = data['name'];
+                            studentName = data['name'];
+                            studentId = data['email'];
+                            studentBlueId = data['blueId'];
                             String studentEmail = data['email'];
+                            CourseAllocate model = CourseAllocate(
+                                studentName: studentName,
+                                studentid: studentId,
+                                subjectblueId: studentBlueId,
+                                subjectname: _selectedSubjectName);
                             return Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 3),
@@ -346,7 +378,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                     horizontal: 15,
                                   ),
                                   title: Text(
-                                    studentName,
+                                    studentName!,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
@@ -361,14 +393,13 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                                       color: Colors.blue[700],
                                     ),
                                   ),
-                                  value:
-                                      _selectedStudents.contains(studentName),
+                                  value: _selectedStudents.contains(model),
                                   onChanged: (value) {
                                     setState(() {
                                       if (value!) {
-                                        _selectedStudents.add(studentName);
+                                        _selectedStudents.add(model);
                                       } else {
-                                        _selectedStudents.remove(studentName);
+                                        _selectedStudents.remove(model);
                                       }
                                     });
                                   },
@@ -398,6 +429,7 @@ class _AllocateSubjectFormState extends State<SubjectToStudents> {
                           AllocateSubject();
                           setState(() {
                             enrolledStudents.clear();
+                            // _selectedStudents.clear();
                             _selectedSubject = null;
                           });
                           // showFlushbar(
