@@ -90,7 +90,6 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
         title: const Text('My Courses'),
         centerTitle: true,
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
