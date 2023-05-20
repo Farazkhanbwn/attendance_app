@@ -19,7 +19,7 @@ class _TeachersScreenState extends State<TeachersScreen> {
     super.initState();
     _teachersStream = FirebaseFirestore.instance
         .collection('users')
-        .where('role', isEqualTo: 'Teacher')
+        .where('userRoll', isEqualTo: 'Teacher')
         .snapshots();
   }
 
@@ -61,8 +61,8 @@ class _TeachersScreenState extends State<TeachersScreen> {
                           color: Colors.white,
                         ),
                       ),
-                      title: Text(teacherData['name']),
-                      subtitle: Text(teacherData['email']),
+                      title: Text(teacherData['userName']),
+                      subtitle: Text(teacherData['userEmail']),
                       trailing: IconButton(
                         icon: const Icon(
                           Icons.close,

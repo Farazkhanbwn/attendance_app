@@ -4,49 +4,77 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class CourseAllocate {
-  final String? subjectname;
-  final String? studentName;
-  final String? studentid;
-  final String? subjectblueId;
+  String? corseID;
+  String? allocateId;
+  String? subjectname;
+  String? subjectTeacher;
+  String? studentName;
+  String? studentid;
+  String? studentblueId;
+  bool? allocatestatus;
   CourseAllocate({
+    this.corseID,
+    this.allocateId,
     this.subjectname,
+    this.subjectTeacher,
     this.studentName,
     this.studentid,
-    this.subjectblueId,
+    this.studentblueId,
+    this.allocatestatus,
   });
 
   CourseAllocate copyWith({
+    String? corseID,
+    String? allocateId,
     String? subjectname,
+    String? subjectTeacher,
     String? studentName,
     String? studentid,
-    String? subjectblueId,
+    String? studentblueId,
+    bool? allocatestatus,
   }) {
     return CourseAllocate(
+      corseID: corseID ?? this.corseID,
+      allocateId: allocateId ?? this.allocateId,
       subjectname: subjectname ?? this.subjectname,
+      subjectTeacher: subjectTeacher ?? this.subjectTeacher,
       studentName: studentName ?? this.studentName,
       studentid: studentid ?? this.studentid,
-      subjectblueId: subjectblueId ?? this.subjectblueId,
+      studentblueId: studentblueId ?? this.studentblueId,
+      allocatestatus: allocatestatus ?? this.allocatestatus,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'corseID': corseID,
+      'allocateId': allocateId,
       'subjectname': subjectname,
+      'subjectTeacher': subjectTeacher,
       'studentName': studentName,
       'studentid': studentid,
-      'subjectblueId': subjectblueId,
+      'studentblueId': studentblueId,
+      'allocatestatus': allocatestatus,
     };
   }
 
   factory CourseAllocate.fromMap(Map<String, dynamic> map) {
     return CourseAllocate(
+      corseID: map['corseID'] != null ? map['corseID'] as String : null,
+      allocateId:
+          map['allocateId'] != null ? map['allocateId'] as String : null,
       subjectname:
           map['subjectname'] != null ? map['subjectname'] as String : null,
+      subjectTeacher: map['subjectTeacher'] != null
+          ? map['subjectTeacher'] as String
+          : null,
       studentName:
           map['studentName'] != null ? map['studentName'] as String : null,
       studentid: map['studentid'] != null ? map['studentid'] as String : null,
-      subjectblueId:
-          map['subjectblueId'] != null ? map['subjectblueId'] as String : null,
+      studentblueId:
+          map['studentblueId'] != null ? map['studentblueId'] as String : null,
+      allocatestatus:
+          map['allocatestatus'] != null ? map['allocatestatus'] as bool : null,
     );
   }
 
@@ -57,24 +85,32 @@ class CourseAllocate {
 
   @override
   String toString() {
-    return 'CourseAllocate(subjectname: $subjectname, studentName: $studentName, studentid: $studentid, subjectblueId: $subjectblueId)';
+    return 'CourseAllocate(corseID: $corseID, allocateId: $allocateId, subjectname: $subjectname, subjectTeacher: $subjectTeacher, studentName: $studentName, studentid: $studentid, studentblueId: $studentblueId, allocatestatus: $allocatestatus)';
   }
 
   @override
   bool operator ==(covariant CourseAllocate other) {
     if (identical(this, other)) return true;
 
-    return other.subjectname == subjectname &&
+    return other.corseID == corseID &&
+        other.allocateId == allocateId &&
+        other.subjectname == subjectname &&
+        other.subjectTeacher == subjectTeacher &&
         other.studentName == studentName &&
         other.studentid == studentid &&
-        other.subjectblueId == subjectblueId;
+        other.studentblueId == studentblueId &&
+        other.allocatestatus == allocatestatus;
   }
 
   @override
   int get hashCode {
-    return subjectname.hashCode ^
+    return corseID.hashCode ^
+        allocateId.hashCode ^
+        subjectname.hashCode ^
+        subjectTeacher.hashCode ^
         studentName.hashCode ^
         studentid.hashCode ^
-        subjectblueId.hashCode;
+        studentblueId.hashCode ^
+        allocatestatus.hashCode;
   }
 }

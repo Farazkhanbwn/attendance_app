@@ -3,9 +3,13 @@ import 'dart:async';
 import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/admin/admin_view.dart';
 import 'package:attendance_app/forget_pass.dart';
+import 'package:attendance_app/models/userModel.dart';
 import 'package:attendance_app/signin.dart';
+import 'package:attendance_app/static_values.dart';
 import 'package:attendance_app/student/student_view.dart';
 import 'package:attendance_app/teacher/teacher_view.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,8 +22,6 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
-  String? userType;
-
   void initState() {
     super.initState();
     checkUserType();
@@ -27,24 +29,56 @@ class _SplashState extends State<Splash> {
 
   Future<void> checkUserType() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    userType = prefs.getString('role');
+    String? userid = prefs.getString('UserId');
+    String? userType = prefs.getString('userRoll');
     print('UserType is equal to = ${userType.toString()}');
     if (userType != null) {
+      StaticValues.roll = userType;
+      StaticValues.uid = userid;
+
       // user type found in shared preferences, navigate to the appropriate screen
       switch (userType) {
         case 'Admin':
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(StaticValues.uid)
+              .get()
+              .then((value) {
+            setState(() {
+              StaticValues.model = UserModel.fromMap(value.data()!);
+            });
+          });
           Timer(
               const Duration(seconds: 6),
               () => Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (BuildContext context) => AdminView())));
+
           break;
         case 'Teacher':
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(StaticValues.uid)
+              .get()
+              .then((value) {
+            setState(() {
+              StaticValues.model = UserModel.fromMap(value.data()!);
+            });
+          });
           Timer(
               const Duration(seconds: 6),
               () => Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (BuildContext context) => TeacherView())));
           break;
         case 'Student':
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(StaticValues.uid)
+              .get()
+              .then((value) {
+            setState(() {
+              StaticValues.model = UserModel.fromMap(value.data()!);
+            });
+          });
           Timer(
               const Duration(seconds: 6),
               () => Navigator.of(context).pushReplacement(MaterialPageRoute(

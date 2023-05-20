@@ -1,16 +1,20 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:attendance_app/Theme.dart';
+import 'package:attendance_app/controllers/admin_controller.dart';
 import 'package:attendance_app/flutsh&toast.dart/flushbar.dart';
 import 'package:attendance_app/flutsh&toast.dart/handleExceptonError.dart';
 import 'package:attendance_app/models/add_admin_model.dart';
-import 'package:attendance_app/models/student/user_model.dart';
+import 'package:attendance_app/models/userModel.dart';
 import 'package:attendance_app/signin.dart';
+import 'package:attendance_app/static_values.dart';
 import 'package:attendance_app/string_extension.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:uuid/uuid.dart';
 
 class AddUser extends StatefulWidget {
   const AddUser({super.key});
@@ -146,23 +150,22 @@ class _DummyState extends State<AddUser> {
   postDataToFB() async {
     User? user = auth.currentUser;
     var id = user!.uid;
-    UserModel model = UserModel(
-      name: namecontroller.text
-          .split(' ')
-          .map((word) => word.capitalize())
-          .join(' '),
-      email: emailcontroller.text,
-      password: passwordcontroller.text,
-      role: rool,
-      uid: id,
-      adminId: adminIdcontroller.text,
-      blueId: '',
-    );
+    // UserModel model = UserModel(
+    //   name: namecontroller.text
+    //       .split(' ')
+    //       .map((word) => word.capitalize())
+    //       .join(' '),
+    //   email: emailcontroller.text,
+    //   password: passwordcontroller.text,
+    //   role: rool,
+    //   uid: id,
+    //   blueId: '',
+    // );
 
-    await instance
-        .collection('users')
-        .doc(emailcontroller.text.trim())
-        .set(model.toMap());
+    // await instance
+    //     .collection('users')
+    //     .doc(emailcontroller.text.trim())
+    //     .set(model.toMap());
   }
 
   @override
@@ -357,120 +360,64 @@ class _DummyState extends State<AddUser> {
                       SizedBox(
                         height: height * 0.01,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Card(
-                            elevation: 5,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Container(
-                              height: height * 0.07,
-                              width: width * 0.424,
-                              color: Colors.transparent,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: width * 0.02),
-                                child: TextFormField(
-                                  // obscureText: _isObscure,
-                                  controller: adminIdcontroller,
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return "Enter Admin ID";
-                                    } else {
-                                      return null;
-                                    }
+                      SizedBox(
+                        height: height * 0.08,
+                        width: width * 0.85,
+                        child: Card(
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          // child: InputDecorator(
+                          // decoration: InputDecoration(
+
+                          // labelStyle: textStyle,
+
+                          //     borderRadius: BorderRadius.circular(5.0)),
+                          // ),
+                          // isEmpty: _currentSelectedValue == '',
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: width * 0.03, right: width * 0.02),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                hint: Text(
+                                  'Select Role',
+                                  style: TextStyle(color: MyTheme.blackColor),
+                                ),
+                                // underline: SizedBox(),
+
+                                iconEnabledColor: Colors.blue,
+                                iconSize: width * 0.06,
+                                isDense: true,
+                                dropdownColor: Colors.white,
+                                isExpanded: true,
+                                onChanged: (newValue) {
+                                  {
+                                    print(newValue);
+                                    setState(() {
+                                      _currentItemSelected = newValue!;
+                                      print('new value is ${newValue}');
+                                      rool = newValue;
+                                      print('new value is ${rool}');
+                                      // state.didChange(newValue);
+                                    });
+                                  }
+                                },
+                                value: _currentItemSelected,
+                                items: items.map(
+                                  (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
                                   },
-                                  onChanged: (value) {},
-                                  keyboardType: TextInputType.emailAddress,
-                                  decoration: InputDecoration(
-                                    // errorText: _emptyboxpass
-                                    //     ? 'password field cannot be empty'
-                                    //     : null,
-                                    border: InputBorder.none,
-                                    hintText: 'Admin ID',
-                                    hintStyle:
-                                        TextStyle(color: MyTheme.blackColor),
-                                    // focusedBorder: OutlineInputBorder(
-                                    //   borderSide: BorderSide(
-                                    //       color: Colors.deepPurple, width: 2.0),
-                                    //   borderRadius: BorderRadius.circular(10.0),
-                                    // ),
-                                    suffixIcon: IconButton(
-                                        color: MyTheme.primaryColor,
-                                        icon: Icon(Icons.person),
-                                        onPressed: () {
-                                          setState(() {
-                                            _isObscure = !_isObscure;
-                                          });
-                                        }),
-                                  ),
-                                ),
+                                ).toList(),
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: height * 0.08,
-                            width: width * 0.425,
-                            child: Card(
-                              elevation: 5,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              // child: InputDecorator(
-                              // decoration: InputDecoration(
-
-                              // labelStyle: textStyle,
-
-                              //     borderRadius: BorderRadius.circular(5.0)),
-                              // ),
-                              // isEmpty: _currentSelectedValue == '',
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: width * 0.03, right: width * 0.02),
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<String>(
-                                    hint: Text(
-                                      'Select Role',
-                                      style:
-                                          TextStyle(color: MyTheme.blackColor),
-                                    ),
-                                    // underline: SizedBox(),
-
-                                    iconEnabledColor: Colors.blue,
-                                    iconSize: width * 0.06,
-                                    isDense: true,
-                                    dropdownColor: Colors.white,
-                                    isExpanded: true,
-                                    onChanged: (newValue) {
-                                      {
-                                        print(newValue);
-                                        setState(() {
-                                          _currentItemSelected = newValue!;
-                                          print('new value is ${newValue}');
-                                          rool = newValue;
-                                          print('new value is ${rool}');
-                                          // state.didChange(newValue);
-                                        });
-                                      }
-                                    },
-                                    value: _currentItemSelected,
-                                    items: items.map(
-                                      (String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(value),
-                                        );
-                                      },
-                                    ).toList(),
-                                  ),
-                                ),
-                              ),
-                              // ),
-                            ),
-                          ),
-                        ],
+                          // ),
+                        ),
                       ),
                       SizedBox(
                         height: height * 0.03,
@@ -507,7 +454,19 @@ class _DummyState extends State<AddUser> {
                                     fontSize: 16.0,
                                   );
                                 } else {
-                                  adduser();
+                                  var uuid = Uuid();
+                                  String id = uuid.v4();
+                                  UserModel model = UserModel(
+                                    blueID: "",
+                                    password: passwordcontroller.text,
+                                    userEmail: emailcontroller.text,
+                                    userName: namecontroller.text,
+                                    userRoll: rool,
+                                    userId: id,
+                                  );
+
+                                  AdminController.to
+                                      .addUsermethod(model, context);
                                 }
                               },
                               child: Container(
@@ -542,377 +501,347 @@ class _DummyState extends State<AddUser> {
                   child: SizedBox(
                 height: height,
                 width: width * 0.9,
-                child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection('users')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else if (snapshot.data!.docs.isEmpty) {
-                        return const Center(
-                            child: Center(child: Text('Empty')));
-                      } else {
-                        return ListView.builder(
-                          itemCount: snapshot.data!.docs.length,
-                          // itemCount: stuObj.allStudentList.length,
-                          itemBuilder: (context, index) {
-                            final userData = snapshot.data!.docs[index].data()
-                                as Map<String, dynamic>;
-                            return Card(
-                              elevation: 5,
-                              shadowColor: MyTheme.primaryColor,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              color: MyTheme.primaryColor,
-                              child: SizedBox(
-                                height: height * 0.18,
-                                width: width,
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      height: height * 0.18,
-                                      width: width,
-                                      decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.only(
-                                            bottomRight: Radius.circular(70),
-                                            topLeft: Radius.circular(70),
+                child: GetBuilder<AdminController>(initState: (state) {
+                  AdminController.to.getUserListMethod();
+                }, builder: (obj) {
+                  if (obj.allUsers.isEmpty) {
+                    return const Center(child: Center(child: Text('Empty')));
+                  } else {
+                    return ListView.builder(
+                      itemCount: obj.allUsers.length,
+                      // itemCount: stuObj.allStudentList.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          elevation: 5,
+                          shadowColor: MyTheme.primaryColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          color: MyTheme.primaryColor,
+                          child: SizedBox(
+                            height: height * 0.18,
+                            width: width,
+                            child: Stack(
+                              children: [
+                                Container(
+                                  height: height * 0.18,
+                                  width: width,
+                                  decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(70),
+                                        topLeft: Radius.circular(70),
+                                      ),
+                                      color: MyTheme.whiteColor),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            EdgeInsets.only(top: height * 0.02),
+                                        child: SizedBox(
+                                          height: height * 0.06,
+                                          width: width,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Card(
+                                                elevation: 4,
+                                                shadowColor:
+                                                    MyTheme.primaryColor,
+                                                child: SizedBox(
+                                                  height: height,
+                                                  width: width * 0.7,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        height: height,
+                                                        width: width * 0.1,
+                                                        child: Icon(
+                                                          Icons.person,
+                                                          size: width * 0.05,
+                                                          color: MyTheme
+                                                              .primaryColor,
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          height: height,
+                                                          width: width,
+                                                          child: Text(
+                                                            obj.allUsers[index]
+                                                                .userName!,
+                                                            // 'Faraz khan',
+                                                            style: TextStyle(
+                                                              fontSize:
+                                                                  width * 0.035,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          color: MyTheme.whiteColor),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                top: height * 0.02),
-                                            child: SizedBox(
-                                              height: height * 0.06,
-                                              width: width,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: height * 0.05,
+                                        width: width,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              height: height,
+                                              width: width * 0.35,
                                               child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
                                                 children: [
-                                                  Card(
-                                                    elevation: 4,
-                                                    shadowColor:
-                                                        MyTheme.primaryColor,
-                                                    child: SizedBox(
+                                                  Container(
+                                                    alignment: Alignment.center,
+                                                    height: height,
+                                                    width: width * 0.1,
+                                                    child: Icon(
+                                                      Icons
+                                                          .format_list_numbered,
+                                                      size: width * 0.05,
+                                                      color:
+                                                          MyTheme.primaryColor,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(
+                                                      alignment:
+                                                          Alignment.centerLeft,
                                                       height: height,
-                                                      width: width * 0.7,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Container(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            height: height,
-                                                            width: width * 0.1,
-                                                            child: Icon(
-                                                              Icons.person,
-                                                              size:
-                                                                  width * 0.05,
-                                                              color: MyTheme
-                                                                  .primaryColor,
-                                                            ),
-                                                          ),
-                                                          Expanded(
-                                                            child: Container(
-                                                              alignment: Alignment
-                                                                  .centerLeft,
-                                                              height: height,
-                                                              width: width,
-                                                              child: Text(
-                                                                (userData[
-                                                                    'name']),
-                                                                // 'Faraz khan',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      width *
-                                                                          0.035,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
+                                                      width: width,
+                                                      child: Text(
+                                                        // '${stuObj.allStudentList[index].rollNo}',
+                                                        'Faraz khan',
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                width * 0.035,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: MyTheme
+                                                                .greycolor),
                                                       ),
                                                     ),
                                                   ),
                                                 ],
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: height * 0.05,
-                                            width: width,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                SizedBox(
-                                                  height: height,
-                                                  width: width * 0.35,
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        height: height,
-                                                        width: width * 0.1,
-                                                        child: Icon(
-                                                          Icons
-                                                              .format_list_numbered,
-                                                          size: width * 0.05,
-                                                          color: MyTheme
-                                                              .primaryColor,
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Container(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          height: height,
-                                                          width: width,
-                                                          child: Text(
-                                                            // '${stuObj.allStudentList[index].rollNo}',
-                                                            (userData[
-                                                                'adminId']),
-                                                            // 'Faraz khan',
-                                                            style: TextStyle(
-                                                                fontSize:
-                                                                    width *
-                                                                        0.035,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                color: MyTheme
-                                                                    .greycolor),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
+                                            SizedBox(
+                                              height: height,
+                                              width: width * 0.5,
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    alignment: Alignment.center,
+                                                    height: height,
+                                                    width: width * 0.1,
+                                                    child: Icon(
+                                                      Icons.credit_card,
+                                                      size: width * 0.05,
+                                                      color:
+                                                          MyTheme.primaryColor,
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(
-                                                  height: height,
-                                                  width: width * 0.5,
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        height: height,
-                                                        width: width * 0.1,
-                                                        child: Icon(
-                                                          Icons.credit_card,
-                                                          size: width * 0.05,
+                                                  Container(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    height: height,
+                                                    width: width * 0.3,
+                                                    child: Text(
+                                                      // '${stuObj.allStudentList[index].cnic}',
+                                                      obj.allUsers[index]
+                                                          .userRoll!,
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              width * 0.035,
+                                                          fontWeight:
+                                                              FontWeight.w400,
                                                           color: MyTheme
-                                                              .primaryColor,
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        height: height,
-                                                        width: width * 0.3,
-                                                        child: Text(
-                                                          // '${stuObj.allStudentList[index].cnic}',
-                                                          (userData['role']),
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  width * 0.035,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              color: MyTheme
-                                                                  .greycolor),
-                                                        ),
-                                                      ),
-                                                    ],
+                                                              .greycolor),
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: height * 0.05,
-                                            width: width,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                SizedBox(
-                                                  height: height,
-                                                  width: width * 0.35,
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        height: height,
-                                                        width: width * 0.1,
-                                                        child: Icon(
-                                                          Icons.menu_book,
-                                                          size: width * 0.05,
-                                                          color: MyTheme
-                                                              .primaryColor,
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Container(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          height: height,
-                                                          width: width,
-                                                          child: Text(
-                                                            // '${stuObj.allStudentList[index].semester}',
-                                                            (userData['email']),
-                                                            style: TextStyle(
-                                                                fontSize:
-                                                                    width *
-                                                                        0.035,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                color: MyTheme
-                                                                    .greycolor),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: height,
-                                                  width: width * 0.5,
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        height: height,
-                                                        width: width * 0.1,
-                                                        child: FaIcon(
-                                                          FontAwesomeIcons
-                                                              .school,
-                                                          size: width * 0.05,
-                                                          color: MyTheme
-                                                              .primaryColor,
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        height: height,
-                                                        width: width * 0.3,
-                                                        child: Text(
-                                                          // '${stuObj.allStudentList[index].departmentName}',
-                                                          'Computer Science',
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  width * 0.035,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              color: MyTheme
-                                                                  .greycolor),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.topRight,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          height: height * 0.03,
-                                          width: width * 0.06,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: MyTheme.blackColor),
-                                              shape: BoxShape.circle),
-                                          child: Center(
-                                            child: InkWell(
-                                              onTap: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return AlertDialog(
-                                                      title: const Text(
-                                                          'Confirm Deletion'),
-                                                      content: const Text(
-                                                          'Are you sure you want to delete this user?'),
-                                                      actions: [
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                          child: Text('CANCEL'),
-                                                        ),
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            FirebaseFirestore
-                                                                .instance
-                                                                .collection(
-                                                                    'users')
-                                                                .doc(snapshot
-                                                                    .data!
-                                                                    .docs[index]
-                                                                    .id)
-                                                                .delete();
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                            showFlushbar(
-                                                                context,
-                                                                'User Deleted Successfully');
-                                                          },
-                                                          child: const Text(
-                                                              'DELETE'),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                              child: Icon(
-                                                Icons.clear_rounded,
-                                                color: MyTheme.blackColor,
-                                                size: width * 0.045,
+                                                ],
                                               ),
                                             ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: height * 0.05,
+                                        width: width,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              height: height,
+                                              width: width * 0.35,
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    alignment: Alignment.center,
+                                                    height: height,
+                                                    width: width * 0.1,
+                                                    child: Icon(
+                                                      Icons.menu_book,
+                                                      size: width * 0.05,
+                                                      color:
+                                                          MyTheme.primaryColor,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      height: height,
+                                                      width: width,
+                                                      child: Text(
+                                                        // '${stuObj.allStudentList[index].semester}',
+                                                        obj.allUsers[index]
+                                                            .userEmail!,
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                width * 0.035,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: MyTheme
+                                                                .greycolor),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: height,
+                                              width: width * 0.5,
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    alignment: Alignment.center,
+                                                    height: height,
+                                                    width: width * 0.1,
+                                                    child: FaIcon(
+                                                      FontAwesomeIcons.school,
+                                                      size: width * 0.05,
+                                                      color:
+                                                          MyTheme.primaryColor,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    height: height,
+                                                    width: width * 0.3,
+                                                    child: Text(
+                                                      // '${stuObj.allStudentList[index].departmentName}',
+                                                      'Computer Science',
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              width * 0.035,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: MyTheme
+                                                              .greycolor),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      height: height * 0.03,
+                                      width: width * 0.06,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: MyTheme.blackColor),
+                                          shape: BoxShape.circle),
+                                      child: Center(
+                                        child: InkWell(
+                                          onTap: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                      'Confirm Deletion'),
+                                                  content: const Text(
+                                                      'Are you sure you want to delete this user?'),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text('CANCEL'),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () async {
+                                                        FirebaseFirestore
+                                                            .instance
+                                                            .collection("users")
+                                                            .doc(obj
+                                                                .allUsers[index]
+                                                                .userId)
+                                                            .delete();
+
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        showFlushbar(context,
+                                                            'User Deleted Successfully');
+                                                      },
+                                                      child:
+                                                          const Text('DELETE'),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: Icon(
+                                            Icons.clear_rounded,
+                                            color: MyTheme.blackColor,
+                                            size: width * 0.045,
                                           ),
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                         );
-                      }
-                    }),
+                      },
+                    );
+                  }
+                }),
               ))
             ],
           ),
