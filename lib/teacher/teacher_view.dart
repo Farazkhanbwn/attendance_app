@@ -4,6 +4,7 @@ import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/admin/add_user.dart';
 import 'package:attendance_app/signin.dart';
 import 'package:attendance_app/student/updat_blueId.dart';
+import 'package:attendance_app/teacher/controller/teacher_controller.dart';
 import 'package:attendance_app/testing/test1.dart';
 import 'package:attendance_app/testing/test6.dart';
 import 'package:attendance_app/teacher/course_display.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
 
 class TeacherView extends StatefulWidget {
   const TeacherView({super.key});
@@ -50,10 +52,18 @@ class _TeacherViewState extends State<TeacherView> {
   }
 
   @override
+  void initState() {
+    Get.put(TeacherController());
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: MyTheme.background,
       appBar: AppBar(
         backgroundColor: MyTheme.primaryColor,
@@ -83,7 +93,6 @@ class _TeacherViewState extends State<TeacherView> {
         width: width * 0.7,
         child: Column(children: [
           drawerHeader(context),
-          
           listTileAbout(context),
           listTilePrivacyPolicy(context),
           listTileTerms(context),

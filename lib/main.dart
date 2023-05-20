@@ -1,3 +1,4 @@
+import 'package:attendance_app/aaaaaa.dart';
 import 'package:attendance_app/admin/add_user.dart';
 import 'package:attendance_app/admin/add_admin.dart';
 import 'package:attendance_app/admin/add_course.dart';
@@ -37,7 +38,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: Splash(),
+      // home: MyHomePage(
+      //   title: 'hello',
+      // ),
     );
   }
 }
@@ -58,6 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: PageView(
         children: [
           // Splash(),
+          Card1(),
           const SignIn(),
           EnrolledStudentsScreen(subjectName: 'Cloud Computing'),
           AddUser(),

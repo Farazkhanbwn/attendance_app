@@ -4,6 +4,8 @@ import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/admin/add_course.dart';
 import 'package:attendance_app/signin.dart';
 import 'package:attendance_app/splash.dart';
+import 'package:attendance_app/static_values.dart';
+import 'package:attendance_app/student/controller/student_controller.dart';
 import 'package:attendance_app/student/updat_blueId.dart';
 import 'package:attendance_app/testing/test1.dart';
 import 'package:attendance_app/student/course_view.dart';
@@ -11,6 +13,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StudentView extends StatefulWidget {
@@ -21,6 +24,7 @@ class StudentView extends StatefulWidget {
 }
 
 class _StudentViewState extends State<StudentView> {
+  FirebaseAuth auth = FirebaseAuth.instance;
   String blueId = '';
   String? _displayName;
   // flutterBlue flutterBlue = FlutterBlue.instance;
@@ -40,8 +44,11 @@ class _StudentViewState extends State<StudentView> {
             TextButton(
               child: Text('Logout'),
               onPressed: () async {
+                // auth.signOut();
                 SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.getKeys();
                 await prefs.clear();
+                //Staticdata.id = null;
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => SignIn()),
@@ -56,51 +63,35 @@ class _StudentViewState extends State<StudentView> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
-    _getCurrentUserName();
-
     _loadBluetoothId();
+    Get.put(StudentController());
+    super.initState();
+    //_getCurrentUserName();
   }
 
-  void _getCurrentUserName() async {
-    final user = FirebaseAuth.instance.currentUser;
-    print('user is null ${user}');
-    if (user != null) {
-      final snapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.email)
-          .get();
-      final data = snapshot.data() as Map<String, dynamic>;
-      setState(() {
-        _displayName = data['name'];
-        print('display name  = ${_displayName}');
-      });
-    }
-  }
+  //
 
-  // Load Bluetooth ID for current student from Firebase database
+  /// Load Bluetooth ID for current student from Firebase database
   Future<void> _loadBluetoothId() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      DocumentSnapshot<Object?> studentSnapshot = await FirebaseFirestore
-          .instance
-          .collection('users')
-          .doc(user.email)
-          .get();
-      Map<String, dynamic> studentData =
-          studentSnapshot.data() as Map<String, dynamic>;
-      setState(() {
-        blueId = studentData['blueId'];
-        print('user bluetooth is equal to =${blueId.toString()}');
+    DocumentSnapshot<Object?> studentSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(StaticValues.uid)
+        .get();
+    if (studentSnapshot.exists) {
+      Map<String, dynamic>? studentData =
+          studentSnapshot.data() as Map<String, dynamic>?;
+      if (studentData != null) {
+        setState(() {
+          blueId = studentData['blueID'];
+          print('user bluetooth is equal to =${blueId.toString()}');
 
-        if (blueId == null || blueId.isEmpty) {
-          print('blue is is null');
-          showAlertDialog(context);
-          // _showBluetoothDialog();
-        }
-      });
-    }
+          if (blueId == null || blueId.isEmpty) {
+            showAlertDialog(context);
+          }
+        });
+      }
+    } else
+      (print('snapshot is equal to ${studentSnapshot.exists}'));
   }
 
   void showAlertDialog(BuildContext context) {
@@ -142,20 +133,19 @@ class _StudentViewState extends State<StudentView> {
                 String bluetoothId = _textController.text;
                 if (bluetoothId.isNotEmpty) {
                   // Update the user's Bluetooth ID in Firebase database
-                  User? user = FirebaseAuth.instance.currentUser;
-                  if (user != null) {
-                    await FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(user.email)
-                        .update({
-                      'blueId': bluetoothId,
-                    });
-                    setState(
-                      () {
-                        blueId = bluetoothId;
-                      },
-                    );
-                  }
+
+                  await FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(StaticValues.uid)
+                      .update({
+                    'blueID': bluetoothId,
+                  });
+                  setState(
+                    () {
+                      blueId = bluetoothId;
+                    },
+                  );
+
                   Navigator.pop(context);
                 }
               },
@@ -294,6 +284,7 @@ class _StudentViewState extends State<StudentView> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: MyTheme.primaryColor,
         title: const Text('Student Dashboard'),
