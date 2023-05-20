@@ -1,4 +1,5 @@
 import 'package:attendance_app/Drawer_bar/drawerHeading.dart';
+import 'package:attendance_app/static_values.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,8 +11,9 @@ class UpdateBluetoothIdTile extends StatefulWidget {
 
 class _UpdateBluetoothIdTileState extends State<UpdateBluetoothIdTile> {
   final _formKey = GlobalKey<FormState>();
-  late String _bluetoothId;
-  final email = FirebaseAuth.instance.currentUser!.email;
+  late String _bluetoothId = '';
+  String blueId = '';
+  // final email = FirebaseAuth.instance.currentUser!.email;
   @override
   void initState() {
     super.initState();
@@ -19,12 +21,12 @@ class _UpdateBluetoothIdTileState extends State<UpdateBluetoothIdTile> {
     // Get the user's document from Firestore
     FirebaseFirestore.instance
         .collection('users')
-        .doc(email)
+        .doc(StaticValues.uid)
         .get()
         .then((userDoc) {
       // Get the Bluetooth ID from the document
       setState(() {
-        _bluetoothId = userDoc.get('blueId') ?? '';
+        _bluetoothId = userDoc.get('blueID') ?? '';
       });
     });
   }
@@ -75,45 +77,70 @@ class _UpdateBluetoothIdTileState extends State<UpdateBluetoothIdTile> {
                 ),
                 ElevatedButton(
                   child: Text('Update'),
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       // Get the current user's email
-                      final currentUserEmail =
-                          FirebaseAuth.instance.currentUser!.email;
-                      // Update the Bluetooth ID for the current student in Firestore
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .where('email', isEqualTo: email)
-                          .where('role', isEqualTo: 'Student')
-                          .get()
-                          .then((querySnapshot) {
-                        if (querySnapshot.docs.length > 0) {
-                          final studentDoc = querySnapshot.docs[0];
-                          studentDoc.reference
-                              .update({'blueId': _bluetoothId}).then((_) {
-                            setState(() {
-                              _bluetoothId = _bluetoothId;
-                            });
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content:
-                                    Text('Bluetooth ID updated successfully')));
-                            Navigator.pop(context);
-                          }).catchError((error) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content:
-                                    Text('Failed to update Bluetooth ID')));
-                            Navigator.pop(context);
-                          });
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('Failed to find current student')));
+                      DocumentSnapshot<Object?> studentSnapshot =
+                          await FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(StaticValues.uid)
+                              .get();
+                      if (studentSnapshot.exists) {
+                        Map<String, dynamic>? studentData =
+                            studentSnapshot.data() as Map<String, dynamic>?;
+                        if (studentData != null) {
+                          setState(
+                            () {
+                              blueId = studentData['blueID'];
+                              print(
+                                  'user bluetooth is equal to =${blueId.toString()}');
+
+                              if (blueId == null || blueId.isEmpty) {
+                                print('blue is is null = ${blueId}');
+                                // showAlertDialog(context);
+                                //_showBluetoothDialog();
+                              }
+                            },
+                          );
                           Navigator.pop(context);
                         }
-                      }).catchError((error) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Failed to update Bluetooth ID')));
-                        Navigator.pop(context);
-                      });
+                      }
+                      // final currentUserEmail =
+                      //     FirebaseAuth.instance.currentUser!.email;
+                      // // Update the Bluetooth ID for the current student in Firestore
+                      // FirebaseFirestore.instance
+                      //     .collection('users')
+                      //     .where('email', isEqualTo: email)
+                      //     .where('role', isEqualTo: 'Student')
+                      //     .get()
+                      //     .then((querySnapshot) {
+                      //   if (querySnapshot.docs.length > 0) {
+                      //     final studentDoc = querySnapshot.docs[0];
+                      //     studentDoc.reference
+                      //         .update({'blueId': _bluetoothId}).then((_) {
+                      //       setState(() {
+                      //         _bluetoothId = _bluetoothId;
+                      //       });
+                      //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      //           content:
+                      //               Text('Bluetooth ID updated successfully')));
+                      //       Navigator.pop(context);
+                      //     }).catchError((error) {
+                      //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      //           content:
+                      //               Text('Failed to update Bluetooth ID')));
+                      //       Navigator.pop(context);
+                      //     });
+                      //   } else {
+                      //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      //         content: Text('Failed to find current student')));
+                      //     Navigator.pop(context);
+                      //   }
+                      // }).catchError((error) {
+                      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      //       content: Text('Failed to update Bluetooth ID')));
+                      //   Navigator.pop(context);
+                      // });
                     }
                   },
                 ),

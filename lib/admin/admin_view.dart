@@ -3,9 +3,11 @@ import 'package:attendance_app/Theme.dart';
 import 'package:attendance_app/admin/add_user.dart';
 import 'package:attendance_app/admin/add_course.dart';
 import 'package:attendance_app/admin/allocation_subject_student.dart';
+import 'package:attendance_app/controllers/admin_controller.dart';
 import 'package:attendance_app/signin.dart';
-import 'package:attendance_app/splash.dart';
+import 'package:attendance_app/static_values.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminView extends StatefulWidget {
@@ -33,6 +35,7 @@ class _AdminViewState extends State<AdminView> {
               onPressed: () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 await prefs.clear();
+                prefs.getKeys().clear();
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => SignIn()),
@@ -46,11 +49,20 @@ class _AdminViewState extends State<AdminView> {
   }
 
   @override
+  void initState() {
+    Get.put(AdminController());
+    AdminController.to.getProfileMethod();
+    super.initState();
+    StaticValues.model;
+  }
+
+  @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: MyTheme.background,
       appBar: AppBar(
         backgroundColor: MyTheme.primaryColor,

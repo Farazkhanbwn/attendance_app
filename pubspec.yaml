@@ -48,6 +48,7 @@ dependencies:
   shimmer: ^2.0.0
   font_awesome_flutter:
   flutter_blue_plus:
+  get:
 
 dev_dependencies:
   flutter_test:

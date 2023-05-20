@@ -6,7 +6,9 @@ import 'package:attendance_app/admin/admin_view.dart';
 import 'package:attendance_app/button.dart';
 import 'package:attendance_app/flutsh&toast.dart/flushbar.dart';
 import 'package:attendance_app/flutsh&toast.dart/handleExceptonError.dart';
+import 'package:attendance_app/models/userModel.dart';
 import 'package:attendance_app/showAlert.dart';
+import 'package:attendance_app/static_values.dart';
 import 'package:attendance_app/testing/test1.dart';
 import 'package:attendance_app/forget_pass.dart';
 import 'package:attendance_app/recover_pass.dart';
@@ -39,79 +41,130 @@ class _SignInState extends State<SignIn> {
   String errorMessage = '';
   final _formkey = GlobalKey<FormState>();
   FirebaseAuth auth = FirebaseAuth.instance;
+  User? user = FirebaseAuth.instance.currentUser;
 
-  void signIn() async {
-    try {
-      showAlertDialog(context);
+  void signIn(String email, String pass) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .where("userEmail", isEqualTo: email)
+        .where("password", isEqualTo: pass)
+        .get();
+    UserModel model =
+        UserModel.fromMap(querySnapshot.docs[0].data() as Map<String, dynamic>);
+    saveDataToSharedPref(model.userId!, model.userRoll!);
+    // ignore: use_build_context_synchronously
 
-      UserCredential credential = await auth.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
-      if (credential.user != null) {
-        Staticdata.id = credential.user!.uid;
-        print(' your user id is = ${credential.user!.uid}');
-        route();
-
-        // postdatatoSP();
-
-      }
-    } on FirebaseAuthException catch (error) {
-      Navigator.pop(context);
-      handleFirebaseAuthException(context, error);
+    if (model.userRoll == "Admin") {
+      Future.delayed(const Duration(seconds: 2), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => AdminView()),
+          (Route<dynamic> route) => false,
+        );
+        showFlushbar(context, "Login successfully");
+      });
     }
+    if (model.userRoll == "Student") {
+      Future.delayed(const Duration(seconds: 2), () {
+        // Staticdata.id = user!.uid;
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const StudentView()),
+          (Route<dynamic> route) => false,
+        );
+        showFlushbar(context, "Login successfully");
+      });
+    }
+    if (model.userRoll == "Teacher") {
+      Future.delayed(const Duration(seconds: 2), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => TeacherView()),
+          (Route<dynamic> route) => false,
+        );
+        showFlushbar(context, "Login successfully");
+      });
+    }
+    print(model);
+    // try {
+    //   showAlertDialog(context);
+
+    //   UserCredential credential = await auth.signInWithEmailAndPassword(
+    //       email: emailController.text, password: passwordController.text);
+    //   if (credential.user != null) {
+    //     Staticdata.id = credential.user!.uid;
+    //     print(' your user id is = ${credential.user!.uid}');
+    //     route();
+
+    //     // postdatatoSP();
+
+    //   }
+    // } on FirebaseAuthException catch (error) {
+    //   Navigator.pop(context);
+    //   handleFirebaseAuthException(context, error);
+    // }
   }
+
   // Future postdatatoSP() async {
   //   SharedPreferences sharedprefrence = await SharedPreferences.getInstance();
   //   sharedprefrence.setString('UserID', Staticdata.id
   //       // key     value
   //       );
   // }
-
-  void route() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    var kk = FirebaseFirestore.instance
-        .collection('users')
-        .doc(emailController.text.trim())
-        .get()
-        .then((DocumentSnapshot documentSnapshot) async {
-      if (documentSnapshot.exists) {
-        print('document exist at this moment');
-
-        if (documentSnapshot.get('role') == "Teacher") {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => TeacherView()),
-            (Route<dynamic> route) => false,
-          );
-          // Store role in shared preferences
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString('role', 'Teacher');
-          // showFlushbar(context, 'Login Successfull');
-        } else if (documentSnapshot.get('role') == 'Student') {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const StudentView()),
-            (Route<dynamic> route) => false,
-          );
-          // Store role in shared preferences
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString('role', 'Student');
-          // showFlushbar(context, 'Login Successfull');
-        } else {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => AdminView()),
-            (Route<dynamic> route) => false,
-          );
-          // Store role in shared preferences
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString('role', 'Admin');
-          // showFlushbar(context, 'Login Successfull');
-        }
-      } else {
-        print('Document does not exist on the database');
-      }
-    });
+  saveDataToSharedPref(String userId, String userRoll) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("UserId", userId);
+    prefs.setString("userRoll", userRoll);
+    StaticValues.uid = userId;
+    StaticValues.roll = userRoll;
   }
+
+  // void route() async {
+  //   User? user = FirebaseAuth.instance.currentUser;
+  //   var kk = FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc(emailController.text.trim())
+  //       .get()
+  //       .then((DocumentSnapshot documentSnapshot) async {
+  //     if (documentSnapshot.exists) {
+  //       print('document exist at this moment');
+
+  //       if (documentSnapshot.get('role') == "Teacher") {
+  //         Navigator.pushAndRemoveUntil(
+  //           context,
+  //           MaterialPageRoute(builder: (context) => TeacherView()),
+  //           (Route<dynamic> route) => false,
+  //         );
+  //         // Store role in shared preferences
+  //         SharedPreferences prefs = await SharedPreferences.getInstance();
+  //         await prefs.setString('role', 'Teacher');
+  //         // showFlushbar(context, 'Login Successfull');
+  //       } else if (documentSnapshot.get('role') == 'Student') {
+  //         Navigator.pushAndRemoveUntil(
+  //           context,
+  //           MaterialPageRoute(builder: (context) => const StudentView()),
+  //           (Route<dynamic> route) => false,
+  //         );
+  //         // Store role in shared preferences
+  //         SharedPreferences prefs = await SharedPreferences.getInstance();
+  //         await prefs.setString('role', 'Student');
+  //         // showFlushbar(context, 'Login Successfull');
+  //       } else {
+  //         Navigator.pushAndRemoveUntil(
+  //           context,
+  //           MaterialPageRoute(builder: (context) => AdminView()),
+  //           (Route<dynamic> route) => false,
+  //         );
+  //         // Store role in shared preferences
+  //         SharedPreferences prefs = await SharedPreferences.getInstance();
+  //         await prefs.setString('role', 'Admin');
+  //         // showFlushbar(context, 'Login Successfull');
+  //       }
+  //     } else {
+  //       print('Document does not exist on the database');
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -421,9 +474,9 @@ class _SignInState extends State<SignIn> {
                                 );
                               } else {
                                 signIn(
-                                    // emailController.text,
-                                    // passwordController.text,
-                                    );
+                                  emailController.text,
+                                  passwordController.text,
+                                );
                               }
                               // signIn();
                             })),

@@ -4,25 +4,25 @@ import 'dart:convert';
 class Course {
   String courseName;
   String courseID;
-  String adminID;
+  String teacherID;
   String teacherName;
   Course({
     required this.courseName,
     required this.courseID,
-    required this.adminID,
+    required this.teacherID,
     required this.teacherName,
   });
 
   Course copyWith({
     String? courseName,
     String? courseID,
-    String? adminID,
+    String? teacherID,
     String? teacherName,
   }) {
     return Course(
       courseName: courseName ?? this.courseName,
       courseID: courseID ?? this.courseID,
-      adminID: adminID ?? this.adminID,
+      teacherID: teacherID ?? this.teacherID,
       teacherName: teacherName ?? this.teacherName,
     );
   }
@@ -31,7 +31,7 @@ class Course {
     return <String, dynamic>{
       'courseName': courseName,
       'courseID': courseID,
-      'adminID': adminID,
+      'teacherID': teacherID,
       'teacherName': teacherName,
     };
   }
@@ -40,7 +40,7 @@ class Course {
     return Course(
       courseName: map['courseName'] as String,
       courseID: map['courseID'] as String,
-      adminID: map['adminID'] as String,
+      teacherID: map['teacherID'] as String,
       teacherName: map['teacherName'] as String,
     );
   }
@@ -52,7 +52,7 @@ class Course {
 
   @override
   String toString() {
-    return 'Course(courseName: $courseName, courseID: $courseID, adminID: $adminID, teacherName: $teacherName)';
+    return 'Course(courseName: $courseName, courseID: $courseID, teacherID: $teacherID, teacherName: $teacherName)';
   }
 
   @override
@@ -61,7 +61,7 @@ class Course {
 
     return other.courseName == courseName &&
         other.courseID == courseID &&
-        other.adminID == adminID &&
+        other.teacherID == teacherID &&
         other.teacherName == teacherName;
   }
 
@@ -69,7 +69,7 @@ class Course {
   int get hashCode {
     return courseName.hashCode ^
         courseID.hashCode ^
-        adminID.hashCode ^
+        teacherID.hashCode ^
         teacherName.hashCode;
   }
 }
